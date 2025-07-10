@@ -8,7 +8,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
     setOpen(!open);
   };
   return (
-    <div className="flex fixed top-0 left-0">
+    <div>
       <button
         onClick={toggleMenuOpen}
         className="bg-[#374152] rounded-full m-4 fixed top-0 left-0 p-4 w-12 h-12 flex items-center justify-center"
