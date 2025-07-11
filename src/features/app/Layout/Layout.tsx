@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
 import { ultimaDescarga } from "../service/services";
+import type { UltimaDescarga } from "../interfaces/UltimaDescarga";
 dayjs.locale("es");
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   const [open, setOpen] = useState(false);
-  const [fechaUltimaDescarga, setFechaUltimaDescarga] = useState<string>("");
+  const [fechaUltimaDescarga, setFechaUltimaDescarga] = useState<UltimaDescarga>();
   const toggleMenuOpen = () => {
     setOpen(!open);
   };
@@ -26,10 +27,8 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex flex-col h-screen w-full">
       <div className="flex w-full justify-end bg-gray-100 p-6 px-10">
-        <h3 className="text-green-600 font-bold">Fecha Actual: &nbsp;</h3>
-        <h3>{dayjs().format("dddd, DD MMMM YYYY")}</h3>
         <h3 className="text-green-600 font-bold">Ultima Descarga: &nbsp;</h3>
-        <h3>{fechaUltimaDescarga}</h3>
+        <h3>{dayjs(fechaUltimaDescarga?.fechaDescarga).format("dddd, DD MMMM YYYY")}</h3>
       </div>
       <button
         onClick={toggleMenuOpen}
