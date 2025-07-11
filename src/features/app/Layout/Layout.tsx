@@ -3,7 +3,7 @@ import { MenuLateral } from "../components/Menu/MenuLateral";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
-import { ultimaDescarga } from "../service/services";
+import { ultimaDescarga } from "../service/appService";
 import type { UltimaDescarga } from "../interfaces/UltimaDescarga";
 dayjs.locale("es");
 

@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import { Search, Calendar, ChevronDown, Filter, X, Check } from 'lucide-react';
+import{ useEffect, useState } from 'react';
+import { Search, ChevronDown, Filter, X, Check } from 'lucide-react';
+import { getEmpresas, getTipoVenta } from '../../service/appService';
+import type { EmpresasI, SelectFieldProps, TipoVentaI } from '../../interfaces/BuscadorI';
 
 interface FilterState {
   cadena: string;
@@ -55,13 +57,7 @@ const CheckboxFilter = ({ label, checked, onChange }: { label: string; checked: 
   </label>
 );
 
-const SelectField = ({ label, value, onChange, placeholder, options }: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  placeholder: string;
-  options: string[];
-}) => {
+const SelectField = ({ label, value, onChange, placeholder, options }:SelectFieldProps) => {
   const [isOpen, setIsOpen] = useState(false);
   
   return (
@@ -85,14 +81,14 @@ const SelectField = ({ label, value, onChange, placeholder, options }: {
           <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg">
             {options.map((option) => (
               <button
-                key={option}
+                key={option.value}
                 onClick={() => {
-                  onChange(option);
+                  onChange(option.label);
                   setIsOpen(false);
                 }}
                 className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors duration-150 first:rounded-t-lg last:rounded-b-lg"
               >
-                {option}
+                {option.label}
               </button>
             ))}
           </div>
@@ -102,30 +98,35 @@ const SelectField = ({ label, value, onChange, placeholder, options }: {
   );
 };
 
-const SearchField = ({ label, value, onChange, placeholder }: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  placeholder: string;
-}) => (
-  <div>
-    <label className="block text-sm font-semibold text-gray-700 mb-2">
-      {label}
-    </label>
-    <div className="relative">
-      <input
-        type="text"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 placeholder-gray-400"
-      />
-      <Search className="w-5 h-5 absolute left-3 top-3.5 text-gray-400" />
-    </div>
-  </div>
-);
 
 export function Buscador() {
+    const [empresas, setEmpresas]= useState<EmpresasI[]>([])
+      const [tipoVenta, setTipoVentas]= useState<TipoVentaI[]>([])
+    useEffect( ()=>{
+      listarEmpresas()
+      listarTipoVenta()
+    },[])
+
+    const listarEmpresas = async()=> {
+        try {
+            const response = await getEmpresas()
+            setEmpresas(response)
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+
+    const listarTipoVenta = async()=> {
+        try {
+            const response = await getTipoVenta()
+            setTipoVentas(response)
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+    
   const [filters, setFilters] = useState<FilterState>({
     cadena: '',
     sucursal: '',
@@ -140,12 +141,7 @@ export function Buscador() {
 
   const [activeTimeRange, setActiveTimeRange] = useState<string>('');
 
-  const cadenaOptions = [
-    'Cadena Principal',
-    'Cadena Secundaria',
-    'Cadena Premium',
-    'Cadena Express'
-  ];
+ 
 
   const updateFilter = (key: keyof FilterState, value: any) => {
     setFilters(prev => ({ ...prev, [key]: value }));
@@ -205,26 +201,36 @@ export function Buscador() {
           {/* Main Filters Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <SelectField
-              label="Cadena de Tienda"
+              label="Empresa"
               value={filters.cadena}
               onChange={(value) => updateFilter('cadena', value)}
               placeholder="Seleccione una cadena"
-              options={cadenaOptions}
+              options={empresas.map((item)=> {
+                return {label:item.nombre,
+                value:item._id}
+              })}
+            />
+            <SelectField
+              label="Sucursales"
+              value={filters.cadena}
+              onChange={(value) => updateFilter('cadena', value)}
+                 placeholder="Buscar sucursal por nombre..."
+              options={empresas.map((item)=> {
+                return {label:item.nombre,
+                value:item._id}
+              })}
+            />
+           <SelectField
+              label="Tipo de ventas"
+              value={filters.cadena}
+              onChange={(value) => updateFilter('cadena', value)}
+             placeholder="Buscar tipo de venta..."
+              options={tipoVenta.map((item)=> {
+                return {label:item.nombre,
+                value:item._id}
+              })}
             />
             
-            <SearchField
-              label="Sucursal"
-              value={filters.sucursal}
-              onChange={(value) => updateFilter('sucursal', value)}
-              placeholder="Buscar sucursal por nombre..."
-            />
-            
-            <SearchField
-              label="Tipo de Venta"
-              value={filters.tipoVenta}
-              onChange={(value) => updateFilter('tipoVenta', value)}
-              placeholder="Buscar tipo de venta..."
-            />
             
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
