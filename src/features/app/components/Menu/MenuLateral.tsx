@@ -32,7 +32,7 @@ export const MenuLateral = ({ open, setOpen }: { open: boolean; setOpen: (open: 
     <Box
       sx={{ width: 250 }}
       role="presentation"
-      className=" bg-gray-800 text-white w-64 p-4 transform-none"
+      className=" bg-gray-800 h-full text-white w-64 p-4 transform-none"
     >
       <div className="flex justify-start items-center gap-4">
         <button
@@ -55,7 +55,7 @@ export const MenuLateral = ({ open, setOpen }: { open: boolean; setOpen: (open: 
                   marginY: "0.2rem",
                   "&:hover": { backgroundColor: "#324155" },
                 }}
-                onChange={() => toggleMenuOpen(item.id)}
+                onClick={() => toggleMenuOpen(item.id)}
               >
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.text} />
@@ -72,7 +72,7 @@ export const MenuLateral = ({ open, setOpen }: { open: boolean; setOpen: (open: 
                       borderRadius: "0.75rem",
                       "&:hover": { backgroundColor: "#324155" },
                     }}
-                    onChange={() => {
+                    onClick={() => {
                       navigarPagina(item.link);
                     }}
                   >
