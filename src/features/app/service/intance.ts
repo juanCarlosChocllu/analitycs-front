@@ -2,7 +2,7 @@ import axios, { AxiosError } from "axios";
 
 
 
-const api = axios.create({
+export const instance = axios.create({
   baseURL: `${import.meta.env.VITE_API_BASE_URL}/api/`,
   headers: {
     "Content-Type": "application/json",
@@ -14,7 +14,7 @@ function getToken() {
   return token;
 }
 
-api.interceptors.request.use(
+instance.interceptors.request.use(
   (config) => {
     const token = "michi";
     if (token) {
@@ -28,7 +28,7 @@ api.interceptors.request.use(
   }
 );
 
-api.interceptors.response.use(
+instance.interceptors.response.use(
   (response) => {
     return response;
   },
@@ -44,4 +44,3 @@ api.interceptors.response.use(
   }
 );
 
-export default api;
