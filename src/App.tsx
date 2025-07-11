@@ -1,5 +1,5 @@
 import './App.css'
-import { AppRouter } from './features/app/service/Routes/AppRouter'
+import { AppRouter } from './features/app/Routes/AppRouter'
 
 function App() {
 
