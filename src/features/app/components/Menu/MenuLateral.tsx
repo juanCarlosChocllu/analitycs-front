@@ -55,7 +55,7 @@ export const MenuLateral = ({ open, setOpen }: { open: boolean; setOpen: (open: 
                   marginY: "0.2rem",
                   "&:hover": { backgroundColor: "#324155" },
                 }}
-                onClick={() => toggleMenuOpen(item.id)}
+                onChange={() => toggleMenuOpen(item.id)}
               >
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.text} />
@@ -72,7 +72,7 @@ export const MenuLateral = ({ open, setOpen }: { open: boolean; setOpen: (open: 
                       borderRadius: "0.75rem",
                       "&:hover": { backgroundColor: "#324155" },
                     }}
-                    onClick={() => {
+                    onChange={() => {
                       navigarPagina(item.link);
                     }}
                   >
@@ -91,7 +91,7 @@ export const MenuLateral = ({ open, setOpen }: { open: boolean; setOpen: (open: 
               marginY: "0.2rem",
               "&:hover": { backgroundColor: "#324155" },
             }}
-            onClick={() => {
+            onChange={() => {
               navigarPagina("/logout");
             }}
           >
