@@ -1,5 +1,5 @@
 
-import type { EmpresasI, TipoVentaI } from "../interfaces/BuscadorI";
+import type { EmpresasI, SucursalI, TipoVentaI } from "../interfaces/BuscadorI";
 import type { UltimaDescarga } from "../interfaces/UltimaDescarga";
 import { instance } from "./instaceAxios";
 
@@ -24,7 +24,7 @@ export async function  getEmpresas():Promise<EmpresasI[]>{
   }
 } 
 
-export async function  getSucursalesPorEmpresa(empresa:string){
+export async function  getSucursalesPorEmpresa(empresa:string):Promise<SucursalI[]>{
     try {
       const response = await instance.get(`sucursalExcel/${empresa}`)
       return response.data
