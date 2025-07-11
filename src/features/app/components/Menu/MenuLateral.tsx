@@ -49,7 +49,7 @@ export const MenuLateral = ({ open, setOpen }: { open: boolean; setOpen: (open: 
             <ListItem key={item.id} disablePadding>
               <ListItemButton
                 sx={{
-                  background: "#263344",
+                  background: "#263345",
                   borderRadius: "0.75rem",
                   marginY: "0.2rem",
                   "&:hover": { backgroundColor: "#324155" },
