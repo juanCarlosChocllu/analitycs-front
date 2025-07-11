@@ -3,11 +3,10 @@ import axios, { AxiosError } from "axios";
 
 
 const api = axios.create({
-  baseURL: `${import.meta.env.VITE_API_BASE_URL}`,
+  baseURL: `${import.meta.env.VITE_API_BASE_URL}/api/`,
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials:true
 });
 
 function getToken() {
@@ -17,7 +16,7 @@ function getToken() {
 
 api.interceptors.request.use(
   (config) => {
-    const token = getToken();
+    const token = "michi";
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

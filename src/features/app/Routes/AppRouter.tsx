@@ -1,5 +1,5 @@
-import Medicos from "../../../Medicos/pages/Medicos"
-import { Layout } from "../../Layout/Layout"
+import Medicos from "../../Medicos/pages/Medicos"
+import { Layout } from "../Layout/Layout"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 export const AppRouter = () => {
