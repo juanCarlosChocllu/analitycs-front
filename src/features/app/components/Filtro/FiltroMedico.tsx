@@ -67,6 +67,11 @@ export const FiltroMedico = () => {
     setActiveTimeRange('');
   };
 
+  const applyFilters = () => {
+    console.log('Filters applied:', filters);
+    // Implementar la lógica para aplicar los filtros
+  };
+
   const timeRangeButtons = [
     { label: 'D. ant', value: 'dia-ant' },
     { label: 'S. ant', value: 'sem-ant' },
