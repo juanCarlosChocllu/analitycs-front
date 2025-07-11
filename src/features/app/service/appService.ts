@@ -1,5 +1,7 @@
-import {instance} from "./intance";
+
+import type { EmpresasI, TipoVentaI } from "../interfaces/BuscadorI";
 import type { UltimaDescarga } from "../interfaces/UltimaDescarga";
+import { instance } from "./instaceAxios";
 
 export const ultimaDescarga = async (): Promise<UltimaDescarga> => {
     try {
@@ -13,14 +15,12 @@ export const ultimaDescarga = async (): Promise<UltimaDescarga> => {
 
 
 
-export async function  getEmpresas(){
+export async function  getEmpresas():Promise<EmpresasI[]>{
   try {
     const response = await instance.get('empresa')
     return response.data
   } catch (error) {
-      throw error
-    
-    
+      throw error    
   }
 } 
 
@@ -38,7 +38,7 @@ export async function  getSucursalesPorEmpresa(empresa:string){
   }
 
   
-  export async function  getTipoVenta(){
+  export async function  getTipoVenta():Promise<TipoVentaI[]>{
     try {
       const response = await instance.get(`tipo/venta/listar`)
       return response.data
