@@ -32,15 +32,16 @@ export const MenuLateral = ({ open, setOpen }: { open: boolean; setOpen: (open: 
     <Box
       sx={{ width: 250 }}
       role="presentation"
+      className=" bg-gray-800 text-white w-64 p-4 transform-none"
     >
-      <div >
+      <div className="flex justify-start items-center gap-4">
         <button
           onClick={toggleDrawer(false)}
-          
+          className="text-white hover:text-gray-200"
         >
           <X className="w-6 h-6" />
         </button>
-        <h2 >Menu</h2>
+        <h2 className="text-xl font-bold pb-2">Menu</h2>
       </div>
       <Divider color="gray" variant="fullWidth" className="mb-2" />
       <List>
@@ -49,7 +50,7 @@ export const MenuLateral = ({ open, setOpen }: { open: boolean; setOpen: (open: 
             <ListItem key={item.id} disablePadding>
               <ListItemButton
                 sx={{
-                  background: "#263345",
+                  background: "#263344",
                   borderRadius: "0.75rem",
                   marginY: "0.2rem",
                   "&:hover": { backgroundColor: "#324155" },
