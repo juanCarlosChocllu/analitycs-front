@@ -32,16 +32,15 @@ export const MenuLateral = ({ open, setOpen }: { open: boolean; setOpen: (open: 
     <Box
       sx={{ width: 250 }}
       role="presentation"
-      className="fixed top-0 left-0 h-full bg-gray-800 text-white w-64 p-4 shadow-2xl rounded-tr-2xl rounded-br-2xl transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'transform-none' : '-translate-x-full'} overflow-y-auto"
     >
-      <div className="flex justify-start items-center gap-4">
+      <div >
         <button
           onClick={toggleDrawer(false)}
-          className="text-white hover:text-gray-200"
+          
         >
           <X className="w-6 h-6" />
         </button>
-        <h2 className="text-xl font-bold pb-2">Menu</h2>
+        <h2 >Menu</h2>
       </div>
       <Divider color="gray" variant="fullWidth" className="mb-2" />
       <List>
