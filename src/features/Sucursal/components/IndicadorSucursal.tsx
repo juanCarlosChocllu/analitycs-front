@@ -20,10 +20,12 @@ import { Grafico } from "./Grafico";
 import dayjs from "dayjs";
 import { abreviarMoneda } from "../../app/util/abreviarMonenda";
 import { Loader } from "../../app/components/loader/Loader";
+import { Download } from "lucide-react";
+import { exportarExcelPorSucursal } from "../utils/exportarExcel/exportarIndicadoreSucursal";
 
 export const IndicadorSucursal = () => {
   const [filtro, setFiltro] = useState<filtroBuscadorI>({});
-    const [loader, setLoader] = useState<boolean>(false);
+  const [loader, setLoader] = useState<boolean>(false);
 
   const [data, setData] = useState<IndicadoresSucursalI>();
 
@@ -33,14 +35,14 @@ export const IndicadorSucursal = () => {
 
   const listarIndicadoresSucursal = async () => {
     try {
-      setLoader(true)
+      setLoader(true);
       const response = await getIndicadoresPorSucursal(filtro);
       setData(response);
-      setLoader(false)
+      setLoader(false);
     } catch (error) {
       console.error("Error al obtener indicadores:", error);
-    }finally{
-      setLoader(false)
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -76,6 +78,15 @@ export const IndicadorSucursal = () => {
           unidadPorTicket={data?.unidadPorTickect}
           ventaPorDia={data?.ventaDiariaPorLocal}
         />
+      )}
+      {data && (
+        <button
+          onClick={() => exportarExcelPorSucursal(data.dataSucursal)}
+          className="mt-4 bg-gradient-to-r from-green-400 to-green-700 text-white px-4 py-2 rounded-lg w-full sm:w-auto flex items-center gap-2"
+        >
+          <Download />
+          Exportar
+        </button>
       )}
       {data && <Grafico data={dataset} />}
       <TableContainer component={Paper} elevation={3}>
@@ -133,19 +144,19 @@ export const IndicadorSucursal = () => {
                 <TableCell align="right">{row.cantidad}</TableCell>
                 <TableCell align="right">{row.tasaConversion}%</TableCell>
                 <TableCell align="right">
-                  {abreviarMoneda(row.sucursal)} {row.ticketPromedio.toLocaleString("en-US")}
+                  {abreviarMoneda(row.sucursal)}{" "}
+                  {row.ticketPromedio.toLocaleString("en-US")}
                 </TableCell>
+                <TableCell align="right">{row.unidadPorTicket}</TableCell>
                 <TableCell align="right">
-                  {row.unidadPorTicket}
-                </TableCell>
-                <TableCell align="right">
-                  {abreviarMoneda(row.sucursal)} {row.precioPromedio.toLocaleString("en-US")}
+                  {abreviarMoneda(row.sucursal)}{" "}
+                  {row.precioPromedio.toLocaleString("en-US")}
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
           <TableFooter>
-            <TableRow >
+            <TableRow>
               <TableCell sx={{ fontWeight: "bold" }}>Total</TableCell>
               <TableCell align="right">
                 {data?.dataSucursal.reduce(
@@ -154,16 +165,14 @@ export const IndicadorSucursal = () => {
                 )}
               </TableCell>
               <TableCell align="right">
-                {data?.dataSucursal.reduce(
-                  (acc, item) => acc + item.ventaTotal,
-                  0
-                ).toLocaleString("en-US")}
+                {data?.dataSucursal
+                  .reduce((acc, item) => acc + item.ventaTotal, 0)
+                  .toLocaleString("en-US")}
               </TableCell>
               <TableCell align="right">
-                {data?.dataSucursal.reduce(
-                  (acc, item) => acc + item.totalImporte,
-                  0
-                ).toLocaleString("en-US")}
+                {data?.dataSucursal
+                  .reduce((acc, item) => acc + item.totalImporte, 0)
+                  .toLocaleString("en-US")}
               </TableCell>
               <TableCell align="right">0</TableCell>
               <TableCell align="right">
@@ -219,8 +228,7 @@ export const IndicadorSucursal = () => {
           </TableFooter>
         </Table>
       </TableContainer>
-          { loader && <Loader/> }
+      {loader && <Loader />}
     </Box>
-
   );
 };
