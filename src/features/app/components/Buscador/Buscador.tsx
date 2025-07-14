@@ -1,184 +1,188 @@
-import{ useEffect, useState } from 'react';
-import { Search, ChevronDown, Filter, X, Check } from 'lucide-react';
-import { getEmpresas, getTipoVenta } from '../../service/appService';
-import type { EmpresasI, SelectFieldProps, TipoVentaI } from '../../interfaces/BuscadorI';
+import { useEffect, useState } from "react";
+import { Search, ChevronDown, Filter, X, Check } from "lucide-react";
+import {
+  getEmpresas,
+  getSucursalesPorEmpresa,
+  getTipoVenta,
+} from "../../service/appService";
+import type {
+  EmpresasI,
+  FiltroBuscadorI,
+  filtroBuscadorI,
+  SelectFieldProps,
+  SucursalI,
+  TipoVentaI,
+} from "../../interfaces/BuscadorI";
+import {
+  SeleccionMultiple,
+  SucursalMultiSelect,
+  TipoVentaMultiSelect,
+} from "./SeleccionMultiple";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
+import { RangoFecha } from "./RangoFecha";
+import { formatFecha } from "../../util/formatFecha";
+import {
+  format,
+  subMonths,
+  subDays,
+  startOfDay,
+  endOfDay,
+  startOfWeek,
+  endOfWeek,
+  startOfMonth,
+  endOfMonth,
+  startOfYear,
+  endOfYear,
+} from "date-fns";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 
-interface FilterState {
-  cadena: string;
-  sucursal: string;
-  tipoVenta: string;
-  fechaInicio: string;
-  fechaFin: string;
-  comisiona: boolean;
-  noComisiona: boolean;
-  realizadas: boolean;
-  finalizadas: boolean;
-}
+const DateRangeButton = ({
+  label,
+  onClick,
+}: {
+  label: string;
 
-const DateRangeButton = ({ label, isActive, onClick }: { label: string; isActive: boolean; onClick: () => void }) => (
+  onClick: () => void;
+}) => (
   <button
     onClick={onClick}
-    className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 ${
-      isActive
-        ? 'bg-blue-600 text-white shadow-md transform scale-105'
-        : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:shadow-sm'
-    }`}
+    className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-20`}
   >
     {label}
   </button>
 );
 
-const CheckboxFilter = ({ label, checked, onChange }: { label: string; checked: boolean; onChange: (checked: boolean) => void }) => (
-  <label className="flex items-center space-x-2 cursor-pointer group">
-    <div className="relative">
-      <input
-        type="checkbox"
-        checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
-        className="sr-only"
-      />
-      <div
-        className={`w-5 h-5 rounded border-2 transition-all duration-200 ${
-          checked
-            ? 'bg-green-600 border-green-600 shadow-md'
-            : 'bg-white border-gray-300 group-hover:border-gray-400'
-        }`}
-      >
-        {checked && (
-          <Check className="w-3 h-3 text-white absolute top-0.5 left-0.5" />
-        )}
-      </div>
-    </div>
-    <span className={`text-sm font-medium transition-colors ${
-      checked ? 'text-green-700' : 'text-gray-700'
-    }`}>
-      {label}
-    </span>
-  </label>
-);
-
-const SelectField = ({ label, value, onChange, placeholder, options }:SelectFieldProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+export function Buscador({ setFiltro,filtro }: FiltroBuscadorI) {
+  const date = new Date();
+  const [empresas, setEmpresas] = useState<EmpresasI[]>([]);
+  const [tipoVenta, setTipoVentas] = useState<TipoVentaI[]>([]);
+  const [empresa, setEmpresa] = useState<string>("");
+  const [sucursales, setSucursales] = useState<SucursalI[]>([]);
+  const [fechaInicio, setFechaInicio] = useState<string>(formatFecha(date));
+  const [fechaFin, setFechaFin] = useState<string>(formatFecha(date));
+  const [comisiona, setComisiona] = useState<boolean>(false);
+  const [noComisiona, setNoComisiona] = useState<boolean>(false);
+  const [realizadas, setRealizadas] = useState<boolean>(false);
+  const [finalizadas, setFinalizadas] = useState<boolean>(false);
+  const [sucursalesSeleccionados, setSucursalesSeleccionados] = useState<string[]>([]);
+  const [tipoVentaSelecionado, setTipoVentaSeleccionado] = useState<string[]>([]);
+  const [flagVenta, setFlagVenta] = useState<string>('');
   
-  return (
-    <div className="relative">
-      <label className="block text-sm font-semibold text-gray-700 mb-2">
-        {label}
-      </label>
-      <div className="relative">
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="w-full px-4 py-3 text-left bg-white border border-gray-300 rounded-lg shadow-sm hover:border-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-        >
-          <span className={value ? 'text-gray-900' : 'text-gray-500'}>
-            {value || placeholder}
-          </span>
-          <ChevronDown className={`w-5 h-5 absolute right-3 top-3.5 text-gray-400 transition-transform duration-200 ${
-            isOpen ? 'transform rotate-180' : ''
-          }`} />
-        </button>
-        {isOpen && (
-          <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg">
-            {options.map((option) => (
-              <button
-                key={option.value}
-                onClick={() => {
-                  onChange(option.label);
-                  setIsOpen(false);
-                }}
-                className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors duration-150 first:rounded-t-lg last:rounded-b-lg"
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
-
-
-export function Buscador() {
-    const [empresas, setEmpresas]= useState<EmpresasI[]>([])
-      const [tipoVenta, setTipoVentas]= useState<TipoVentaI[]>([])
-    useEffect( ()=>{
-      listarEmpresas()
-      listarTipoVenta()
-    },[])
-
-    const listarEmpresas = async()=> {
-        try {
-            const response = await getEmpresas()
-            setEmpresas(response)
-        } catch (error) {
-            console.log(error);
-            
-        }
+  useEffect(() => {
+    listarEmpresas();
+    listarTipoVenta();
+    if (empresa) {
+      listarSucursal();
     }
+  }, [empresa]);
 
-    const listarTipoVenta = async()=> {
-        try {
-            const response = await getTipoVenta()
-            setTipoVentas(response)
-        } catch (error) {
-            console.log(error);
-            
-        }
+  const listarEmpresas = async () => {
+    try {
+      const response = await getEmpresas();
+      setEmpresas(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const listarTipoVenta = async () => {
+    try {
+      const response = await getTipoVenta();
+      setTipoVentas(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const listarSucursal = async () => {
+    try {
+      if (empresa) {
+        const response = await getSucursalesPorEmpresa(empresa);
+        setSucursales(response);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onClickFiltro = () => {
+ 
+      const dataFilter: filtroBuscadorI = {
+      empresa: empresa === "TODAS" ? empresas.map((item) => item._id) : [empresa],
+      sucursal: empresa === "TODAS" ? []: sucursalesSeleccionados.length > 0 ?sucursalesSeleccionados : sucursales.map((item)=> item._id),
+      fechaFin: fechaFin,
+      fechaInicio: fechaInicio,
+      flagVenta: flagVenta,
+      tipoVenta: tipoVentaSelecionado,
+      comisiona: !comisiona && !noComisiona ? null : comisiona ? true : false
     }
     
-  const [filters, setFilters] = useState<FilterState>({
-    cadena: '',
-    sucursal: '',
-    tipoVenta: '',
-    fechaInicio: '2025-07-11',
-    fechaFin: '2025-07-11',
-    comisiona: false,
-    noComisiona: false,
-    realizadas: false,
-    finalizadas: false,
-  });
+    
+    setFiltro(dataFilter)
 
-  const [activeTimeRange, setActiveTimeRange] = useState<string>('');
 
- 
+  }
 
-  const updateFilter = (key: keyof FilterState, value: any) => {
-    setFilters(prev => ({ ...prev, [key]: value }));
-  };
-
-  const clearFilters = () => {
-    setFilters({
-      cadena: '',
-      sucursal: '',
-      tipoVenta: '',
-      fechaInicio: '',
-      fechaFin: '',
-      comisiona: false,
-      noComisiona: false,
-      realizadas: false,
-      finalizadas: false,
-    });
-    setActiveTimeRange('');
-  };
 
   const timeRangeButtons = [
-    { label: 'Día anterior', value: 'dia-ant' },
-    { label: 'Semana anterior', value: 'sem-ant' },
-    { label: 'Este mes', value: 'mes' },
-    { label: 'Mes anterior', value: 'mes-ant' },
-    { label: 'Este año', value: 'año' },
-    { label: 'Año anterior', value: 'año-ant' },
+    { label: "Día anterior", value: "dia-ant" },
+    { label: "Semana anterior", value: "sem-ant" },
+    { label: "Este mes", value: "mes" },
+    { label: "Mes anterior", value: "mes-ant" },
+    { label: "Este año", value: "año" },
+    { label: "Año anterior", value: "año-ant" },
   ];
+  const handleCustomDateOption = (option: string) => {
+    const now = new Date();
+    let startDate: Date;
+    let endDate: Date;
 
-  const hasActiveFilters = Object.values(filters).some(value => 
-    typeof value === 'boolean' ? value : value.length > 0
-  );
+    switch (option) {
+      case "dia-ant":
+        startDate = startOfDay(subDays(now, 1));
+        endDate = endOfDay(subDays(now, 1));
+        break;
 
+      case "sem-ant":
+        startDate = startOfWeek(subDays(now, 7), { weekStartsOn: 1 });
+        endDate = endOfWeek(subDays(now, 7), { weekStartsOn: 1 });
+        break;
+
+      case "mes":
+        startDate = startOfMonth(now);
+        endDate = endOfMonth(now);
+        break;
+
+      case "mes-ant":
+        startDate = startOfMonth(subMonths(now, 1));
+        endDate = endOfMonth(subMonths(now, 1));
+        break;
+
+      case "año":
+        startDate = startOfYear(now);
+        endDate = endOfYear(now);
+        break;
+
+      case "año-ant":
+        const previousYear = now.getFullYear() - 1;
+        startDate = new Date(previousYear, 0, 1);
+        endDate = new Date(previousYear, 11, 31);
+        break;
+
+      default:
+        return;
+    }
+    setFechaInicio(formatFecha(startDate));
+    setFechaFin(formatFecha(endDate));
+  };
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4">
+    <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-4">
       <div className="max-w-[95%] mx-auto">
-        {/* Filters Container */}
         <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center space-x-2">
@@ -187,73 +191,39 @@ export function Buscador() {
                 Filtros de Búsqueda
               </h2>
             </div>
-            {hasActiveFilters && (
-              <button
-                onClick={clearFilters}
-                className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors duration-200"
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-4">
+            <FormControl fullWidth>
+              <InputLabel id="empresa-label">Empresa</InputLabel>
+              <Select
+                labelId="empresa-label"
+                id="empresa"
+                value={empresa}
+                label="Empresa"
+                onChange={(e) => setEmpresa(e.target.value)}
               >
-                <X className="w-4 h-4" />
-                <span>Limpiar filtros</span>
-              </button>
-            )}
-          </div>
+                <MenuItem value="TODAS">
+                  <em>TODAS</em>
+                </MenuItem>
+                {empresas.map((empresa) => (
+                  <MenuItem key={empresa._id} value={empresa._id}>
+                    {empresa.nombre}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
-          {/* Main Filters Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <SelectField
-              label="Empresa"
-              value={filters.cadena}
-              onChange={(value) => updateFilter('cadena', value)}
-              placeholder="Seleccione una cadena"
-              options={empresas.map((item)=> {
-                return {label:item.nombre,
-                value:item._id}
-              })}
-            />
-            <SelectField
-              label="Sucursales"
-              value={filters.cadena}
-              onChange={(value) => updateFilter('cadena', value)}
-                 placeholder="Buscar sucursal por nombre..."
-              options={empresas.map((item)=> {
-                return {label:item.nombre,
-                value:item._id}
-              })}
-            />
-           <SelectField
-              label="Tipo de ventas"
-              value={filters.cadena}
-              onChange={(value) => updateFilter('cadena', value)}
-             placeholder="Buscar tipo de venta..."
-              options={tipoVenta.map((item)=> {
-                return {label:item.nombre,
-                value:item._id}
-              })}
-            />
-            
-            
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Rango de Fechas
-              </label>
-              <div className="flex space-x-2">
-                <input
-                  type="date"
-                  value={filters.fechaInicio}
-                  onChange={(e) => updateFilter('fechaInicio', e.target.value)}
-                  className="flex-1 px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                />
-                <input
-                  type="date"
-                  value={filters.fechaFin}
-                  onChange={(e) => updateFilter('fechaFin', e.target.value)}
-                  className="flex-1 px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                />
-              </div>
-            </div>
-          </div>
+            <SucursalMultiSelect sucursales={sucursales} setSucursales={setSucursalesSeleccionados} />
 
-          {/* Quick Date Range Buttons */}
+            <TipoVentaMultiSelect tipoVenta={tipoVenta} setTipoVenta={setTipoVentaSeleccionado} />
+            <RangoFecha
+              fechaFin={fechaFin}
+              fechaInicio={fechaInicio}
+              setFechaFin={setFechaFin}
+              setFechaInicio={setFechaInicio}
+            />
+          </div>
           <div className="mb-8">
             <h3 className="text-sm font-semibold text-gray-700 mb-3">
               Rangos de Fecha Rápidos
@@ -263,48 +233,73 @@ export function Buscador() {
                 <DateRangeButton
                   key={button.value}
                   label={button.label}
-                  isActive={activeTimeRange === button.value}
-                  onClick={() => setActiveTimeRange(button.value)}
+                  onClick={() => handleCustomDateOption(button.value)}
                 />
               ))}
             </div>
-          </div>
 
-          {/* Status Filters */}
-          <div className="border-t pt-6">
-            <h3 className="text-sm font-semibold text-gray-700 mb-4">
-              Estado de las Ventas
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <CheckboxFilter
-                label="Con Comisión"
-                checked={filters.comisiona}
-                onChange={(checked) => updateFilter('comisiona', checked)}
+            <FormGroup row>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={comisiona}
+                    onChange={(e) => {
+                      const checked = e.target.checked;
+                      setComisiona(checked);
+
+                      if (checked) setNoComisiona(false);
+                    }}
+                  />
+                }
+                label="Comisiona"
               />
-              <CheckboxFilter
-                label="Sin Comisión"
-                checked={filters.noComisiona}
-                onChange={(checked) => updateFilter('noComisiona', checked)}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={noComisiona}
+                    onChange={(e) => {
+                      const checked = e.target.checked;
+                      setNoComisiona(checked);
+
+                      if (checked) setComisiona(false);
+                    }}
+                  />
+                }
+                label="No comisiona"
               />
-              <CheckboxFilter
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={realizadas}
+                    onChange={(e) => {
+                      const checked = e.target.checked;
+                      setRealizadas(checked);
+                      setFlagVenta('REALIZADAS')
+                      if (checked) setFinalizadas(false);
+                    }}
+                  />
+                }
                 label="Realizadas"
-                checked={filters.realizadas}
-                onChange={(checked) => updateFilter('realizadas', checked)}
               />
-              <CheckboxFilter
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={finalizadas}
+                    onChange={(e) => {
+                      const checked = e.target.checked;
+                      setFinalizadas(checked);
+                      setFlagVenta('FINALIZADA')
+                      if (checked) setRealizadas(false);
+                    }}
+                  />
+                }
                 label="Finalizadas"
-                checked={filters.finalizadas}
-                onChange={(checked) => updateFilter('finalizadas', checked)}
               />
-            </div>
+            </FormGroup>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex justify-end space-x-4 mt-8 pt-6 border-t">
-            <button className="px-6 py-3 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors duration-200">
-              Cancelar
-            </button>
-            <button className="px-6 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105">
+          <div className="flex justify-end space-x-4 mt-8 pt-6 ">
+            <button onClick={() => onClickFiltro()} className="px-6 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105">
               Aplicar Filtros
             </button>
           </div>
@@ -313,4 +308,3 @@ export function Buscador() {
     </div>
   );
 }
-
