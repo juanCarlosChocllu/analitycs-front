@@ -17,7 +17,6 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import type {
   ComparativoData,
-  VentaSucursal,
   ventaSucursalI,
 } from "../interface/compartivo";
 

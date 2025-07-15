@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Search, ChevronDown, Filter, X, Check } from "lucide-react";
+import { Filter,  } from "lucide-react";
 import {
   getEmpresas,
   getSucursalesPorEmpresa,
@@ -9,12 +9,12 @@ import type {
   EmpresasI,
   FiltroBuscadorI,
   filtroBuscadorI,
-  SelectFieldProps,
+
   SucursalI,
   TipoVentaI,
 } from "../../interfaces/BuscadorI";
 import {
-  SeleccionMultiple,
+
   SucursalMultiSelect,
   TipoVentaMultiSelect,
 } from "./SeleccionMultiple";
@@ -25,7 +25,7 @@ import InputLabel from "@mui/material/InputLabel";
 import { RangoFecha } from "./RangoFecha";
 import { formatFecha } from "../../util/formatFecha";
 import {
-  format,
+
   subMonths,
   subDays,
   startOfDay,
@@ -57,7 +57,7 @@ const DateRangeButton = ({
   </button>
 );
 
-export function Buscador({ setFiltro,filtro }: FiltroBuscadorI) {
+export function Buscador({ setFiltro }: FiltroBuscadorI) {
   const date = new Date();
   const [empresas, setEmpresas] = useState<EmpresasI[]>([]);
   const [tipoVenta, setTipoVentas] = useState<TipoVentaI[]>([]);
