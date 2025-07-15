@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Stethoscope} from 'lucide-react';
 import { SelectField } from './components/SelectField';
 import { SearchField } from './components/SearchField';
 import { CheckboxFilter } from './components/CheckboxFilter';
