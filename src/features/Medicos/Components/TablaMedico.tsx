@@ -1,6 +1,5 @@
 import { Stethoscope, Users } from "lucide-react"
 import { TotalMedicos } from "./TotalMedicos";
-import { TotalOftometras } from "./TotalOftometras";
 import { TotalOftalmologos } from "./TotalOftalmologos";
 import { Box, Chip, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { calcularTotalesSucursal, formatearImporte, obtenerColorChip, obtenerColorEspecialidad, porcentaje, procesarMedicosData } from "../utils/funcionesDeCalculo";
@@ -11,8 +10,8 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 
 interface TablaMedicoProps {
-  dataActual: any;
-  dataAnterior: any;
+  dataActual: SucursalVenta[];
+  dataAnterior: SucursalVenta[];
 }
 
 export const TablaMedico = ({ dataActual, dataAnterior }: TablaMedicoProps) => {
@@ -38,8 +37,8 @@ export const TablaMedico = ({ dataActual, dataAnterior }: TablaMedicoProps) => {
       <div className="overflow-x-auto text-center">
         <h2>Tabla de Medicos</h2>
         <TotalMedicos dataActual={dataActual} dataAnterior={dataAnterior} />
-        <TotalOftometras /> //TODO: implementar
-        <TotalOftalmologos /> //TODO: implementar
+        {/* <TotalOftometras /> */} //TODO: implementar
+        <TotalOftalmologos dataActual={dataActual} dataAnterior={dataAnterior} /> 
         <br />
         <Box>
           {dataActual.map((sucursalActual: SucursalVenta, index: number) => {

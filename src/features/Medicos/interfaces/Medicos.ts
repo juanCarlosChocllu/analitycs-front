@@ -6,6 +6,7 @@ export interface MedicoVenta {
     importe: number;
     nombre: string;
     ventasLenteLc: number;
+    sucursal: string;
   }
   
   // Interfaz para cada sucursal

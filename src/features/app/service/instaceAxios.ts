@@ -38,7 +38,7 @@ instance.interceptors.response.use(
     const a = error as AxiosError;
     if (a.status === 401) {
       //window.localStorage.removeItem('token')
-       window.location.href = "https://analitycs-frontend.vercel.app/";
+       //window.location.href = "https://analitycs-frontend.vercel.app/";
       return
     }else {
       throw error
