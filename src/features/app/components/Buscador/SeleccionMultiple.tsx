@@ -1,6 +1,6 @@
 import { ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
-import type { FilterScursalI, FilterTipoVenta, SucursalI, TipoVentaI } from "../../interfaces/BuscadorI";
+import type { FilterScursalI, FilterTipoVenta } from "../../interfaces/BuscadorI";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
