@@ -23,18 +23,18 @@ export async function getVentaAnterior(
     fechaInicio.setFullYear(fechaInicio.getFullYear() - 1);
     fechaFin = new Date(filter.fechaFin);
     fechaFin.setFullYear(fechaFin.getFullYear() - 1);
-  }
+  }  
   try {
     const filtroAnterior: filtroBuscadorI = {
       comisiona: filter.comisiona,
       empresa: filter.empresa,
-      fechaFin: fechaInicio.toISOString().split("T")[0],
-      fechaInicio: fechaFin.toISOString().split("T")[0],
+      fechaFin: fechaFin.toISOString().split("T")[0],
+      fechaInicio: fechaInicio.toISOString().split("T")[0],
       flagVenta: filter.flagVenta,
       sucursal: filter.sucursal,
       tipoVenta: filter.tipoVenta,
     };
-    console.log(filtroAnterior);
+    console.log('fil ant', filtroAnterior);
     
     const response = await instance.post(
       "venta/excel/anterior",

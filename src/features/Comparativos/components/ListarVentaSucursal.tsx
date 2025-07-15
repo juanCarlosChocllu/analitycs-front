@@ -254,7 +254,7 @@ export const TablaVentaSucursal = ({
                             )}
                           </TableCell>
                           <TableCell sx={{ fontWeight: "bold" }}>
-                            Totales
+                            Total
                           </TableCell>
                           <TableCell align="right">
                             {totalAnteriorCantidad}
