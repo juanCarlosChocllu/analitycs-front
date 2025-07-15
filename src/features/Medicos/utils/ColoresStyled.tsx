@@ -1,17 +1,17 @@
 import { TableCell } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { TableContainer } from "@mui/material";
-export const BlueCell = styled(TableCell)(({ theme }) => ({
+export const BlueCell = styled(TableCell)(({}) => ({
     backgroundColor: '#e3f2fd',
     fontWeight: 500,
   }));
   
-  export const GreenCell = styled(TableCell)(({ theme }) => ({
+  export const GreenCell = styled(TableCell)(({}) => ({
     backgroundColor: '#e8f5e8',
     fontWeight: 500,
   }));
   
-  export const VariationCell = styled(TableCell)<{ variation: number }>(({ theme, variation }) => ({
+  export const VariationCell = styled(TableCell)<{ variation: number }>(({ variation }) => ({
     backgroundColor: variation > 0 ? '#c8e6c9' : variation < 0 ? '#ffcdd2' : '#fff3e0',
     fontWeight: 500,
   }));

@@ -1,6 +1,5 @@
 import { Stethoscope, Users } from "lucide-react"
 import { TotalMedicos } from "./TotalMedicos";
-import { TotalOftometras } from "./TotalOftometras";
 import { TotalOftalmologos } from "./TotalOftalmologos";
 import { Box, Chip, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { calcularTotalesSucursal, formatearImporte, obtenerColorChip, obtenerColorEspecialidad, porcentaje, procesarMedicosData } from "../utils/funcionesDeCalculo";
