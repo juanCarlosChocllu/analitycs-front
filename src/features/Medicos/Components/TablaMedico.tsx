@@ -11,8 +11,8 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 
 interface TablaMedicoProps {
-  dataActual: any;
-  dataAnterior: any;
+  dataActual: SucursalVenta[];
+  dataAnterior: SucursalVenta[];
 }
 
 export const TablaMedico = ({ dataActual, dataAnterior }: TablaMedicoProps) => {
@@ -39,7 +39,7 @@ export const TablaMedico = ({ dataActual, dataAnterior }: TablaMedicoProps) => {
         <h2>Tabla de Medicos</h2>
         <TotalMedicos dataActual={dataActual} dataAnterior={dataAnterior} />
         {/* <TotalOftometras /> */} //TODO: implementar
-        {/* <TotalOftalmologos /> */} //TODO: implementar
+        <TotalOftalmologos dataActual={dataActual} dataAnterior={dataAnterior} /> 
         <br />
         <Box>
           {dataActual.map((sucursalActual: SucursalVenta, index: number) => {

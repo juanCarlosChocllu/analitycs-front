@@ -152,3 +152,4 @@ export function porcentaje(cantidad:number, total:number):number{
     
     return Math.round(porce)
 }
+
