@@ -1,6 +1,3 @@
-export interface BuscadorI {
-
-}
 
 export interface dataBuscador {
     nombre:string
