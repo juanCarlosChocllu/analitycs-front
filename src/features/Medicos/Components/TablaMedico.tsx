@@ -38,8 +38,8 @@ export const TablaMedico = ({ dataActual, dataAnterior }: TablaMedicoProps) => {
       <div className="overflow-x-auto text-center">
         <h2>Tabla de Medicos</h2>
         <TotalMedicos dataActual={dataActual} dataAnterior={dataAnterior} />
-        <TotalOftometras /> //TODO: implementar
-        <TotalOftalmologos /> //TODO: implementar
+        {/* <TotalOftometras /> */} //TODO: implementar
+        {/* <TotalOftalmologos /> */} //TODO: implementar
         <br />
         <Box>
           {dataActual.map((sucursalActual: SucursalVenta, index: number) => {
