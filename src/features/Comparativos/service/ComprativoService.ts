@@ -27,14 +27,13 @@ export async function getVentaAnterior(
   try {
     const filtroAnterior: filtroBuscadorI = {
       comisiona: filter.comisiona,
-      empresa: filter.empresa,
       fechaFin: fechaFin.toISOString().split("T")[0],
       fechaInicio: fechaInicio.toISOString().split("T")[0],
       flagVenta: filter.flagVenta,
       sucursal: filter.sucursal,
       tipoVenta: filter.tipoVenta,
     };
-    console.log('fil ant', filtroAnterior);
+   
     
     const response = await instance.post(
       "venta/excel/anterior",
