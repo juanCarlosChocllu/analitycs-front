@@ -35,6 +35,7 @@ import {
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import MultiSelect from "../Filtro/components/MultiSelect";
 
 const DateRangeButton = ({
   label,
@@ -59,6 +60,8 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
   const [empresa, setEmpresa] = useState<string>("");
   const [sucursales, setSucursales] = useState<SucursalI[]>([]);
   const [todasSucursales, setTodasScursales] = useState<SucursalI[]>([]);
+  const [nombreSucursales, setNombreSucursales] = useState<string[]>([]);
+  const [nombreSucursalesSeleccionados, setNombreSucursalesSeleccionados] = useState<string[]>([]);
   const [fechaInicio, setFechaInicio] = useState<string>(formatFecha(date));
   const [fechaFin, setFechaFin] = useState<string>(formatFecha(date));
   const [comisiona, setComisiona] = useState<boolean>(false);
@@ -111,6 +114,7 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
       if (empresa) {
         const response = await getSucursalesPorEmpresa(empresa);
         setSucursales(response);
+        setNombreSucursales(response.map((sucursal) => sucursal.nombre));
       }
     } catch (error) {
       console.log(error);
@@ -205,6 +209,13 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
     setFechaInicio(formatFecha(startDate));
     setFechaFin(formatFecha(endDate));
   };
+
+  const findSucursalByNombre = (nombre: string[]) => {
+    const sucur = sucursales.find((sucursal) => nombre.includes(sucursal.nombre));
+    if (sucur) setSucursalesSeleccionados((prev:string[]) => [...prev, sucur._id]);
+    console.log(sucur);
+  };
+
   return (
     <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-4">
       <div className="max-w-[95%] mx-auto">
@@ -243,6 +254,14 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
               sucursales={sucursales}
               setSucursales={setSucursalesSeleccionados}
             />
+          <MultiSelect
+            label="Sucursal:"
+            value={sucursalesSeleccionados}
+            onChange={(value:string[]) => findSucursalByNombre(value)}
+            setValue={(value:string[]) => setSucursalesSeleccionados(value)}
+            placeholder="Seleccione una sucursal"
+            options={nombreSucursales}
+          />
 
             <TipoVentaMultiSelect
               tipoVenta={tipoVenta}
