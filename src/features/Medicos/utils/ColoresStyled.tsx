@@ -18,7 +18,7 @@ export const BlueCell = styled(TableCell)(({}) => ({
   
   export const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
     marginBottom: theme.spacing(3),
-    boxShadow: theme.shadows[3],
+    boxShadow: theme.shadows[1],
   }));
   
   export const HeaderCell = styled(TableCell)(({ theme }) => ({
