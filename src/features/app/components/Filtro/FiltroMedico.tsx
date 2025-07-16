@@ -93,7 +93,12 @@ export const FiltroMedico = ({onFilterChange}: FiltroMedicoProps) => {
   };
 
   const buscarMedicos = () => {
-    const idEmpresa: string[] = empresas.filter((empresa) => filters.empresa.includes(empresa.nombre)).map((empresa) => empresa._id);
+    let idEmpresa: string[] = [];
+    if (filters.empresa.includes("TODAS")) {
+      idEmpresa = empresas.map((empresa) => empresa._id);
+    } else {
+      idEmpresa = empresas.filter((empresa) => filters.empresa.includes(empresa.nombre)).map((empresa) => empresa._id);
+    }
     const idSucursal: string[] = sucursales.filter((sucursal) => filters.sucursal.includes(sucursal.nombre)).map((sucursal) => sucursal._id);
     const idTipoVenta: string[] = tipoVenta.filter((tipoVenta) => filters.tipoVenta.includes(tipoVenta.nombre)).map((tipoVenta) => tipoVenta._id);
     const comisiona = additionalFilters.noComisiona ? false : true;
