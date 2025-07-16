@@ -7,6 +7,7 @@ import { calcularVariacionPorcentual } from "../../app/utils/variacion";
 import { BlueCell, GreenCell, HeaderCell, StyledTableContainer, VariationCell } from "../utils/ColoresStyled";
 import type { SucursalVenta } from "../interfaces/Medicos";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import { TotalOftometras } from "./TotalOftometras";
 
 
 interface TablaMedicoProps {
@@ -34,11 +35,11 @@ export const TablaMedico = ({ dataActual, dataAnterior }: TablaMedicoProps) => {
         </div>
       </div>
     ) : (
-      <div className="overflow-x-auto text-center">
-        <h2>Tabla de Medicos</h2>
+      <div className="overflow-x-auto text-center mt-10">
+        <h2 className="text-xl font-bold text-gray-900 uppercase">Tabla de Medicos</h2>
         <TotalMedicos dataActual={dataActual} dataAnterior={dataAnterior} />
-        {/* <TotalOftometras /> */} //TODO: implementar
         <TotalOftalmologos dataActual={dataActual} dataAnterior={dataAnterior} /> 
+        <TotalOftometras dataActual={dataActual} dataAnterior={dataAnterior} /> 
         <br />
         <Box>
           {dataActual.map((sucursalActual: SucursalVenta, index: number) => {

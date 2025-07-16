@@ -39,12 +39,12 @@ export const TotalMedicos = ({ dataActual, dataAnterior }: TotalMedicosProps) =>
     );
 
     return (
-        <div className="text-center">
+        <div className="text-center w-[95%] mx-auto mt-4">
             <div className="text-center">
-                <h2>Total Medicos</h2>
+                <h2 className="text-lg font-semibold text-gray-900 uppercase">Total Medicos</h2>
             </div>
-            <div className="min-w-full table-auto border-collapse border border-gray-500">
-                <Table className="rounded-lg">
+            <div className="overflow-x-auto min-w-full table-auto border-collapse border border-gray-300 rounded-lg">
+                <Table>
                     <TableHead>
                         <TableRow>
                             <TableCell className="px-3 py-2  font-semibold text-center" colSpan={3}> Venta lente</TableCell>
