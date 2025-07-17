@@ -27,6 +27,20 @@ export async function  getEmpresas():Promise<EmpresasI[]>{
 export async function  getSucursalesPorEmpresa(empresa:string):Promise<SucursalI[]>{
     try {
       const response = await instance.get(`sucursalExcel/${empresa}`)
+      console.log(response.data);
+      return response.data
+    } catch (error) {
+      throw error
+      
+      
+    }
+  
+  
+  }
+
+  export async function  listarTodasLasScursales():Promise<SucursalI[]>{
+    try {
+      const response = await instance.get(`sucursales`)
       return response.data
     } catch (error) {
       throw error

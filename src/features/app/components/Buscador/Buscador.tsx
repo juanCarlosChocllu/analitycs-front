@@ -1,23 +1,19 @@
 import { useEffect, useState } from "react";
-import { Filter,  } from "lucide-react";
+import { Filter } from "lucide-react";
 import {
   getEmpresas,
   getSucursalesPorEmpresa,
   getTipoVenta,
+  listarTodasLasScursales,
 } from "../../service/appService";
 import type {
   EmpresasI,
   FiltroBuscadorI,
   filtroBuscadorI,
-
   SucursalI,
   TipoVentaI,
 } from "../../interfaces/BuscadorI";
-import {
-
-  SucursalMultiSelect,
-  TipoVentaMultiSelect,
-} from "./SeleccionMultiple";
+import { SucursalMultiSelect, TipoVentaMultiSelect } from "./SeleccionMultiple";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
@@ -25,7 +21,6 @@ import InputLabel from "@mui/material/InputLabel";
 import { RangoFecha } from "./RangoFecha";
 import { formatFecha } from "../../util/formatFecha";
 import {
-
   subMonths,
   subDays,
   startOfDay,
@@ -40,6 +35,7 @@ import {
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import MultiSelect from "../Filtro/components/MultiSelect";
 
 const DateRangeButton = ({
   label,
@@ -63,21 +59,35 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
   const [tipoVenta, setTipoVentas] = useState<TipoVentaI[]>([]);
   const [empresa, setEmpresa] = useState<string>("");
   const [sucursales, setSucursales] = useState<SucursalI[]>([]);
+  const [todasSucursales, setTodasScursales] = useState<SucursalI[]>([]);
+  const [nombreSucursales, setNombreSucursales] = useState<string[]>([]);
+  const [nombreSucursalesSeleccionados, setNombreSucursalesSeleccionados] = useState<string[]>([]);
   const [fechaInicio, setFechaInicio] = useState<string>(formatFecha(date));
   const [fechaFin, setFechaFin] = useState<string>(formatFecha(date));
   const [comisiona, setComisiona] = useState<boolean>(false);
   const [noComisiona, setNoComisiona] = useState<boolean>(false);
   const [realizadas, setRealizadas] = useState<boolean>(false);
   const [finalizadas, setFinalizadas] = useState<boolean>(false);
-  const [sucursalesSeleccionados, setSucursalesSeleccionados] = useState<string[]>([]);
-  const [tipoVentaSelecionado, setTipoVentaSeleccionado] = useState<string[]>([]);
-  const [flagVenta, setFlagVenta] = useState<string>('');
-  
+  const [sucursalesSeleccionados, setSucursalesSeleccionados] = useState<
+    string[]
+  >([]);
+  const [tipoVentaSelecionado, setTipoVentaSeleccionado] = useState<string[]>(
+    []
+  );
+  const [flagVenta, setFlagVenta] = useState<string>("");
+
   useEffect(() => {
     listarEmpresas();
     listarTipoVenta();
-    if (empresa) {
+    if (empresa && empresa != "TODAS") {
       listarSucursal();
+      setSucursalesSeleccionados([]);
+      setSucursales([]);
+    }
+    if (empresa === "TODAS") {
+      todasLasSucursales();
+      setSucursalesSeleccionados([]);
+      setTodasScursales([]);
     }
   }, [empresa]);
 
@@ -104,30 +114,49 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
       if (empresa) {
         const response = await getSucursalesPorEmpresa(empresa);
         setSucursales(response);
+        setNombreSucursales(response.map((sucursal) => sucursal.nombre));
       }
     } catch (error) {
       console.log(error);
     }
   };
 
+  const todasLasSucursales = async () => {
+    try {
+      if (empresa) {
+        const response = await listarTodasLasScursales();
+        setTodasScursales(response);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  console.log(empresa);
+
   const onClickFiltro = () => {
- 
-      const dataFilter: filtroBuscadorI = {
-      empresa: empresa === "TODAS" ? empresas.map((item) => item._id) : [empresa],
-      sucursal: empresa === "TODAS" ? []: sucursalesSeleccionados.length > 0 ?sucursalesSeleccionados : sucursales.map((item)=> item._id),
+    let sucursalesFiltradas: string[] = [];
+
+    if (empresa === "TODAS") {
+      sucursalesFiltradas = todasSucursales.map((item) => item._id);
+    } else if (empresa && sucursalesSeleccionados.length === 0) {
+      sucursalesFiltradas = sucursales.map((item) => item._id);
+    } else {
+      sucursalesFiltradas = sucursalesSeleccionados;
+    }
+    const dataFilter: filtroBuscadorI = {
+      sucursal: sucursalesFiltradas,
       fechaFin: fechaFin,
       fechaInicio: fechaInicio,
       flagVenta: flagVenta,
       tipoVenta: tipoVentaSelecionado,
-      comisiona: !comisiona && !noComisiona ? null : comisiona ? true : false
-    }
-    
-    
-    setFiltro(dataFilter)
+      comisiona: !comisiona && !noComisiona ? null : comisiona ? true : false,
+    };
 
+    console.log(dataFilter);
 
-  }
-
+    setFiltro(dataFilter);
+  };
 
   const timeRangeButtons = [
     { label: "Día anterior", value: "dia-ant" },
@@ -180,6 +209,13 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
     setFechaInicio(formatFecha(startDate));
     setFechaFin(formatFecha(endDate));
   };
+
+  const findSucursalByNombre = (nombre: string[]) => {
+    const sucur = sucursales.find((sucursal) => nombre.includes(sucursal.nombre));
+    if (sucur) setSucursalesSeleccionados((prev:string[]) => [...prev, sucur._id]);
+    console.log(sucur);
+  };
+
   return (
     <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-4">
       <div className="max-w-[95%] mx-auto">
@@ -214,9 +250,23 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
               </Select>
             </FormControl>
 
-            <SucursalMultiSelect sucursales={sucursales} setSucursales={setSucursalesSeleccionados} />
+            <SucursalMultiSelect
+              sucursales={sucursales}
+              setSucursales={setSucursalesSeleccionados}
+            />
+          <MultiSelect
+            label="Sucursal:"
+            value={sucursalesSeleccionados}
+            onChange={(value:string[]) => findSucursalByNombre(value)}
+            setValue={(value:string[]) => setSucursalesSeleccionados(value)}
+            placeholder="Seleccione una sucursal"
+            options={nombreSucursales}
+          />
 
-            <TipoVentaMultiSelect tipoVenta={tipoVenta} setTipoVenta={setTipoVentaSeleccionado} />
+            <TipoVentaMultiSelect
+              tipoVenta={tipoVenta}
+              setTipoVenta={setTipoVentaSeleccionado}
+            />
             <RangoFecha
               fechaFin={fechaFin}
               fechaInicio={fechaInicio}
@@ -274,7 +324,7 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
                     onChange={(e) => {
                       const checked = e.target.checked;
                       setRealizadas(checked);
-                      setFlagVenta('REALIZADAS')
+                      setFlagVenta("REALIZADAS");
                       if (checked) setFinalizadas(false);
                     }}
                   />
@@ -288,7 +338,7 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
                     onChange={(e) => {
                       const checked = e.target.checked;
                       setFinalizadas(checked);
-                      setFlagVenta('FINALIZADA')
+                      setFlagVenta("FINALIZADO");
                       if (checked) setRealizadas(false);
                     }}
                   />
@@ -299,7 +349,10 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
           </div>
 
           <div className="flex justify-end space-x-4 mt-8 pt-6 ">
-            <button onClick={() => onClickFiltro()} className="px-6 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105">
+            <button
+              onClick={() => onClickFiltro()}
+              className="px-6 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105"
+            >
               Aplicar Filtros
             </button>
           </div>

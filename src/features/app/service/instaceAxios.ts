@@ -5,8 +5,9 @@ const url_api = import.meta.env.VITE_API_BASE_URL
 export const instance = axios.create({
   baseURL: `${url_api}/api/`,
   headers: {
-    "Content-Type": "application/json",
+    "Content-Type": "application/json",  
   },
+  withCredentials: true,
 });
 console.log(import.meta.env.VITE_API_KEY);
 
@@ -37,7 +38,7 @@ instance.interceptors.response.use(
     const a = error as AxiosError;
     if (a.status === 401) {
       //window.localStorage.removeItem('token')
-       window.location.href = "https://analitycs-frontend.vercel.app/";
+       //window.location.href = "https://analitycs-frontend.vercel.app/";
       return
     }else {
       throw error

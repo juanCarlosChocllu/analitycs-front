@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 export const AppRouter = () => {
   return (
     <BrowserRouter>
+
     <Layout>
             <Routes>
                 <Route path="/" element={<Medicos />} />
@@ -14,6 +15,7 @@ export const AppRouter = () => {
                     <Route path="/comparaciones" element={<ComparativoPage/>} />
             </Routes>
     </Layout>
+
     </BrowserRouter>
   )
 }
