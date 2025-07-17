@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-import { useState } from 'react';
-import { SelectField } from './components/SelectField';
-import { SearchField } from './components/SearchField';
-import { CheckboxFilter } from './components/CheckboxFilter';
-import { DateRangeButton } from './components/DateRangeButton';
-=======
+
 import { useEffect, useState } from "react";
 import { SelectField } from "./components/SelectField";
 import { SearchField } from "./components/SearchField";
@@ -22,7 +16,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
->>>>>>> 6b4cc98ffd866dc6f36f1a84d7a6727747ce97ac
+
 
 interface FiltroMedicoProps {
     onFilterChange: React.Dispatch<React.SetStateAction<ventaMedicoInterface>>;
