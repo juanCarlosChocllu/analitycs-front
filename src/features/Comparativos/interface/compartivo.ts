@@ -47,10 +47,27 @@ export interface ComparativoData {
   ticketPromedio: number;
   venta: VentaItem[];
   ventaSucursal: VentaSucursal;
-  
+  dataDiaria:DataDiaria[]
 }
 export interface PropsVentaI {
     ventaActual:VentaItem[]
     ventaAnterior:VentaItem[]
     
+}
+
+export interface FilterComparativo {
+  sucursal:    string[];
+  fechaInicio: string;
+  fechaFin:    string;
+  flagVenta:   string;
+  tipoVenta:   string[];
+}
+
+export interface DataDiaria {
+  cantidad: number;
+  importe: number;
+  ticket: number;
+  producto: string;
+  ticketPromedio: number;
+  fecha: string;
 }
