@@ -13,7 +13,6 @@ import type {
   SucursalI,
   TipoVentaI,
 } from "../../interfaces/BuscadorI";
-import { SucursalMultiSelect, TipoVentaMultiSelect } from "./SeleccionMultiple";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
@@ -35,8 +34,8 @@ import {
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import MultiSelect from "../Filtro/components/MultiSelect";
-
+import MultiSelectBuscador from "./SeleccionMultiple";
+import { Box } from "@mui/material";
 const DateRangeButton = ({
   label,
   onClick,
@@ -60,8 +59,6 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
   const [empresa, setEmpresa] = useState<string>("");
   const [sucursales, setSucursales] = useState<SucursalI[]>([]);
   const [todasSucursales, setTodasScursales] = useState<SucursalI[]>([]);
-  const [nombreSucursales, setNombreSucursales] = useState<string[]>([]);
-  const [nombreSucursalesSeleccionados, setNombreSucursalesSeleccionados] = useState<string[]>([]);
   const [fechaInicio, setFechaInicio] = useState<string>(formatFecha(date));
   const [fechaFin, setFechaFin] = useState<string>(formatFecha(date));
   const [comisiona, setComisiona] = useState<boolean>(false);
@@ -74,6 +71,8 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
   const [tipoVentaSelecionado, setTipoVentaSeleccionado] = useState<string[]>(
     []
   );
+  console.log(sucursalesSeleccionados);
+
   const [flagVenta, setFlagVenta] = useState<string>("");
 
   useEffect(() => {
@@ -114,7 +113,7 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
       if (empresa) {
         const response = await getSucursalesPorEmpresa(empresa);
         setSucursales(response);
-        setNombreSucursales(response.map((sucursal) => sucursal.nombre));
+
       }
     } catch (error) {
       console.log(error);
@@ -132,18 +131,22 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
     }
   };
 
-  console.log(empresa);
+
 
   const onClickFiltro = () => {
     let sucursalesFiltradas: string[] = [];
+    console.log(empresa);
 
     if (empresa === "TODAS") {
       sucursalesFiltradas = todasSucursales.map((item) => item._id);
-    } else if (empresa && sucursalesSeleccionados.length === 0) {
-      sucursalesFiltradas = sucursales.map((item) => item._id);
-    } else {
-      sucursalesFiltradas = sucursalesSeleccionados;
+    } else if (empresa != 'TODAS' && sucursalesSeleccionados.length <= 0) {
+      sucursalesFiltradas = sucursales.map((item) => item._id)
+    } else if (sucursalesSeleccionados.length > 0) {
+      console.log('s', sucursalesSeleccionados);
+
+      sucursalesFiltradas = sucursalesSeleccionados
     }
+
     const dataFilter: filtroBuscadorI = {
       sucursal: sucursalesFiltradas,
       fechaFin: fechaFin,
@@ -211,9 +214,11 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
   };
 
   const findSucursalByNombre = (nombre: string[]) => {
-    const sucur = sucursales.find((sucursal) => nombre.includes(sucursal.nombre));
-    if (sucur) setSucursalesSeleccionados((prev:string[]) => [...prev, sucur._id]);
-    console.log(sucur);
+    setSucursalesSeleccionados(nombre)
+  };
+
+  const onChangeTipoVenta = (nombre: string[]) => {
+    setTipoVentaSeleccionado(nombre)
   };
 
   return (
@@ -230,49 +235,55 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-4">
-            <FormControl fullWidth>
-              <InputLabel id="empresa-label">Empresa</InputLabel>
-              <Select
-                labelId="empresa-label"
-                id="empresa"
-                value={empresa}
-                label="Empresa"
-                onChange={(e) => setEmpresa(e.target.value)}
-              >
-                <MenuItem value="TODAS">
-                  <em>TODAS</em>
-                </MenuItem>
-                {empresas.map((empresa) => (
-                  <MenuItem key={empresa._id} value={empresa._id}>
-                    {empresa.nombre}
+            <Box mt={2.6}>
+              <FormControl fullWidth size="small">
+                <InputLabel id="empresa-label">Empresa</InputLabel>
+                <Select
+                  labelId="empresa-label"
+                  id="empresa"
+                  value={empresa}
+                  label="Empresa"
+                  onChange={(e) => setEmpresa(e.target.value)}
+                >
+                  <MenuItem value="TODAS">
+                    <em>TODAS</em>
                   </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                  {empresas.map((empresa) => (
+                    <MenuItem key={empresa._id} value={empresa._id}>
+                      {empresa.nombre}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
 
-            <SucursalMultiSelect
-              sucursales={sucursales}
-              setSucursales={setSucursalesSeleccionados}
-            />
-          <MultiSelect
-            label="Sucursal:"
-            value={sucursalesSeleccionados}
-            onChange={(value:string[]) => findSucursalByNombre(value)}
-            setValue={(value:string[]) => setSucursalesSeleccionados(value)}
-            placeholder="Seleccione una sucursal"
-            options={nombreSucursales}
-          />
 
-            <TipoVentaMultiSelect
-              tipoVenta={tipoVenta}
-              setTipoVenta={setTipoVentaSeleccionado}
+            <MultiSelectBuscador
+              label="Sucursal:"
+              value={sucursalesSeleccionados}
+              onChange={(value: string[]) => findSucursalByNombre(value)}
+              setValue={(value: string[]) => setSucursalesSeleccionados(value)}
+              placeholder="Seleccione una sucursal"
+              options={sucursales}
             />
+
+            <MultiSelectBuscador
+              label="Tipo de venta:"
+              value={tipoVentaSelecionado}
+              onChange={(value: string[]) => onChangeTipoVenta(value)}
+              setValue={(value: string[]) => setTipoVentaSeleccionado(value)}
+              placeholder="Seleccione un tipo de venta"
+              options={tipoVenta}
+            />
+
+                 <Box mt={2.8}>
             <RangoFecha
               fechaFin={fechaFin}
               fechaInicio={fechaInicio}
               setFechaFin={setFechaFin}
               setFechaInicio={setFechaInicio}
             />
+            </Box>
           </div>
           <div className="mb-8">
             <h3 className="text-sm font-semibold text-gray-700 mb-3">
