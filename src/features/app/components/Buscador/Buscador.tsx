@@ -13,7 +13,6 @@ import type {
   SucursalI,
   TipoVentaI,
 } from "../../interfaces/BuscadorI";
-import SucursalMultiSelect, { TipoVentaMultiSelect } from "./SeleccionMultiple";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
