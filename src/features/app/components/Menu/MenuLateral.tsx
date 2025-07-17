@@ -27,7 +27,7 @@ export const MenuLateral = ({ open, setOpen }: { open: boolean; setOpen: (open: 
     
     const isExternal = link.startsWith("https");
     if (isExternal) {
-      window.open(link,"noopener,noreferrer");
+      window.location.href = link
     } else {
       navigate(link);
     }
