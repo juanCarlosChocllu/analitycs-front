@@ -1,12 +1,7 @@
 import { ChevronDown, X } from "lucide-react";
-import { useEffect, useState } from "react";
-import type { dataBuscador,FilterTipoVenta } from "../../interfaces/BuscadorI";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import Checkbox from "@mui/material/Checkbox";
-import ListItemText from "@mui/material/ListItemText";
+import {  useState } from "react";
+import type { dataBuscador } from "../../interfaces/BuscadorI";
+
 
 export const SeleccionMultiple = ({
   label,

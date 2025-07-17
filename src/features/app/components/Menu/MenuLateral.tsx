@@ -23,10 +23,18 @@ export const MenuLateral = ({ open, setOpen }: { open: boolean; setOpen: (open: 
     setIsMenuOpen(!isMenuOpen);
   };
   const navigarPagina = (link: string) => {
-    navigate(link);
+    console.log(link);
+    
+    const isExternal = link.startsWith("https");
+    if (isExternal) {
+      window.open(link,"noopener,noreferrer");
+    } else {
+      navigate(link);
+    }
     setOpen(false);
     setIsMenuOpen(false);
   };
+
 
   const DrawerList = (
     <Box

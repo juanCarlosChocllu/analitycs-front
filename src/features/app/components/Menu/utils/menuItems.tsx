@@ -11,20 +11,21 @@ import {
     Circle,
   } from 'lucide-react';
 
+
 export const menuItems = [
     { 
     id: 1,
     text: 'Mi cuenta', 
     icon: <House className="text-white" />,
       items: [
-        {text: 'Perfil', icon: <Circle className="text-white w-3 h-3" /> , link: '/perfil'}, 
+        {text: 'Perfil', icon: <Circle className="text-white w-3 h-3" /> , link: 'https://analitycs-frontend.vercel.app/perfil'}, 
       ] 
     },
     { 
     id: 2,
     text: 'Trafico', icon: <TrafficCone className="text-white" />,
       items: [
-        {text: 'Trafico', icon: <Circle className="text-white w-3 h-3" /> , link: '/trafico'}, 
+        {text: 'Trafico', icon: <Circle className="text-white w-3 h-3" /> , link: 'https://analitycs-frontend.vercel.app/trafico'}, 
       ] 
     },
     { 
@@ -32,8 +33,7 @@ export const menuItems = [
     text: 'Gestion', icon: <Briefcase className="text-white" />,
       items: [
         {text: 'Indicadores por Sucursal', icon: <Circle className="text-white w-3 h-3" /> , link: '/indicadores/sucursal'}, 
-        {text: 'Indicadores por Fecha', icon: <Circle className="text-white w-3 h-3" /> , link: '/indicadores/fecha'}, 
-        {text: 'Rendimiento Asesores de Venta', icon: <Circle className="text-white w-3 h-3" /> , link: '/rendimiento'}, 
+        {text: 'Rendimiento Asesores de Venta', icon: <Circle className="text-white w-3 h-3" /> , link: 'https://analitycs-frontend.vercel.app/rendimiento'}, 
       ] 
      },
     { 
@@ -47,13 +47,13 @@ export const menuItems = [
     id: 5,
     text: 'Kpis', icon: <Activity className="text-white" />,
       items: [
-        {text: 'Kpi sucursal', icon: <Circle className="text-white w-3 h-3" /> , link: '/kpi/lentes'}, 
-        {text: 'Kpi asesor', icon: <Circle className="text-white w-3 h-3" /> , link: '/kpi/asesor/lente'}, 
-        {text: 'Kpi material', icon: <Circle className="text-white w-3 h-3" /> , link: '/kpi/material'}, 
-        {text: 'Kpi monturas vip', icon: <Circle className="text-white w-3 h-3" /> , link: '/kpi/monturas/vip'}, 
+        {text: 'Kpi sucursal', icon: <Circle className="text-white w-3 h-3" /> , link: 'https://analitycs-frontend.vercel.app/kpi/lentes'}, 
+        {text: 'Kpi asesor', icon: <Circle className="text-white w-3 h-3" /> , link: 'https://analitycs-frontend.vercel.app/kpi/asesor/lente'}, 
+        {text: 'Kpi material', icon: <Circle className="text-white w-3 h-3" /> , link: 'https://analitycs-frontend.vercel.app/kpi/material'}, 
+        {text: 'Kpi monturas vip', icon: <Circle className="text-white w-3 h-3" /> , link: 'https://analitycs-frontend.vercel.app/kpi/monturas/vip'}, 
         {text: 'Kpi monturas', icon: <Circle className="text-white w-3 h-3" /> , link: '/kpi/monturas'}, 
-        {text: 'Kpi lente de contacto', icon: <Circle className="text-white w-3 h-3" /> , link: '/kpi/lentes/contactos'}, 
-        {text: 'Kpi gafa', icon: <Circle className="text-white w-3 h-3" /> , link: '/kpi/gafa'}, 
+        {text: 'Kpi lente de contacto', icon: <Circle className="text-white w-3 h-3" /> , link: 'https://analitycs-frontend.vercel.app/kpi/lentes/contactos'}, 
+        {text: 'Kpi gafa', icon: <Circle className="text-white w-3 h-3" /> , link: 'https://analitycs-frontend.vercel.app/kpi/gafa'}, 
       ] 
      },
     { 
@@ -61,16 +61,16 @@ export const menuItems = [
     text: 'Medicos', icon: <Stethoscope className="text-white" />,
       items: [
         {text: 'Medicos', icon: <Circle className="text-white w-3 h-3" /> , link: '/kpi/medicos'},
-        {text: 'Receta Medico', icon: <Circle className="text-white w-3 h-3" /> , link: '/kpi/receta/medico'}, 
+        {text: 'Receta Medico', icon: <Circle className="text-white w-3 h-3" /> , link: 'https://analitycs-frontend.vercel.app/kpi/receta/medico'}, 
       ] 
      },
     { 
     id: 7,
     text: 'Metas', icon: <Target className="text-white" />,
       items: [
-        {text: 'Listar Dias', icon: <Circle className="text-white w-3 h-3" /> , link: '/dias/listar'}, 
-        {text: 'Listar Metas', icon: <Circle className="text-white w-3 h-3" /> , link: '/metas/listar'}, 
-        {text: 'Metas sucursal', icon: <Circle className="text-white w-3 h-3" /> , link: '/metas/sucursal'}, 
+        {text: 'Listar Dias', icon: <Circle className="text-white w-3 h-3" /> , link: 'https://analitycs-frontend.vercel.app/dias/listar'}, 
+        {text: 'Listar Metas', icon: <Circle className="text-white w-3 h-3" /> , link: 'https://analitycs-frontend.vercel.app/metas/listar'}, 
+        {text: 'Metas sucursal', icon: <Circle className="text-white w-3 h-3" /> , link: 'https://analitycs-frontend.vercel.app/metas/sucursal'}, 
       ] 
      },
     { 
