@@ -29,7 +29,8 @@ export const Comparativo = () => {
       ]);
       setResponseActerior(responseAnterior);
       setResponseActual(responseActual);
-
+      console.log(responseActual);
+      
       
       setLoading(false);
     } catch (error) {
