@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { Buscador } from "../../app/components/Buscador/Buscador";
 import { useEffect, useState } from "react";
 import type { filtroBuscadorI } from "../../app/interfaces/BuscadorI";
@@ -8,14 +8,14 @@ import { Loader } from "../../app/components/loader/Loader";
 import { Card } from "./Card";
 import { ListarTodasLasEmpresas } from "./ListarTodasLasEmpresas";
 import { TablaVentaSucursal } from "./ListarVentaSucursal";
+import { GraficoComparativo } from "./GraficoComparativo";
 
 export const Comparativo = () => {
   const [filtro, setFiltro] = useState<filtroBuscadorI>({});
   const [loading, setLoading] = useState<boolean>(false);
   const [responseActual, setResponseActual] = useState<ComparativoData>();
   const [responseAnterior, setResponseActerior] = useState<ComparativoData>();
-  console.log(responseActual);
-  
+
   useEffect(() => {
     listarVentas();
   }, [filtro]);
@@ -29,8 +29,10 @@ export const Comparativo = () => {
       ]);
       setResponseActerior(responseAnterior);
       setResponseActual(responseActual);
+      console.log("responseActual", JSON.stringify(responseActual.dataDiaria));
+      console.log("responseAnterior", JSON.stringify(responseAnterior.dataDiaria));
 
-      
+
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -41,8 +43,8 @@ export const Comparativo = () => {
   return (
     <Box>
       <Buscador filtro={filtro} setFiltro={setFiltro} />
-      {responseActual 
-      && responseAnterior &&   <ListarTodasLasEmpresas ventaActual={responseActual?.venta} ventaAnterior={responseAnterior?.venta}/>}
+      {responseActual
+        && responseAnterior && <ListarTodasLasEmpresas ventaActual={responseActual?.venta} ventaAnterior={responseAnterior?.venta} />}
       <div className="grid grid-cols-1 gap-4">
         {loading ? (
           <Loader />
@@ -51,6 +53,10 @@ export const Comparativo = () => {
             {" "}
             {responseActual && responseAnterior && (
               <>
+                <section className="p-4 border rounded-lg bg-gray-50 shadow-md mb-6 justify-center items-center">
+                  <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '20px', textAlign: 'center', textTransform: 'uppercase' }}>Comparativo de Ventas Actuales</Typography>
+                  <GraficoComparativo data={responseActual.dataDiaria} />
+                </section>
                 <section className="p-4 border rounded-lg bg-gray-100 shadow-md mb-6">
                   <h1 className="text-xl font-semibold mb-4 text-center">
                     Venta actual
@@ -75,6 +81,10 @@ export const Comparativo = () => {
                     />
                     <Card title="TRAFICO" value={0} />
                   </div>
+                </section>
+                <section className="p-4 border rounded-lg bg-gray-50 shadow-md mb-6 justify-center items-center">
+                  <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '20px', textAlign: 'center', textTransform: 'uppercase' }}>Comparativo de Ventas Anteriores</Typography>
+                  <GraficoComparativo data={responseAnterior.dataDiaria} />
                 </section>
 
                 <section className="p-4 border rounded-lg bg-gray-100 shadow-md">
@@ -107,7 +117,7 @@ export const Comparativo = () => {
           </>
         )}
       </div>
-     {responseActual && responseAnterior &&  <TablaVentaSucursal  data={responseActual} dataAnterior={responseAnterior}/>}
+      {responseActual && responseAnterior && <TablaVentaSucursal data={responseActual} dataAnterior={responseAnterior} />}
     </Box>
   );
 };
