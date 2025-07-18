@@ -69,5 +69,6 @@ export interface DataDiaria {
   ticket: number;
   producto: string;
   ticketPromedio: number;
+  precioPromedio:number;
   fecha: string;
 }
