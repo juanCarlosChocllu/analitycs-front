@@ -29,10 +29,7 @@ export const Comparativo = () => {
       ]);
       setResponseActerior(responseAnterior);
       setResponseActual(responseActual);
-      console.log("responseActual", JSON.stringify(responseActual.dataDiaria));
-      console.log("responseAnterior", JSON.stringify(responseAnterior.dataDiaria));
-
-
+      console.log("responseActual", JSON.stringify(responseActual.dataDiaria)); 
       setLoading(false);
     } catch (error) {
       console.log(error);
