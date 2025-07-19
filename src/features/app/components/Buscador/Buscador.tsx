@@ -17,40 +17,15 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
-import { RangoFecha } from "./RangoFecha";
 import { formatFecha } from "../../util/formatFecha";
-import {
-  subMonths,
-  subDays,
-  startOfDay,
-  endOfDay,
-  startOfWeek,
-  endOfWeek,
-  startOfMonth,
-  endOfMonth,
-  startOfYear,
-  endOfYear,
-} from "date-fns";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import MultiSelectBuscador from "./SeleccionMultiple";
 import { Box } from "@mui/material";
-const DateRangeButton = ({
-  label,
-  onClick,
-}: {
-  label: string;
+import { FiltroFecha } from "../FiltroFecha/FiltroFecha";
+import { RangoFecha } from "./RangoFecha";
 
-  onClick: () => void;
-}) => (
-  <button
-    onClick={onClick}
-    className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-20`}
-  >
-    {label}
-  </button>
-);
 
 export function Buscador({ setFiltro }: FiltroBuscadorI) {
   const date = new Date();
@@ -161,57 +136,7 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
     setFiltro(dataFilter);
   };
 
-  const timeRangeButtons = [
-    { label: "Día anterior", value: "dia-ant" },
-    { label: "Semana anterior", value: "sem-ant" },
-    { label: "Este mes", value: "mes" },
-    { label: "Mes anterior", value: "mes-ant" },
-    { label: "Este año", value: "año" },
-    { label: "Año anterior", value: "año-ant" },
-  ];
-  const handleCustomDateOption = (option: string) => {
-    const now = new Date();
-    let startDate: Date;
-    let endDate: Date;
 
-    switch (option) {
-      case "dia-ant":
-        startDate = startOfDay(subDays(now, 1));
-        endDate = endOfDay(subDays(now, 1));
-        break;
-
-      case "sem-ant":
-        startDate = startOfWeek(subDays(now, 7), { weekStartsOn: 1 });
-        endDate = endOfWeek(subDays(now, 7), { weekStartsOn: 1 });
-        break;
-
-      case "mes":
-        startDate = startOfMonth(now);
-        endDate = endOfMonth(now);
-        break;
-
-      case "mes-ant":
-        startDate = startOfMonth(subMonths(now, 1));
-        endDate = endOfMonth(subMonths(now, 1));
-        break;
-
-      case "año":
-        startDate = startOfYear(now);
-        endDate = endOfYear(now);
-        break;
-
-      case "año-ant":
-        const previousYear = now.getFullYear() - 1;
-        startDate = new Date(previousYear, 0, 1);
-        endDate = new Date(previousYear, 11, 31);
-        break;
-
-      default:
-        return;
-    }
-    setFechaInicio(formatFecha(startDate));
-    setFechaFin(formatFecha(endDate));
-  };
 
   const findSucursalByNombre = (nombre: string[]) => {
     setSucursalesSeleccionados(nombre)
@@ -289,15 +214,10 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
             <h3 className="text-sm font-semibold text-gray-700 mb-3">
               Rangos de Fecha Rápidos
             </h3>
-            <div className="flex flex-wrap gap-2">
-              {timeRangeButtons.map((button) => (
-                <DateRangeButton
-                  key={button.value}
-                  label={button.label}
-                  onClick={() => handleCustomDateOption(button.value)}
-                />
-              ))}
-            </div>
+            <FiltroFecha
+              setFechaFin={setFechaFin as any}
+              setFechaInicio={setFechaInicio as any}
+            />
 
             <FormGroup row>
               <FormControlLabel
