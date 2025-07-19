@@ -61,7 +61,7 @@ export const menuItems = [
     text: 'Medicos', icon: <Stethoscope className="text-white" />,
       items: [
         {text: 'Medicos', icon: <Circle className="text-white w-3 h-3" /> , link: '/kpi/medicos'},
-        {text: 'Receta Medico', icon: <Circle className="text-white w-3 h-3" /> , link: 'https://analitycs-frontend.vercel.app/kpi/receta/medico'}, 
+        {text: 'Receta Medico', icon: <Circle className="text-white w-3 h-3" /> , link: '/kpi/receta/medico'}, 
       ] 
      },
     { 

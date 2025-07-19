@@ -14,10 +14,10 @@ export const optometraActual = async (data: ventaMedicoInterface): Promise<any> 
 export async  function optometraAnterior(data: ventaMedicoInterface): Promise<any>{
 
     
-    const fechaInicio = new Date(data.fechaInicio);
+    const fechaInicio = new Date(data.fechaInicio || '');
 
     fechaInicio.setFullYear(fechaInicio.getFullYear() - 1);
-    const fechaFin= new Date(data.fechaFin);
+    const fechaFin= new Date(data.fechaFin || '');
   
     
     
