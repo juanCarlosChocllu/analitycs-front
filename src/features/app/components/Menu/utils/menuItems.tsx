@@ -70,7 +70,7 @@ export const menuItems = [
       items: [
         {text: 'Listar Dias', icon: <Circle className="text-white w-3 h-3" /> , link: 'https://analitycs-frontend.vercel.app/dias/listar'}, 
         {text: 'Listar Metas', icon: <Circle className="text-white w-3 h-3" /> , link: 'https://analitycs-frontend.vercel.app/metas/listar'}, 
-        {text: 'Metas sucursal', icon: <Circle className="text-white w-3 h-3" /> , link: 'https://analitycs-frontend.vercel.app/metas/sucursal'}, 
+        {text: 'Metas sucursal', icon: <Circle className="text-white w-3 h-3" /> , link: '/metas/sucursal'}, 
       ] 
      },
     { 
