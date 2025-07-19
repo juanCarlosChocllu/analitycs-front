@@ -1,5 +1,5 @@
 import { instance } from "../../app/service/instaceAxios";
-import type { ventaMedicoInterface } from "../interfaces/FiltroMedico";
+import type { recetaMedicoInterface, ventaMedicoInterface } from "../interfaces/FiltroMedico";
 
 export const optometraActual = async (data: ventaMedicoInterface): Promise<any> => {
     try {
@@ -87,7 +87,7 @@ export const   listarMedicos = async(oftalmologo: string): Promise<any>=>{
 
 }
 
-export const listarRecetasMedicos = async(data: ventaMedicoInterface): Promise<any>=>{
+export const listarRecetasMedicos = async(data: recetaMedicoInterface): Promise<any>=>{
     try {
         const response = await instance.post('venta/recetas/medicos', {
                 fechaInicio:data.fechaInicio,
@@ -100,3 +100,5 @@ export const listarRecetasMedicos = async(data: ventaMedicoInterface): Promise<a
     }
 
 }
+
+
