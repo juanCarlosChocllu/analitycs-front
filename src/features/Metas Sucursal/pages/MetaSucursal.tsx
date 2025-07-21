@@ -21,7 +21,8 @@ export const MetaSucursal = () => {
                 metasSucursalActual(buscador),
                 metasSucursalAnterior(buscador),
             ]);
-    
+            console.log(responseActual);
+            
             setMetas(formatearMetas(responseActual , responseAnterior));
             setLoading(false);
         } catch (error) {
@@ -31,6 +32,8 @@ export const MetaSucursal = () => {
       };
       handleSearch();
       }, [buscador]);
+    
+      
     return (
         <div>
             <h1 className="text-2xl font-bold text-center uppercase text-blue-950 mb-6 mt-4">Meta Sucursal</h1>
