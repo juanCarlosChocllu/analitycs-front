@@ -48,7 +48,7 @@ export const MetaSucursal = () => {
                     <div className="flex items-center space-x-2 mb-4">
                       <Goal className="w-5 h-5 text-blue-600" />
                       <h3 className="text-lg font-semibold text-gray-900">
-                        Resultados de KPIs Médicos
+                      Metas de sucursal
                       </h3>
                     </div>
                     <div className="text-center py-12 text-gray-500">
