@@ -27,8 +27,9 @@ import { FiltroFecha } from "../FiltroFecha/FiltroFecha";
 import { RangoFecha } from "./RangoFecha";
 
 
-export function Buscador({ setFiltro }: FiltroBuscadorI) {
+export function Buscador({ setFiltro}: FiltroBuscadorI) {
   const date = new Date();
+  {/*const [region,setRegion] = useState<string>("BOLIVIA");*/}
   const [empresas, setEmpresas] = useState<EmpresasI[]>([]);
   const [tipoVenta, setTipoVentas] = useState<TipoVentaI[]>([]);
   const [empresa, setEmpresa] = useState<string>("");
@@ -99,6 +100,7 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
     try {
       if (empresa) {
         const response = await listarTodasLasScursales();
+        console.log("Sucursales: ", response);
         setTodasScursales(response);
       }
     } catch (error) {
@@ -131,7 +133,7 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
       comisiona: !comisiona && !noComisiona ? null : comisiona ? true : false,
     };
 
-    console.log(dataFilter);
+    console.log("dataFilter", dataFilter);
 
     setFiltro(dataFilter);
   };
@@ -157,6 +159,25 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
                 Filtros de Búsqueda
               </h2>
             </div>
+           {/* <FormControl fullWidth size="small" sx={{ width: '200px' }}>
+              <InputLabel id="region-label">Regi&oacute;n</InputLabel>
+              <Select
+                labelId="region-label"
+                id="region"
+                value={regionSeleccionada}
+                defaultValue="BOLIVIA"
+                label="Region"
+                onChange={(e) => setRegionSeleccionada(e.target.value)}
+                renderValue={(selected) => selected}
+              >
+                <MenuItem value="BOLIVIA">
+                  <em>BOLIVIA</em>
+                </MenuItem>
+                <MenuItem value="PARAGUAY">
+                  <em>PARAGUAY</em>
+                </MenuItem>
+              </Select>
+            </FormControl> */}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-4">

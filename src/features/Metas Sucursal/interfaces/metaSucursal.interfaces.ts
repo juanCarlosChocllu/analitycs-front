@@ -1,4 +1,5 @@
 export interface MetaSucursalI {
+  _id: string;
   sucursal: string;
   importVenta: number;
   montoMeta: number;
@@ -8,9 +9,13 @@ export interface MetaSucursalI {
   cumplimientoTicket: number;
   indeceAvance: number;
   diasHAbiles: number;
+  fechaInicio: string;
+  fechaFin: string;
+  comisiona: boolean;
 }
 
 export interface MetaSucursalFormateada {
+  _id: string;
   sucursal: string;
   importeVentaActual: number;
   montoMetaActual: number;
@@ -20,6 +25,8 @@ export interface MetaSucursalFormateada {
   cumplimientoTickectActual: number;
   indeceAvanceActual: number;
   diasHabilesActual: number;
+  fechaInicio: string;
+  fechaFin: string;
 
   sucursalAnterior: string;
   importeVentaAnterior: number;
