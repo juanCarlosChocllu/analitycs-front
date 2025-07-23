@@ -7,11 +7,21 @@ import { metasSucursalActual, metasSucursalAnterior } from "../services/metaSucu
 import type { MetaSucursalFormateada } from "../interfaces/metaSucursal.interfaces";
 import { TablaMetaSucursal } from "../components/TablaMetaSucursal";
 import { Goal, Target } from "lucide-react";
+import type { filtroDetalle } from "../interfaces/filtroDetalle";
+
+
 
 export const MetaSucursal = () => {
     const [loading, setLoading] = useState(false);
     const [buscador, setBuscador] = useState<filtroBuscadorI>({});
     const [metas, setMetas] = useState<MetaSucursalFormateada[]>([]);
+    const [filtroDetalle, setFiltroDetalle] = useState<filtroDetalle>({
+        fechaInicio: "",
+        fechaFin: "",
+        flagVenta: "",
+        comisiona: null,
+        tipoVenta: []
+    });
     useEffect(() => {
 
         const handleSearch = async () => {
@@ -21,9 +31,17 @@ export const MetaSucursal = () => {
                 metasSucursalActual(buscador),
                 metasSucursalAnterior(buscador),
             ]);
-            console.log(responseActual);
+
             
             setMetas(formatearMetas(responseActual , responseAnterior));
+            setFiltroDetalle({
+                fechaInicio: buscador.fechaInicio || "",
+                fechaFin: buscador.fechaFin || "",
+                flagVenta: buscador.flagVenta || "",
+                comisiona: buscador.comisiona || null,
+                tipoVenta: buscador.tipoVenta || []
+            })
+            console.log("buscador", buscador);
             setLoading(false);
         } catch (error) {
           setLoading(false);
@@ -42,7 +60,7 @@ export const MetaSucursal = () => {
                 <CircularProgress sx={{ display: 'block', margin: '20px auto' }} />
             ) : (
                 metas.length > 0 ? (
-                    <TablaMetaSucursal metas={metas} />
+                    <TablaMetaSucursal metas={metas} filtro={filtroDetalle} />
                 ) : (
                     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mt-4">
                     <div className="flex items-center space-x-2 mb-4">

@@ -1,12 +1,48 @@
-import { Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from "@mui/material"
+import { Box, Button, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow, Typography } from "@mui/material"
 import Paper from "@mui/material/Paper"
 import type { MetaSucursalFormateada } from "../interfaces/metaSucursal.interfaces"
 import { porcentaje } from "../../app/util/porcentaje"
 import { abreviarMoneda, abreviarMonedaFoot } from "../../app/util/abreviarMonenda"
 import { calcularVariacionPorcentual } from "../../app/util/varicacion"
 import { Fragment } from "react/jsx-runtime"
+import { useState } from "react"
+import { detalleVenta } from "../services/metaSucursalService"
+import type { filtroDetalle } from "../interfaces/filtroDetalle"
+import DetalleVentaTable from "./DetalleVenta"
+import type { DataDetalle, DetalleVenta } from "../../app/interfaces/DetalleVenta.interface"
 
-export const TablaMetaSucursal = ({ metas }: { metas: MetaSucursalFormateada[] }) => {
+interface Props {
+    metas: MetaSucursalFormateada[];
+    filtro: filtroDetalle;
+}
+
+export const TablaMetaSucursal = ({ metas, filtro }: Props) => {
+    const [expandirFila, setExpandirFila] = useState<number | null>(null);
+    const [detallesVenta, setDetallesVenta] = useState<DetalleVenta[]>([]);
+
+
+    const handleExpandirFila = async(index: number, idSucursal: string) => {
+        setExpandirFila(index === expandirFila ? null : index);
+        console.log("idSucursal", idSucursal);
+        console.log("filtro", filtro);
+        try {
+            const data: DataDetalle = {
+                sucursal: idSucursal,
+                fechaInicio:filtro.fechaInicio,
+                fechaFin: filtro.fechaFin,
+                flagVenta: filtro.flagVenta,
+                tipoVenta: filtro.tipoVenta,
+                comisiona: filtro.comisiona,
+            }
+            console.log("data detalle", data);
+            const response = await detalleVenta(data);
+            console.log("response detalle", response);
+            setDetallesVenta(response);
+        } catch (error) {
+            console.log(error);
+        }
+
+    };    
     return (
         <div className="flex w-[95%] mx-auto">
         <TableContainer component={Paper} sx={{ mt: 6 }}>
@@ -80,7 +116,11 @@ export const TablaMetaSucursal = ({ metas }: { metas: MetaSucursalFormateada[] }
                             </TableRow>
 
                             <TableRow hover>
-                                <TableCell>{item.sucursal}</TableCell>
+                                <TableCell>
+                                    <Button variant="text" onClick={() => handleExpandirFila(index, item._id)}>
+                                        {item.sucursal}
+                                    </Button>
+                                </TableCell>
 
                                 <TableCell sx={{ backgroundColor: 'lightgreen' }}>
                                     {item.montoMetaActual.toLocaleString('en-US')}{' '}
@@ -212,6 +252,20 @@ export const TablaMetaSucursal = ({ metas }: { metas: MetaSucursalFormateada[] }
                                     {item.cumplimientoTickectAnterior} %
                                 </TableCell>
                             </TableRow>
+                            {expandirFila === index && (
+                                <TableRow>
+                                    <TableCell colSpan={16}>
+                                        <Box sx={{ p: 2 }}>
+                                            <Typography variant="h6">Detalles</Typography>
+                                            {detallesVenta.length > 0 && (
+                                                detallesVenta.map((item, index) => (
+                                                    <DetalleVentaTable detalleVenta={item} key={index} />
+                                                ))
+                                            )}
+                                        </Box>
+                                    </TableCell>
+                                </TableRow>
+                            )}
                         </Fragment>
                     ))}
                 </TableBody>

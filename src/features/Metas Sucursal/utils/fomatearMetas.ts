@@ -10,19 +10,26 @@ export const formatearMetas = (
       const actual = metasActual[cont];
       const anterior = metasAnterior[cont];
       if (actual.sucursal === anterior.sucursal) {
+
+        data.fechaInicio = actual.fechaInicio;
+        data.fechaFin = actual.fechaFin;
         //actual
+        data._id = actual._id;
         data.sucursal = actual.sucursal;
         data.importeVentaActual = actual.importVenta;
         data.montoMetaActual = actual.montoMeta;
         data.cumplimientoImporteActual = actual.cumplimientoImporte;
-  
+        data.fechaInicio = actual.fechaInicio;
+        data.fechaFin = actual.fechaFin;
+         
         data.ticketVentaActual = actual.ticketVenta;
         data.ticketMetaActual = actual.ticketMeta;
         data.cumplimientoTickectActual = actual.cumplimientoTicket;
         data.indeceAvanceActual = actual.indeceAvance
         data.diasHabilesActual = actual.diasHAbiles
+        
         //anterior
-  
+        data._id = anterior._id;
         data.sucursalAnterior = anterior.sucursal;
         data.importeVentaAnterior = anterior.importVenta;
         data.montoMetaAnterior = anterior.montoMeta;
@@ -32,6 +39,8 @@ export const formatearMetas = (
         data.ticketVentaAnterior = anterior.ticketVenta;
         data.ticketMetaAnterior = anterior.ticketMeta;
         data.cumplimientoTickectAnterior = anterior.cumplimientoTicket;
+        data.fechaInicio = anterior.fechaInicio;
+        data.fechaFin = anterior.fechaFin;
       }
       dataFormateada.push(data);
     }

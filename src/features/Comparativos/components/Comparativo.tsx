@@ -36,6 +36,7 @@ export const Comparativo = () => {
     } finally {
       setLoading(false);
     }
+    
   };
   return (
     <Box>
