@@ -58,7 +58,7 @@ const obtenerColorEstado = (estado: string): string => {
                     </div>
                   </TableCell>
                   <TableCell className="px-6 py-4 border-b">
-                    <span className="text-lg font-semibold text-green-600">{moneda}{detalle.importe.toFixed(2)}</span>
+                    <span className="text-lg font-semibold text-green-600">{moneda}{detalle.importe.toLocaleString('en-US')}</span>
                   </TableCell>
                   <TableCell className="px-6 py-4 border-b">
                     <span className="font-mono text-sm bg-gray-100 px-2 py-1 rounded">{detalle.tracking}</span>
@@ -95,7 +95,7 @@ const obtenerColorEstado = (estado: string): string => {
           <div className="flex justify-between items-center">
             <span className="text-lg font-semibold text-gray-700">Total de productos: {detalleVenta?.detalle.length}</span>
             <span className="text-xl font-bold text-green-600">
-              Total: {moneda}{detalleVenta?.detalle.reduce((sum: number, item: Detalle) => sum + item.importe, 0).toFixed(2)}
+              Total: {moneda}{detalleVenta?.detalle.reduce((sum: number, item: Detalle) => sum + item.importe, 0).toLocaleString('en-US')}
             </span>
           </div>
         </div>
