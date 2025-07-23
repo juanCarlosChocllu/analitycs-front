@@ -54,7 +54,8 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
   useEffect(() => {
     listarEmpresas();
     listarTipoVenta();
-    if (empresa && empresa != "TODAS") {
+    localStorage.setItem("region", region);
+    if (empresa && empresa !== "TODAS") {
       listarSucursal();
       setSucursalesSeleccionados([]);
       setSucursales([]);
@@ -64,7 +65,7 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
       setSucursalesSeleccionados([]);
       setTodasScursales([]);
     }
-  }, [empresa]);
+  }, [empresa, region]);
 
   const listarEmpresas = async () => {
     try {
@@ -88,8 +89,11 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
     try {
       if (empresa) {
         const response = await getSucursalesPorEmpresa(empresa);
-        setSucursales(response);
-
+        if (region === "BOLIVIA") {
+          setSucursales(response.filter((item) => !item.nombre.includes("PARAGUAY")));
+        } else if (region === "PARAGUAY") {
+          setSucursales(response.filter((item) => item.nombre.includes(region)));
+        }
       }
     } catch (error) {
       console.log(error);
@@ -109,15 +113,13 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
   };
 
 
-
   const onClickFiltro = () => {
     let sucursalesFiltradas: string[] = [];
     console.log(empresa);
-
     if (empresa === "TODAS") {
-      sucursalesFiltradas = todasSucursales.map((item) => item._id);
+      sucursalesFiltradas = obtenerSucursalesPorRegion(todasSucursales);
     } else if (empresa != 'TODAS' && sucursalesSeleccionados.length <= 0) {
-      sucursalesFiltradas = sucursales.map((item) => item._id)
+      sucursalesFiltradas = obtenerSucursalesPorRegion(sucursales);
     } else if (sucursalesSeleccionados.length > 0) {
       console.log('s', sucursalesSeleccionados);
 
@@ -148,9 +150,14 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
     setTipoVentaSeleccionado(nombre)
   };
 
-  // const filtarSurcursalesPorRegion = () => {
-    
-  // }
+  const obtenerSucursalesPorRegion = (sucursales: SucursalI[]) => {
+    if (region === "BOLIVIA") {
+      return sucursales.filter((item) => !item.nombre.includes("PARAGUAY")).map((item) => item._id);
+    } else if (region === "PARAGUAY") {
+      return sucursales.filter((item) => item.nombre.includes(region)).map((item) => item._id);
+    }
+    return [];
+  };
 
   return (
     <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-4">
@@ -163,25 +170,36 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
                 Filtros de Búsqueda
               </h2>
             </div>
-            <FormControl fullWidth size="small" sx={{ width: '200px' }}>
-              <InputLabel id="region-label">Regi&oacute;n</InputLabel>
-              <Select
-                labelId="region-label"
-                id="region"
-                value={region}
-                defaultValue="BOLIVIA"
-                label="Region"
-                onChange={(e) => setRegion(e.target.value)}
-                renderValue={(selected) => selected}
-              >
-                <MenuItem value="BOLIVIA">
-                  <em>BOLIVIA</em>
-                </MenuItem>
-                <MenuItem value="PARAGUAY">
-                  <em>PARAGUAY</em>
-                </MenuItem>
-              </Select>
-            </FormControl>
+            <div className="flex items-center space-x-2">
+              {region &&
+                <div>
+                  {region === "BOLIVIA" ? (
+                    <img src="../public/banderaBolivia.svg" alt="Bolivia" width={32} />
+                  ) : (
+                    <img src="../public/banderaParaguay.svg" alt="Paraguay" width={32} />
+                  )}
+                </div>
+              }
+              <FormControl fullWidth size="small" sx={{ width: '200px' }}>
+                <InputLabel id="region-label">Regi&oacute;n</InputLabel>
+                <Select
+                  labelId="region-label"
+                  id="region"
+                  value={region}
+                  defaultValue="BOLIVIA"
+                  label="Region"
+                  onChange={(e) => setRegion(e.target.value)}
+                  renderValue={(selected) => selected}
+                >
+                  <MenuItem value="BOLIVIA">
+                    <em className="flex items-center space-x-2 gap-2"><img src="../public/banderaBolivia.svg" alt="" />BOLIVIA</em>
+                  </MenuItem>
+                  <MenuItem value="PARAGUAY">
+                    <em className="flex items-center space-x-2 gap-2"><img src="../public/banderaParaguay.svg" alt="" />PARAGUAY</em>
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-4">

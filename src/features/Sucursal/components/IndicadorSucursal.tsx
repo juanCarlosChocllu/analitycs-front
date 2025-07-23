@@ -40,7 +40,7 @@ export const IndicadorSucursal = () => {
       setLoader(true);
       const response = await getIndicadoresPorSucursal(filtro);
       setData(response);
-      setDataSucursal(response.dataSucursal.filter((item)=> item.sucursal != 'OPTICENTRO PARAGUAY'))
+      setDataSucursal(response.dataSucursal);
       setLoader(false);
     } catch (error) {
       console.error("Error al obtener indicadores:", error);
@@ -231,79 +231,6 @@ export const IndicadorSucursal = () => {
           </TableFooter>
         </Table>
       </TableContainer>
-
-      {
-        data && data?.dataSucursal.filter((item) => item.sucursal == 'OPTICENTRO PARAGUAY' ).length > 0 && 
-        <TableContainer component={Paper} elevation={3}>
-        <Table size="small">
-          <TableHead>
-            <TableRow sx={{ backgroundColor: "#1976d2" }}>
-              {[
-                "Sucursal",
-                "Tickets",
-                "Ventas",
-                "Importe",
-                "Tráfico",
-                "Cantidad",
-                "Tasa Conv.",
-                "Ticket Prom.",
-                "Unid/Ticket",
-                "Precio Prom.",
-              ].map((col) => (
-                <TableCell
-                  key={col}
-                  align="right"
-                  sx={{
-                    color: "#fff",
-                    fontWeight: "bold",
-                    "&:first-of-type": { textAlign: "left" },
-                  }}
-                >
-                  {col}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data?.dataSucursal.filter((item) => item.sucursal == 'OPTICENTRO PARAGUAY' ).map((row, index) => (
-              <TableRow
-                key={row.id}
-                sx={{
-                  backgroundColor: index % 2 === 0 ? "#f5f5f5" : "white",
-                  "&:hover": {
-                    backgroundColor: "#e3f2fd",
-                  },
-                }}
-              >
-                <TableCell>{row.sucursal}</TableCell>
-                <TableCell align="right">{row.totalTicket}</TableCell>
-                <TableCell align="right">
-                  {abreviarMoneda(row.sucursal)}{" "}
-                  {row.ventaTotal.toLocaleString("en-US")}
-                </TableCell>
-                <TableCell align="right">
-                  {abreviarMoneda(row.sucursal)}{" "}
-                  {row.totalImporte.toLocaleString("en-US")}
-                </TableCell>
-                <TableCell align="right">0</TableCell>
-                <TableCell align="right">{row.cantidad}</TableCell>
-                <TableCell align="right">{row.tasaConversion}%</TableCell>
-                <TableCell align="right">
-                  {abreviarMoneda(row.sucursal)}{" "}
-                  {row.ticketPromedio.toLocaleString("en-US")}
-                </TableCell>
-                <TableCell align="right">{row.unidadPorTicket}</TableCell>
-                <TableCell align="right">
-                  {abreviarMoneda(row.sucursal)}{" "}
-                  {row.precioPromedio.toLocaleString("en-US")}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      }
    
       {loader && <Loader />}
     </Box>

@@ -4,6 +4,7 @@ import type { DataDiaria } from "../interface/compartivo";
 import { Box, Stack } from "@mui/material";
 import { procesarDatos } from "../utils/procesarDatos";
 import { useState } from "react";
+import { abreviarMonedaRegion } from "../../app/util/abreviarMonenda";
 dayjs.locale("es");
 const productoColor = {
   'GAFA': '#3b82f6',
@@ -12,8 +13,12 @@ const productoColor = {
   'MONTURA': '#eab308',
   'SERVICIO': '#a4de6c'
 }
+interface Props {
+  data: DataDiaria[];
+  region: string;
+}
 
-export const GraficoComparativo = ({ data }: { data: DataDiaria[] }) => {
+export const GraficoComparativo = ({ data, region }: Props) => {
   const [mostrarGafa, setMostrarGafa] = useState(true);
   const [mostrarLente, setMostrarLente] = useState(true);
   const [mostrarLenteContacto, setMostrarLenteContacto] = useState(true);
@@ -37,7 +42,7 @@ export const GraficoComparativo = ({ data }: { data: DataDiaria[] }) => {
     cantidad: dia.totalCantidad,
     tickets: dia.totalTickets
   }));
-  console.log("chartData", datosGrafica);
+const nomeda = abreviarMonedaRegion(region)
 
   return (
     <Stack sx={{ with: '95%' }}>
@@ -56,7 +61,7 @@ export const GraficoComparativo = ({ data }: { data: DataDiaria[] }) => {
               domain={[0, 'dataMax']}
               tickCount={7}
               fontSize={12}
-              label={{ value: 'Importe (Bs.)', angle: -90, position: 'insideLeft', style: { fontSize: 14, fontWeight: 600 } }}
+              label={{ value: `Importe (${nomeda})`, angle: -90, position: 'insideLeft', style: { fontSize: 14, fontWeight: 600 } }}
             />
             <YAxis
               yAxisId="right"
@@ -109,22 +114,22 @@ export const GraficoComparativo = ({ data }: { data: DataDiaria[] }) => {
             <Tooltip
               formatter={(value, name) => {
                 if (name === 'GAFA') {
-                  return [`${value} Bs.`, name];
+                  return [`${value} ${nomeda}`, name];
                 }
                 if (name === 'LENTE') {
-                  return [`${value} Bs.`, name];
+                  return [`${value} ${nomeda}`, name];
                 }
                 if (name === 'LENTE DE CONTACTO') {
-                  return [`${value} Bs.`, name];
+                  return [`${value} ${nomeda}`, name];
                 }
                 if (name === 'MONTURA') {
-                  return [`${value} Bs.`, name];
+                  return [`${value} ${nomeda}`, name];
                 }
                 if (name === 'SERVICIO') {
-                  return [`${value} Bs.`, name];
+                  return [`${value} ${nomeda}`, name];
                 }
                 if(name == 'PRECIO PROMEDIO'){
-                  return [`${value} Bs.`, name];
+                  return [`${value} ${nomeda}`, name];
                 }
                 if(name == 'TICKETS PROMEDIO'){
                   return [`${value}`, name];
