@@ -174,9 +174,9 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
               {region &&
                 <div>
                   {region === "BOLIVIA" ? (
-                    <img src="../public/banderaBolivia.svg" alt="Bolivia" width={32} />
+                    <img src="../banderaBolivia.svg" alt="Bolivia" width={32} />
                   ) : (
-                    <img src="../public/banderaParaguay.svg" alt="Paraguay" width={32} />
+                    <img src="../banderaParaguay.svg" alt="Paraguay" width={32} />
                   )}
                 </div>
               }
@@ -192,10 +192,10 @@ export function Buscador({ setFiltro }: FiltroBuscadorI) {
                   renderValue={(selected) => selected}
                 >
                   <MenuItem value="BOLIVIA">
-                    <em className="flex items-center space-x-2 gap-2"><img src="../public/banderaBolivia.svg" alt="" />BOLIVIA</em>
+                    <em className="flex items-center space-x-2 gap-2"><img src="../banderaBolivia.svg" alt="" />BOLIVIA</em>
                   </MenuItem>
                   <MenuItem value="PARAGUAY">
-                    <em className="flex items-center space-x-2 gap-2"><img src="../public/banderaParaguay.svg" alt="" />PARAGUAY</em>
+                    <em className="flex items-center space-x-2 gap-2"><img src="../banderaParaguay.svg" alt="" />PARAGUAY</em>
                   </MenuItem>
                 </Select>
               </FormControl>
