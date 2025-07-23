@@ -1,4 +1,4 @@
-import { Box, Button, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow, Typography } from "@mui/material"
+import { Box, Button, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow} from "@mui/material"
 import Paper from "@mui/material/Paper"
 import type { MetaSucursalFormateada } from "../interfaces/metaSucursal.interfaces"
 import { porcentaje } from "../../app/util/porcentaje"
@@ -36,7 +36,7 @@ export const TablaMetaSucursal = ({ metas, filtro }: Props) => {
             }
             console.log("data detalle", data);
             const response = await detalleVenta(data);
-            console.log("response detalle", response);
+            console.log("response detalle", response.length);
             setDetallesVenta(response);
         } catch (error) {
             console.log(error);
@@ -256,7 +256,12 @@ export const TablaMetaSucursal = ({ metas, filtro }: Props) => {
                                 <TableRow>
                                     <TableCell colSpan={16}>
                                         <Box sx={{ p: 2 }}>
-                                            <Typography variant="h6">Detalles</Typography>
+                                            <h1 className="text-2xl font-bold text-blue-900 mb-2 text-center uppercase underline">
+                                                Detalle de Venta
+                                            </h1>
+                                            <p className="text-lg font-semibold text-blue-900">
+                                                Tickets: <span className="font-mono">{detallesVenta.length}</span>
+                                            </p>
                                             {detallesVenta.length > 0 && (
                                                 detallesVenta.map((item, index) => (
                                                     <DetalleVentaTable detalleVenta={item} key={index} />

@@ -27,9 +27,9 @@ import { FiltroFecha } from "../FiltroFecha/FiltroFecha";
 import { RangoFecha } from "./RangoFecha";
 
 
-export function Buscador({ setFiltro}: FiltroBuscadorI) {
+export function Buscador({ setFiltro }: FiltroBuscadorI) {
   const date = new Date();
-  {/*const [region,setRegion] = useState<string>("BOLIVIA");*/}
+  const [region, setRegion] = useState<string>("BOLIVIA");
   const [empresas, setEmpresas] = useState<EmpresasI[]>([]);
   const [tipoVenta, setTipoVentas] = useState<TipoVentaI[]>([]);
   const [empresa, setEmpresa] = useState<string>("");
@@ -148,6 +148,10 @@ export function Buscador({ setFiltro}: FiltroBuscadorI) {
     setTipoVentaSeleccionado(nombre)
   };
 
+  // const filtarSurcursalesPorRegion = () => {
+    
+  // }
+
   return (
     <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-4">
       <div className="max-w-[95%] mx-auto">
@@ -159,15 +163,15 @@ export function Buscador({ setFiltro}: FiltroBuscadorI) {
                 Filtros de Búsqueda
               </h2>
             </div>
-           {/* <FormControl fullWidth size="small" sx={{ width: '200px' }}>
+            <FormControl fullWidth size="small" sx={{ width: '200px' }}>
               <InputLabel id="region-label">Regi&oacute;n</InputLabel>
               <Select
                 labelId="region-label"
                 id="region"
-                value={regionSeleccionada}
+                value={region}
                 defaultValue="BOLIVIA"
                 label="Region"
-                onChange={(e) => setRegionSeleccionada(e.target.value)}
+                onChange={(e) => setRegion(e.target.value)}
                 renderValue={(selected) => selected}
               >
                 <MenuItem value="BOLIVIA">
@@ -177,7 +181,7 @@ export function Buscador({ setFiltro}: FiltroBuscadorI) {
                   <em>PARAGUAY</em>
                 </MenuItem>
               </Select>
-            </FormControl> */}
+            </FormControl>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-4">
@@ -222,13 +226,13 @@ export function Buscador({ setFiltro}: FiltroBuscadorI) {
               options={tipoVenta}
             />
 
-                 <Box mt={2.8}>
-            <RangoFecha
-              fechaFin={fechaFin}
-              fechaInicio={fechaInicio}
-              setFechaFin={setFechaFin}
-              setFechaInicio={setFechaInicio}
-            />
+            <Box mt={2.8}>
+              <RangoFecha
+                fechaFin={fechaFin}
+                fechaInicio={fechaInicio}
+                setFechaFin={setFechaFin}
+                setFechaInicio={setFechaInicio}
+              />
             </Box>
           </div>
           <div className="mb-8">
