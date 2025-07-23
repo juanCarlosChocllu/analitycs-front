@@ -19,3 +19,10 @@ export function abreviarMonedaFoot(sucursales:string[]){
     }
 
 }
+
+export function abreviarMonedaRegion(region:string){
+    if(region === 'BOLIVIA'){
+        return 'Bs'
+    }
+    return 'Gs'
+}

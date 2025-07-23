@@ -15,6 +15,7 @@ export const Comparativo = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [responseActual, setResponseActual] = useState<ComparativoData>();
   const [responseAnterior, setResponseActerior] = useState<ComparativoData>();
+  const region = localStorage.getItem("region");
 
   useEffect(() => {
     listarVentas();
@@ -53,7 +54,7 @@ export const Comparativo = () => {
               <>
                 <section className="p-4 border rounded-lg bg-gray-50 shadow-md mb-6 justify-center items-center">
                   <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '20px', textAlign: 'center', textTransform: 'uppercase' }}>Comparativo de Ventas Actuales</Typography>
-                  <GraficoComparativo data={responseActual.dataDiaria} />
+                  <GraficoComparativo data={responseActual.dataDiaria} region={region?.toString() || "BOLIVIA"}/>
                 </section>
                 <section className="p-4 border rounded-lg bg-gray-100 shadow-md mb-6">
                   <h1 className="text-xl font-semibold mb-4 text-center">
@@ -82,7 +83,7 @@ export const Comparativo = () => {
                 </section>
                 <section className="p-4 border rounded-lg bg-gray-50 shadow-md mb-6 justify-center items-center">
                   <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '20px', textAlign: 'center', textTransform: 'uppercase' }}>Comparativo de Ventas Anteriores</Typography>
-                  <GraficoComparativo data={responseAnterior.dataDiaria} />
+                  <GraficoComparativo data={responseAnterior.dataDiaria} region={region?.toString() || "BOLIVIA"}/>
                 </section>
 
                 <section className="p-4 border rounded-lg bg-gray-100 shadow-md">
