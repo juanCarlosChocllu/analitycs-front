@@ -21,6 +21,7 @@ import { FiltroFecha } from "../../app/components/FiltroFecha/FiltroFecha";
 import { listarRecetasMedicos } from "../services/apiMedicos";
 import type { RecetaData } from "../interfaces/RecetaMedico";
 import { DetalleReceta } from "../Components/DetalleReceta";
+import { Input } from "@mui/material";
 
 dayjs.locale("es");
 
@@ -47,6 +48,8 @@ type CampoOrdenable = typeof CAMPOS_ORDENABLES[keyof typeof CAMPOS_ORDENABLES];
 
 export const RecetaMedico: React.FC = () => {
   const [paginaActual, setPaginaActual] = React.useState<number>(0);
+  const [medico, setMedico] = React.useState<string>("");
+  const [recetaInicial, setRecetaInicial] = React.useState<RecetaData[]>([]);
   const [filasPorPagina, setFilasPorPagina] = React.useState<number>(FILAS_POR_PAGINA_INICIAL);
   const [estaCargando, setEstaCargando] = React.useState<boolean>(false);
   const [tasaTotalConversion, setTasaTotalConversion] = useState<number>(0);
@@ -178,12 +181,17 @@ export const RecetaMedico: React.FC = () => {
       .then((datos: RecetaData[]) => {
         console.log("Respuesta recibida:", datos);
         setRecetas(datos);
+        setRecetaInicial(datos);
         setEstaCargando(false);
       })
       .catch((error: Error) => {
         console.error("Error:", error);
         setEstaCargando(false);
       });
+  };
+  const filtrarRecetasPorMedico = (): void => {
+    const recetasFiltradas = recetaInicial.filter((receta) => receta.medico.toLowerCase().includes(medico.toLowerCase()));
+    setRecetas(recetasFiltradas);
   };
 
   const calcularTasaConversion = (): void => {
@@ -201,10 +209,15 @@ export const RecetaMedico: React.FC = () => {
     calcularTasaConversion();
   }, [recetas]);
 
+  useEffect(() => {
+    filtrarRecetasPorMedico();
+  }, [medico]);
+
   return (
-    <div className="flex justify-center h-full w-full bg-gray-50">
+    <div className="flex justify-center w-full bg-gray-50">
       <div className="p-4 sm:p-6 lg:p-8 min-h-screen gap-10 bg-gray-50 m-auto w-[80%]">
-        <div className="grid lg:grid-cols-3 gap-5 items-center mb-10 justify-center">
+       <div className="flex flex-col justify-center">
+       <div className="grid lg:grid-cols-3 gap-5 items-center mb-10 justify-center">
           <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
             <div className="grid grid-cols-2 gap-4 justify-center">
               <DatePicker
@@ -233,8 +246,21 @@ export const RecetaMedico: React.FC = () => {
             Buscar
           </Button>
         </div>
-        
-       <FiltroFecha setFechaInicio={setFechaInicio} setFechaFin={setFechaFin} />
+        <div className="flex justify-center lg:justify-start">
+          <FiltroFecha setFechaInicio={setFechaInicio} setFechaFin={setFechaFin}/>
+        </div>
+
+        <div className=" my-5 flex justify-center w-[70%] lg:w-[40%] mx-auto lg:mx-0 ">
+          <Input
+            type="text"
+            endAdornment={<Search />}
+            placeholder="Buscar médicos"
+            onChange={(e) => setMedico(e.target.value)}
+            className="block w-full px-4 py-2 text-sm text-gray-700 bg-white border border-gray-700 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-blue-800 focus:border-blue-800"
+          />
+        </div>
+       </div>
+
         
         <h1 className="text-2xl font-semibold text-[#374152] mb-4 text-center uppercase">
           Recetas de Médicos

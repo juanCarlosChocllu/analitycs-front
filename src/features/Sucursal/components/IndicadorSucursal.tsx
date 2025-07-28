@@ -3,26 +3,19 @@ import { Buscador } from "../../app/components/Buscador/Buscador";
 import type { filtroBuscadorI } from "../../app/interfaces/BuscadorI";
 import { getIndicadoresPorSucursal } from "../service/sucursalService";
 import Typography from "@mui/material/Typography";
-import TableContainer from "@mui/material/TableContainer";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableRow from "@mui/material/TableRow";
-import TableHead from "@mui/material/TableHead";
-import TableCell from "@mui/material/TableCell";
-import TableBody from "@mui/material/TableBody";
 import type {
   GraficoIndicadorSucursalI,
   IndicadoresSucursalI,
   SucursalData,
 } from "../interface/IndicadorSucursal";
-import { Box, TableFooter } from "@mui/material";
+import { Box } from "@mui/material";
 import { IndicadoresCuadro } from "./IndicadoresCuadro";
 import { Grafico } from "./Grafico";
 import dayjs from "dayjs";
-import { abreviarMoneda } from "../../app/util/abreviarMonenda";
 import { Loader } from "../../app/components/loader/Loader";
 import { Download } from "lucide-react";
 import { exportarExcelPorSucursal } from "../utils/exportarExcel/exportarIndicadoreSucursal";
+import { TablaIndicadores } from "./TablaIndicadores";
 
 export const IndicadorSucursal = () => {
   const [filtro, setFiltro] = useState<filtroBuscadorI>({});
@@ -66,7 +59,7 @@ export const IndicadorSucursal = () => {
       : [];
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box sx={{ p: 3}}>
       <Buscador filtro={filtro} setFiltro={setFiltro} />
 
       <Typography variant="h5" sx={{ mt: 4, mb: 2, fontWeight: "bold" }}>
@@ -92,145 +85,9 @@ export const IndicadorSucursal = () => {
         </button>
       )}
       {data && <Grafico data={dataset} />}
-      <TableContainer component={Paper} elevation={3}>
-        <Table size="small">
-          <TableHead>
-            <TableRow sx={{ backgroundColor: "#1976d2" }}>
-              {[
-                "Sucursal",
-                "Tickets",
-                "Ventas",
-                "Importe",
-                "Tráfico",
-                "Cantidad",
-                "Tasa Conv.",
-                "Ticket Prom.",
-                "Unid/Ticket",
-                "Precio Prom.",
-              ].map((col) => (
-                <TableCell
-                  key={col}
-                  align="right"
-                  sx={{
-                    color: "#fff",
-                    fontWeight: "bold",
-                    "&:first-of-type": { textAlign: "left" },
-                  }}
-                >
-                  {col}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {dataSucursal.map((row, index) => (
-              <TableRow
-                key={row.id}
-                sx={{
-                  backgroundColor: index % 2 === 0 ? "#f5f5f5" : "white",
-                  "&:hover": {
-                    backgroundColor: "#e3f2fd",
-                  },
-                }}
-              >
-                <TableCell>{row.sucursal}</TableCell>
-                <TableCell align="right">{row.totalTicket}</TableCell>
-                <TableCell align="right">
-                  {abreviarMoneda(row.sucursal)}{" "}
-                  {row.ventaTotal.toLocaleString("en-US")}
-                </TableCell>
-                <TableCell align="right">
-                  {abreviarMoneda(row.sucursal)}{" "}
-                  {row.totalImporte.toLocaleString("en-US")}
-                </TableCell>
-                <TableCell align="right">0</TableCell>
-                <TableCell align="right">{row.cantidad}</TableCell>
-                <TableCell align="right">{row.tasaConversion}%</TableCell>
-                <TableCell align="right">
-                  {abreviarMoneda(row.sucursal)}{" "}
-                  {row.ticketPromedio.toLocaleString("en-US")}
-                </TableCell>
-                <TableCell align="right">{row.unidadPorTicket}</TableCell>
-                <TableCell align="right">
-                  {abreviarMoneda(row.sucursal)}{" "}
-                  {row.precioPromedio.toLocaleString("en-US")}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TableCell sx={{ fontWeight: "bold" }}>Total</TableCell>
-              <TableCell align="right">
-                {dataSucursal.reduce(
-                  (acc, item) => acc + item.totalTicket,
-                  0
-                )}
-              </TableCell>
-              <TableCell align="right">
-                {dataSucursal
-                  .reduce((acc, item) => acc + item.ventaTotal, 0)
-                  .toLocaleString("en-US")}
-              </TableCell>
-              <TableCell align="right">
-                {dataSucursal
-                  .reduce((acc, item) => acc + item.totalImporte, 0)
-                  .toLocaleString("en-US")}
-              </TableCell>
-              <TableCell align="right">0</TableCell>
-              <TableCell align="right">
-                {dataSucursal.reduce(
-                  (acc, item) => acc + item.cantidad,
-                  0
-                )}
-              </TableCell>
-              <TableCell align="right">0%</TableCell>
-              <TableCell align="right">
-                {dataSucursal.length
-                  ? (
-                      dataSucursal.reduce(
-                        (acc, item) => acc + item.ventaTotal,
-                        0
-                      ) /
-                      dataSucursal.reduce(
-                        (acc, item) => acc + item.totalTicket,
-                        0
-                      )
-                    ).toLocaleString("en-US")
-                  : "0"}
-              </TableCell>
-              <TableCell align="right">
-                {dataSucursal.length
-                  ? (
-                      dataSucursal.reduce(
-                        (acc, item) => acc + item.cantidad,
-                        0
-                      ) /
-                      dataSucursal.reduce(
-                        (acc, item) => acc + item.totalTicket,
-                        0
-                      )
-                    ).toLocaleString("en-US")
-                  : "0.00"}
-              </TableCell>
-              <TableCell align="right">
-                {dataSucursal.length
-                  ? (
-                      dataSucursal.reduce(
-                        (acc, item) => acc + item.ventaTotal,
-                        0
-                      ) /
-                      dataSucursal.reduce(
-                        (acc, item) => acc + item.cantidad,
-                        0
-                      )
-                    ).toLocaleString("en-US")
-                  : "0.00"}
-              </TableCell>
-            </TableRow>
-          </TableFooter>
-        </Table>
-      </TableContainer>
+      <Box sx={{ mt: 4 }}>
+        <TablaIndicadores data={dataSucursal} />
+      </Box>
    
       {loader && <Loader />}
     </Box>

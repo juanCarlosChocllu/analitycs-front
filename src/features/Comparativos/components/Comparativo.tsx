@@ -9,6 +9,7 @@ import { Card } from "./Card";
 import { ListarTodasLasEmpresas } from "./ListarTodasLasEmpresas";
 import { TablaVentaSucursal } from "./ListarVentaSucursal";
 import { GraficoComparativo } from "./GraficoComparativo";
+import { GraficoComparativoAnual } from "./GraficoComparativoAnual";
 
 export const Comparativo = () => {
   const [filtro, setFiltro] = useState<filtroBuscadorI>({});
@@ -52,6 +53,9 @@ export const Comparativo = () => {
             {" "}
             {responseActual && responseAnterior && (
               <>
+                <section className=" p-4 bg-gray-50 shadow-md mb-6 justify-center items-center">
+                  <GraficoComparativoAnual dataActual={responseActual.dataDiaria} dataAnterior={responseAnterior.dataDiaria} region={region?.toString() || "BOLIVIA"}/>
+                </section>
                 <section className="p-4 border rounded-lg bg-gray-50 shadow-md mb-6 justify-center items-center">
                   <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '20px', textAlign: 'center', textTransform: 'uppercase' }}>Comparativo de Ventas Actuales</Typography>
                   <GraficoComparativo data={responseActual.dataDiaria} region={region?.toString() || "BOLIVIA"}/>
@@ -80,7 +84,7 @@ export const Comparativo = () => {
                     />
                     <Card title="TRAFICO" value={0} />
                   </div>
-                </section>
+                </section>.
                 <section className="p-4 border rounded-lg bg-gray-50 shadow-md mb-6 justify-center items-center">
                   <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '20px', textAlign: 'center', textTransform: 'uppercase' }}>Comparativo de Ventas Anteriores</Typography>
                   <GraficoComparativo data={responseAnterior.dataDiaria} region={region?.toString() || "BOLIVIA"}/>

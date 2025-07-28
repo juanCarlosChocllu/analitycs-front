@@ -11,7 +11,8 @@ const productoColor = {
   'LENTE': '#f97316',
   'LENTE DE CONTACTO': '#6b7280',
   'MONTURA': '#eab308',
-  'SERVICIO': '#a4de6c'
+  'SERVICIO': '#a4de6c',
+  'IMPORTE': '#0DD98E'
 }
 interface Props {
   data: DataDiaria[];
@@ -28,6 +29,7 @@ export const GraficoComparativo = ({ data, region }: Props) => {
   const [mostrarPrecioPromedio, setMostrarPrecioPromedio] = useState(true);
   const [mostrarCantidad, setMostrarCantidad] = useState(true);
   const [mostrarTickets, setMostrarTickets] = useState(true);
+  const [mostrarImporte, setMostrarImporte] = useState(true);
 
 
   const datosGrafica = procesarDatos(data).map(dia => ({
@@ -40,8 +42,10 @@ export const GraficoComparativo = ({ data, region }: Props) => {
     ticketPromedio: dia.totalTicketsPromedio,
     precioPromedio: dia.totalPrecioPromedio,
     cantidad: dia.totalCantidad,
-    tickets: dia.totalTickets
+    tickets: dia.totalTickets,
+    IMPORTE: dia.totalImporte
   }));
+  console.log("datosGrafica",datosGrafica)
 const nomeda = abreviarMonedaRegion(region)
 
   return (
@@ -108,33 +112,40 @@ const nomeda = abreviarMonedaRegion(region)
                   if (e.dataKey === "tickets") {
                     setMostrarTickets((prev) => !prev);
                   }
+                  if (e.dataKey === "IMPORTE") {
+                    setMostrarImporte((prev) => !prev);
+                  }
                 }
               }}
             />
             <Tooltip
+            
               formatter={(value, name) => {
                 if (name === 'GAFA') {
-                  return [`${value} ${nomeda}`, name];
+                  return [`${value.toLocaleString("es-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${nomeda}`, name];
                 }
                 if (name === 'LENTE') {
-                  return [`${value} ${nomeda}`, name];
+                  return [`${value.toLocaleString("es-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${nomeda}`, name];
                 }
                 if (name === 'LENTE DE CONTACTO') {
-                  return [`${value} ${nomeda}`, name];
+                  return [`${value.toLocaleString("es-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${nomeda}`, name];
                 }
                 if (name === 'MONTURA') {
-                  return [`${value} ${nomeda}`, name];
+                  return [`${value.toLocaleString("es-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${nomeda}`, name];
                 }
                 if (name === 'SERVICIO') {
-                  return [`${value} ${nomeda}`, name];
+                  return [`${value.toLocaleString("es-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${nomeda}`, name];
                 }
                 if(name == 'PRECIO PROMEDIO'){
-                  return [`${value} ${nomeda}`, name];
+                  return [`${value.toLocaleString("es-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${nomeda}`, name];
                 }
                 if(name == 'TICKETS PROMEDIO'){
-                  return [`${value}`, name];
+                  return [`${value.toLocaleString("es-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, name];
                 }
-                return [`${value}`, name];
+                if(name == 'IMPORTE'){
+                  return [`${value.toLocaleString("es-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${nomeda}`, name];
+                }
+                return [`${value.toLocaleString("es-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, name];
               }}
               labelFormatter={(label) => `Fecha: ${dayjs(label).format('DD/MM/YY')}`}
               cursor={{ fill: '#f5f5f5', opacity: 0.7 }}
@@ -179,6 +190,7 @@ const nomeda = abreviarMonedaRegion(region)
               dot={{ fill: "#69E39C", stroke: "#69E39C", strokeWidth: 2 }}
               hide={!mostrarTickets}
             />
+            <Bar dataKey="IMPORTE" fill={productoColor.IMPORTE} hide={!mostrarImporte}/>
             <Bar dataKey="LENTE" fill={productoColor.LENTE} hide={!mostrarLente}/>
             <Bar dataKey="MONTURA" fill={productoColor.MONTURA} hide={!mostrarMontura}/>
             <Bar dataKey="GAFA" fill={productoColor.GAFA} hide={!mostrarGafa}/>
