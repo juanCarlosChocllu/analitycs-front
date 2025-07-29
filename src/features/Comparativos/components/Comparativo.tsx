@@ -9,12 +9,14 @@ import { Card } from "./Card";
 import { ListarTodasLasEmpresas } from "./ListarTodasLasEmpresas";
 import { TablaVentaSucursal } from "./ListarVentaSucursal";
 import { GraficoComparativo } from "./GraficoComparativo";
+import { LocalesComparables } from "./LocalesComparables";
+
 
 export const Comparativo = () => {
   const [filtro, setFiltro] = useState<filtroBuscadorI>({});
   const [loading, setLoading] = useState<boolean>(false);
   const [responseActual, setResponseActual] = useState<ComparativoData>();
-  const [responseAnterior, setResponseActerior] = useState<ComparativoData>();
+  const [responseAnterior, setResponseAnterior] = useState<ComparativoData>();
   const region = localStorage.getItem("region");
 
   useEffect(() => {
@@ -28,9 +30,9 @@ export const Comparativo = () => {
         getVentaActual(filtro),
         getVentaAnterior(filtro),
       ]);
-      setResponseActerior(responseAnterior);
+      setResponseAnterior(responseAnterior);
       setResponseActual(responseActual);
-      console.log("responseActual", JSON.stringify(responseActual.dataDiaria)); 
+ 
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -44,12 +46,12 @@ export const Comparativo = () => {
       <Buscador filtro={filtro} setFiltro={setFiltro} />
       {responseActual
         && responseAnterior && <ListarTodasLasEmpresas ventaActual={responseActual?.venta} ventaAnterior={responseAnterior?.venta} />}
+        {responseActual && responseAnterior && <LocalesComparables dataActual={responseActual} dataAnterior={responseAnterior}  /> }
       <div className="grid grid-cols-1 gap-4">
         {loading ? (
           <Loader />
         ) : (
           <>
-            {" "}
             {responseActual && responseAnterior && (
               <>
                 <section className="p-4 border rounded-lg bg-gray-50 shadow-md mb-6 justify-center items-center">

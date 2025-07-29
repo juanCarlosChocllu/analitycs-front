@@ -5,6 +5,19 @@ export interface VentaItem {
   importe: number;
 }
 
+
+export interface dataI {
+  dataActual:ComparativoData
+  dataAnterior:ComparativoData
+}
+
+export  interface dataComparativo {
+      cantidadAnterior:number,
+                        ventaAnterior : number,
+                        cantidadActual: number,
+                        ventaActual:number
+}
+
 export interface VentaSucursalProducto {
   producto: string;
   cantidad: number;
@@ -71,4 +84,17 @@ export interface DataDiaria {
   ticketPromedio: number;
   precioPromedio:number;
   fecha: string;
+}
+
+export interface LocalComparableRow {
+  cantidadActual: number;
+  participacionCantidadActual: number;
+  ventaActual: number;
+  participacionVentaActual: number;
+  variacionUnidades: number;
+  variacionTotal: number;
+  cantidadAnterior: number;
+  participacionCantidadAnterior: number;
+  ventaAnterior: number;
+  participacionVentaAnterior: number;
 }
