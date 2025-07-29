@@ -31,6 +31,7 @@ export const MetaSucursal = () => {
                 metasSucursalActual(buscador),
                 metasSucursalAnterior(buscador),
             ]);
+
             
             setMetas(formatearMetas(responseActual , responseAnterior));
             setFiltroDetalle({
@@ -49,6 +50,8 @@ export const MetaSucursal = () => {
       };
       handleSearch();
       }, [buscador]);
+    
+      
     return (
         <div>
             <h1 className="text-2xl font-bold text-center uppercase text-blue-950 mb-6 mt-4">Meta Sucursal</h1>
@@ -63,7 +66,7 @@ export const MetaSucursal = () => {
                     <div className="flex items-center space-x-2 mb-4">
                       <Goal className="w-5 h-5 text-blue-600" />
                       <h3 className="text-lg font-semibold text-gray-900">
-                        Resultados de KPIs Médicos
+                      Metas de sucursal
                       </h3>
                     </div>
                     <div className="text-center py-12 text-gray-500">
