@@ -40,8 +40,8 @@ export const FiltroFecha = ({ setFechaInicio, setFechaFin }: FiltroFechaProps) =
             endDate = dayjs().subtract(1, "day").endOf("day");
             break;
           case "semana":
-            startDate = dayjs().startOf("week");
-            endDate = dayjs().endOf("week");
+            startDate = dayjs().subtract(1, "week").startOf("week");
+            endDate = dayjs().subtract(1, "week").endOf("week");
             break;
           case "mes":
             startDate = dayjs().startOf("month");

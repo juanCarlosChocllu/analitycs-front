@@ -1,6 +1,6 @@
 
 export interface SucursalData {
-    id: string;
+  id: string;
   sucursal: string;
   cantidad: number;
   precioPromedio: number;
