@@ -3,7 +3,7 @@ import type { EmpresasI, SucursalI, TipoVentaI } from "../interfaces/BuscadorI";
 import type { UltimaDescarga } from "../interfaces/UltimaDescarga";
 import { instance } from "./instaceAxios";
 
-export const ultimaDescarga = async (): Promise<UltimaDescarga> => {
+export const ultimaDescarga = async (): Promise<UltimaDescarga[]> => {
     try {
         const response = await instance.get("log/venta/descarga");
         console.log(response.data);

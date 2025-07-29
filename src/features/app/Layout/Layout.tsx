@@ -9,7 +9,7 @@ dayjs.locale("es");
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   const [open, setOpen] = useState(false);
-  const [fechaUltimaDescarga, setFechaUltimaDescarga] = useState<UltimaDescarga>();
+  const [fechaUltimaDescarga, setFechaUltimaDescarga] = useState<UltimaDescarga[]>();
   const toggleMenuOpen = () => {
     setOpen(!open);
   };
@@ -18,6 +18,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
       try {
         const response = await ultimaDescarga();
         setFechaUltimaDescarga(response);
+        console.log("fecha",response[0].fechaDescarga);
       } catch (error) {
         console.error("Error al obtener la ultima descarga:", error);
       }
@@ -28,7 +29,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
     <div className="flex flex-col h-screen w-full">
       <div className="flex w-full justify-end bg-gray-100 p-6 px-10">
         <h3 className="text-green-600 font-bold">Ultima Descarga: &nbsp;</h3>
-        <h3>{dayjs(fechaUltimaDescarga?.fechaDescarga).subtract(1, "day").startOf("day").format("dddd, DD MMMM YYYY")}</h3>
+        <h3>{dayjs(fechaUltimaDescarga?.[0].fechaDescarga || dayjs().format("YYYY-MM-DD")).subtract(1, "day").startOf("day").format("dddd, DD MMMM YYYY")}</h3>
       </div>
       <button
         onClick={toggleMenuOpen}
