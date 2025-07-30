@@ -33,7 +33,7 @@ export const menuItems = [
     text: 'Gestion', icon: <Briefcase className="text-white" />,
       items: [
         {text: 'Indicadores por Sucursal', icon: <Circle className="text-white w-3 h-3" /> , link: '/indicadores/sucursal'}, 
-        {text: 'Rendimiento Asesores de Venta', icon: <Circle className="text-white w-3 h-3" /> , link: 'https://analitycs-frontend.vercel.app/rendimiento'}, 
+        {text: 'Rendimiento Asesores de Venta', icon: <Circle className="text-white w-3 h-3" /> , link: '/rendimiento'}, 
       ] 
      },
     { 
