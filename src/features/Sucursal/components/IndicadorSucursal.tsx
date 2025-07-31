@@ -78,7 +78,7 @@ export const IndicadorSucursal = () => {
       {data && (
         <button
           onClick={() => exportarExcelPorSucursal(data.dataSucursal)}
-          className="mt-4 bg-gradient-to-r from-green-400 to-green-700 text-white px-4 py-2 rounded-lg w-full sm:w-auto flex items-center gap-2"
+          className="mt-4 bg-emerald-600 text-white px-4 py-2 rounded-lg w-full sm:w-auto flex items-center gap-2"
         >
           <Download />
           Exportar
