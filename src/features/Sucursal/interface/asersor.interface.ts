@@ -1,7 +1,7 @@
 export interface DataAsesor {
     sucursal:         string;
     asesor:           string;
-    _id:              null;
+    _id:              string;
     unidadPorTicket:  number;
     importeTotalSuma: number;
     ventaTotal:       number;

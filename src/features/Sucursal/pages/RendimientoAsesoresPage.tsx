@@ -6,6 +6,7 @@ import { Top10Ticket } from "../components/Top10Ticket";
 import type { DataAsesor } from "../interface/asersor.interface";
 import { getIndicadoresPorAsesor } from "../service/sucursalService";
 import { EmptyState } from "../../app/components/NoEncontrado/EmptyState";
+import { TablaSucursales } from "../components/TablaSucursales";
 
 const sugerencias = [
     "Verifica si ingresaste correctamente los filtros",
@@ -30,6 +31,7 @@ export const RendimientoAsesoresPage = () => {
             setLoading(false);
         }
     };
+    console.log("Data:",data)
     return (
         <div className="p-4 sm:p-6 lg:p-8 bg-gray-100 ">
 
@@ -39,6 +41,7 @@ export const RendimientoAsesoresPage = () => {
                     {loading ? <Loader className="animate-spin" />
                         :
                         <>
+                            <TablaSucursales data={data} />
                             <Top10Ticket data={data} atributo="totalTicket" title="Top 10 Vendedores Ticket" tipo="ticket" />
                             <Top10Ticket data={data} atributo="ventaTotal" title="Top 10 Vendedores Venta" tipo="venta" />
                         </>
