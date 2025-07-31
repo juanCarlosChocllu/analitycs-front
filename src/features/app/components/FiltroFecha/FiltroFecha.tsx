@@ -75,7 +75,7 @@ export const FiltroFecha = ({ setFechaInicio, setFechaFin }: FiltroFechaProps) =
           onClick={() => seleccionarFecha(button.id)}
           className={`px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
             activeButton === button.id
-              ? "bg-gradient-to-r from-emerald-600 to-green-400 text-white shadow-sm"
+              ? "bg-emerald-600 text-white shadow-sm"
               : "text-gray-600 hover:text-gray-900"
           }`}
           title={button.fullLabel}
