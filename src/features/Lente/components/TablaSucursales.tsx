@@ -1,4 +1,4 @@
-import type { Datum, SucursalTableData } from "../interface/sucursal.interface"
+import type { Datum, FooterValues, SucursalTableData } from "../interface/sucursal.interface"
 import type { filtroBuscadorI } from "../../app/interfaces/BuscadorI"
 import { useState } from "react";
 import TablaOrdenada from "../../app/components/Tabla/TablaOrdenada";
@@ -15,17 +15,13 @@ interface SucursalTableDataWithId extends SucursalTableData {
     id: string;
 }
 
-interface FooterValues {
-    columnId: string;
-    value: string;
-}
 
 interface TablaConFotosensiblesProps {
     data: Datum[];
     filtro: filtroBuscadorI;
     empresa?: string;
     tipoTabla: string;
-    footerValues?: FooterValues[] | undefined;
+    footerValues?: FooterValues[];
 }
 
 export const TablaSucursales = ({ data, filtro, tipoTabla, footerValues }: TablaConFotosensiblesProps) => {
