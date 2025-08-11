@@ -115,7 +115,7 @@ const TableComponent = <T extends Record<string, any>>({
       const id = getRowId(row);
       onActionClick(id);
     } else if (onActionClick) {
-      const id = row.id || row.uuid || row.key;
+      const id = row.id || row.uuid || row.key || row.idAsesor;
       if (id) {
         onActionClick(String(id));
       }
