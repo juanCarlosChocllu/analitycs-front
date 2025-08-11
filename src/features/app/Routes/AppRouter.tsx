@@ -6,6 +6,8 @@ import { Layout } from "../Layout/Layout"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { MetaSucursal } from "../../Metas Sucursal/pages/MetaSucursal"
 import { RendimientoAsesoresPage } from "../../Sucursal/pages/RendimientoAsesoresPage"
+import { LentePage } from "../../Lente/pages/LentePage"
+import { AsesorLente } from "../../Lente/pages/AsesorLente"
 
 export const AppRouter = () => {
   return (
@@ -19,6 +21,8 @@ export const AppRouter = () => {
           <Route path="/comparaciones" element={<ComparativoPage />} />
           <Route path="/metas/sucursal" element={<MetaSucursal />} />
           <Route path="/rendimiento" element={<RendimientoAsesoresPage />} />
+          <Route path="/kpi/lentes" element={<LentePage />} />
+          <Route path="/kpi/asesores" element={<AsesorLente />} />
         </Routes>
       </Layout>
 

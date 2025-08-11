@@ -117,7 +117,7 @@ export const TotalMedicos = ({ dataActual, dataAnterior }: TotalMedicosProps) =>
                               }`} >{calcularVariacionPorcentual(ventasLenteLcActual, ventasLenteLcAnterior)} %
                             </TableCell>
                             <TableCell className="px-4 py-2 text-left text-sm font-medium text-gray-700">
-                                {ventasLenteLcActual}
+                                {ventasLenteLcAnterior}
                             </TableCell>
                             <TableCell className="px-4 py-2 text-left text-sm font-medium text-gray-700">
                                 {recetasAnterior}
