@@ -1,9 +1,9 @@
 import { Box } from "@mui/material";
 import { TablaSucursales } from "./TablaSucursales";
 
-import type { Datum, FooterValues, Kpisucursal } from "../interface/sucursal.interface";
+import type {  Kpisucursal } from "../interface/sucursal.interface";
 import type { filtroBuscadorI } from "../../app/interfaces/BuscadorI";
-import { calculateFooterOpticentro, footerOpticentro } from "../utils/footerOptiCentro";
+import { calculateFooterOpticentro } from "../utils/footerOptiCentro";
 import { calculateFooterEconoVision } from "../utils/footerEconoVision";
 import { calculateFooterTuOptica } from "../utils/footerTuOptica";
 import { calculateFooterOferService } from "../utils/footerOferService";
@@ -69,7 +69,7 @@ export const TablaEmpresas = ({ data, filtro }: TablaTotalEmpresaProps) => {
                                 filtro={filtro}
                                 empresa={item.idEmpresa}
                                 tipoTabla='fotocromatico'
-                                footerValues={calculateFooterOferService(item.data)}
+                                footerValues={calculateFooterOferService(item.data) }
                             />
                         </Box>
                     );
