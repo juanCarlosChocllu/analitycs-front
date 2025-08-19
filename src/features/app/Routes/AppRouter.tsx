@@ -8,13 +8,20 @@ import { MetaSucursal } from "../../Metas Sucursal/pages/MetaSucursal"
 import { RendimientoAsesoresPage } from "../../Sucursal/pages/RendimientoAsesoresPage"
 import { LentePage } from "../../Lente/pages/LentePage"
 import { AsesorLente } from "../../Lente/pages/AsesorLente"
+import { AutenticacionAsesoresPage } from "../../Autenticacion/page/AutenticacionAsesoresPage"
+import { useContext } from "react"
+import { AutenticacionContext } from "../context/AuntenticacionProvider"
+import { RendimientoDiarioPage } from "../../RendimientoDiario/page/RendimientoDiarioPage"
+import { InicioAsesorPage } from "../../Asesor/page/InicioAsesorPage"
+
 
 export const AppRouter = () => {
+  const {isAuntenticacion}=useContext(AutenticacionContext)
   return (
     <BrowserRouter>
-
       <Layout>
         <Routes>
+          
           <Route path="/kpi/medicos" element={<Medicos />} />
           <Route path="/kpi/receta/medico" element={<RecetaMedico />} />
           <Route path="/indicadores/sucursal" element={<IndicadoresSucursalPage />} />
@@ -23,6 +30,10 @@ export const AppRouter = () => {
           <Route path="/rendimiento" element={<RendimientoAsesoresPage />} />
           <Route path="/kpi/lentes" element={<LentePage />} />
           <Route path="/kpi/asesores" element={<AsesorLente />} />
+
+          <Route path="/asesor" element={<AutenticacionAsesoresPage/>}/>  
+   <Route path="/asesor/inicio" element={<InicioAsesorPage/>}/>  
+          <Route path="/rendimiento/diario" element={<RendimientoDiarioPage/>}/>
         </Routes>
       </Layout>
 
