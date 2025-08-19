@@ -13,6 +13,7 @@ import { useContext } from "react"
 import { AutenticacionContext } from "../context/AuntenticacionProvider"
 import { RendimientoDiarioPage } from "../../RendimientoDiario/page/RendimientoDiarioPage"
 import { InicioAsesorPage } from "../../Asesor/page/InicioAsesorPage"
+import { ListarRendimientoAsesorPage } from "../../RendimientoDiario/page/ListarRendimientoAsesorPage"
 
 
 export const AppRouter = () => {
@@ -32,8 +33,9 @@ export const AppRouter = () => {
           <Route path="/kpi/asesores" element={<AsesorLente />} />
 
           <Route path="/asesor" element={<AutenticacionAsesoresPage/>}/>  
-   <Route path="/asesor/inicio" element={<InicioAsesorPage/>}/>  
+        <Route path="/asesor/inicio" element={<InicioAsesorPage/>}/>  
           <Route path="/rendimiento/diario" element={<RendimientoDiarioPage/>}/>
+            <Route path="/listar/rendimiento/asesor" element={<ListarRendimientoAsesorPage/>}/>
         </Routes>
       </Layout>
 

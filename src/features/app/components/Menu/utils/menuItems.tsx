@@ -73,8 +73,21 @@ export const menuItems = [
         {text: 'Metas sucursal', icon: <Circle className="text-white w-3 h-3" /> , link: '/metas/sucursal'}, 
       ] 
      },
-    { 
+
+     { 
     id: 8,
+    text: 'Rendimiento asesor', icon: <Target className="text-white" />,
+      items: [
+        {text: 'Inicio', icon: <Circle className="text-white w-3 h-3" /> , link: '/asesor/inicio'},
+        {text: 'Listar', icon: <Circle className="text-white w-3 h-3" /> , link: '/rendimiento/diario'}, 
+        {text: 'Listar redimiento por sucursal', icon: <Circle className="text-white w-3 h-3" /> , link: '/listar/rendimiento/asesor'}, 
+       
+      ] 
+     },
+     
+     
+    { 
+    id: 9,
     text: 'Usuarios', icon: <Users className="text-white" />,
       items: [
         {text: 'Listar Usuarios', icon: <Circle className="text-white w-3 h-3" /> , link: '/usuarios'}, 

@@ -10,3 +10,12 @@ export async function listarAsesorSucursal():Promise<asesorSucursalI[]>{
         throw error
     }
 }
+
+export async function asignarSucursal(asesor:string):Promise<{status:number}>{
+    try {
+        const response = await comisionesInstance.get(`usuario/asignar/sucursal/${asesor}`)
+        return response.data
+    } catch (error) {
+        throw error
+    }
+}
