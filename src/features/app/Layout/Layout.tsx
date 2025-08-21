@@ -5,9 +5,10 @@ import dayjs from "dayjs";
 import "dayjs/locale/es";
 import { ultimaDescarga } from "../service/appService";
 import type { UltimaDescarga } from "../interfaces/UltimaDescarga";
+import { Outlet } from "react-router";
 dayjs.locale("es");
 
-export const Layout = ({ children }: { children: React.ReactNode }) => {
+export const Layout = () => {
   const [open, setOpen] = useState(false);
   const [fechaUltimaDescarga, setFechaUltimaDescarga] = useState<UltimaDescarga[]>();
   const toggleMenuOpen = () => {
@@ -39,7 +40,9 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         <AlignJustify className="text-white" width={20} height={20} />
       </button>
       <MenuLateral open={open} setOpen={setOpen} />
-      {children}
+       <div className="flex-1 overflow-y-auto p-6 bg-white">
+        <Outlet /> {/* ⬅️ ESTA ES LA CLAVE */}
+      </div>
     </div>
   );
 };

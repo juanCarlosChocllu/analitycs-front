@@ -50,3 +50,18 @@ export async function  getSucursalesPorEmpresa(empresa:string):Promise<SucursalI
   
   
   }
+
+    export async function  verificarRol():Promise<{rol:string,_id:string}>{
+    try {
+      const response = await comisionesInstance.get(`usuario/verificar/rol`)
+      console.log(response);
+      
+      return response.data
+    } catch (error) {
+      throw error
+      
+      
+    }
+  
+  
+  }

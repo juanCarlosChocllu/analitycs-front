@@ -93,15 +93,6 @@ export const AutenticacionAsesor = () => {
             Ingresar
           </Button>
         </form>
-
-        <div className="mt-6 text-center">
-          <Typography variant="body2" className="text-gray-500">
-            ¿Olvidaste tu contraseña?{' '}
-            <span className="text-blue-700 hover:underline cursor-pointer">
-              Recuperar acceso
-            </span>
-          </Typography>
-        </div>
       </Paper>
     </div>
   );
