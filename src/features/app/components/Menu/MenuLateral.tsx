@@ -6,15 +6,18 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { X, LogOut } from "lucide-react";
 import { menuItems } from "./utils/menuItems";
+import { AutenticacionContext } from "../../context/AuntenticacionProvider";
+import type { MenuItem } from "../../interfaces/menu";
 
 export const MenuLateral = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean) => void }) => {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [itemSelected, setItemSelected] = useState<number | null>(null);
+  const {rol} =useContext(AutenticacionContext)
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
@@ -34,8 +37,9 @@ export const MenuLateral = ({ open, setOpen }: { open: boolean; setOpen: (open: 
     setOpen(false);
     setIsMenuOpen(false);
   };
+ const menu = filterMenuByRole(menuItems, rol);
 
-
+  
   const DrawerList = (
     <Box
       sx={{ width: 250 }}
@@ -53,7 +57,7 @@ export const MenuLateral = ({ open, setOpen }: { open: boolean; setOpen: (open: 
       </div>
       <Divider color="gray" variant="fullWidth" className="mb-2" />
       <List>
-        {menuItems.map((item) => (
+        {menu.map((item) => (
           <>
             <ListItem key={item.id} disablePadding>
               <ListItemButton
@@ -122,3 +126,23 @@ export const MenuLateral = ({ open, setOpen }: { open: boolean; setOpen: (open: 
     </div>
   );
 };
+
+function filterMenuByRole(menuItems: MenuItem[], rol: string): MenuItem[] {
+  return menuItems
+    .map((menuItem) => {
+      const hasMenuAccess = !menuItem.roles || menuItem.roles.includes(rol);
+      if (!hasMenuAccess) return null;
+
+
+      const filteredSubItems = menuItem.items?.filter(
+        (subItem) => !subItem.roles || subItem.roles.includes(rol)
+      ) || [];
+
+   
+      return {
+        ...menuItem,
+        items: filteredSubItems,
+      };
+    })
+    .filter((menuItem): menuItem is MenuItem => menuItem !== null);
+}
