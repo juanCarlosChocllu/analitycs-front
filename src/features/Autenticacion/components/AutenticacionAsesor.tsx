@@ -12,7 +12,7 @@ import { autenticacionAsesorService } from '../service/autenticacionService';
 import { useContext } from 'react';
 import { AutenticacionContext } from '../../app/context/AuntenticacionProvider';
 export const AutenticacionAsesor = () => {
-  const {register, handleSubmit, formState:{errors}}=useForm<autenticacion>()
+  const {register, handleSubmit}=useForm<autenticacion>()
   const {guardarToken}=useContext(AutenticacionContext)
   const onSubmit = async (data:autenticacion)=>{
     try {

@@ -4,7 +4,7 @@ import { verificarRol } from "../service/baseService";
 
 export const AutenticacionContext = createContext<AutenticacionContextI>({
     isAuntenticacion:false,
-    guardarToken(token) {},
+    guardarToken() {},
     rol:''
 })
 

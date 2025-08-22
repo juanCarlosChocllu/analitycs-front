@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import {
   Modal,
   Box,
@@ -9,6 +9,8 @@ import {
 import { useForm, Controller } from 'react-hook-form';
 import type { registrarRendimientoDiarioI } from '../interface/RendimientoDiario';
 import { registrarRendimientoDiarioAsesor } from '../service/RendimientoDiarioService';
+import type { AxiosError } from 'axios';
+import toast from 'react-hot-toast';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -24,7 +26,7 @@ const style = {
 
 
 
-export const RegistrarRendimientoDiarioModal = () => {
+export const RegistrarRendimientoDiarioModal = ({reload,setReload}:{reload:boolean, setReload:(data:boolean) => void}) => {
   const [open, setOpen] = useState(false);
   const { control, handleSubmit, reset, formState: { errors } } = useForm<registrarRendimientoDiarioI>({
     defaultValues: {
@@ -36,21 +38,30 @@ export const RegistrarRendimientoDiarioModal = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
-    reset(); 
+    reset();
   };
 
-  const onSubmit = async(data: registrarRendimientoDiarioI) => {
-     try {
-        data.atenciones= Number(data.atenciones)
-         data.segundoPar= Number(data.segundoPar)
-        
-         const response = await registrarRendimientoDiarioAsesor(data)
-   
-    handleClose();
-     } catch (error) {
-            console.log(error);
-            
-     }
+  const onSubmit = async (data: registrarRendimientoDiarioI) => {
+    try {
+      data.atenciones = Number(data.atenciones)
+      data.segundoPar = Number(data.segundoPar)
+      await registrarRendimientoDiarioAsesor(data)
+      setReload(!reload)
+      handleClose();
+    } catch (error) {
+      const e = error as AxiosError
+      console.log(e.status);
+
+      if (e.response?.status === 409) {
+        const mensaje = (e.response.data as { message: string }).message;
+        toast.error(mensaje)
+      }
+       if (e.response?.status === 400) {
+        const mensaje = (e.response.data as { message: string }).message;
+        toast.error(mensaje)
+      }
+
+    }
   };
 
   return (

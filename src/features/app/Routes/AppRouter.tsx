@@ -9,15 +9,14 @@ import { RendimientoAsesoresPage } from "../../Sucursal/pages/RendimientoAsesore
 import { LentePage } from "../../Lente/pages/LentePage";
 import { AsesorLente } from "../../Lente/pages/AsesorLente";
 import { AutenticacionAsesoresPage } from "../../Autenticacion/page/AutenticacionAsesoresPage";
-import { useContext } from "react";
-import { AutenticacionContext } from "../context/AuntenticacionProvider";
+
 import { RendimientoDiarioPage } from "../../RendimientoDiario/page/RendimientoDiarioPage";
 import { InicioAsesorPage } from "../../Asesor/page/InicioAsesorPage";
 import { ListarRendimientoAsesorPage } from "../../RendimientoDiario/page/ListarRendimientoAsesorPage";
 import { AutenticacionPage } from "../../Autenticacion/page/AutenticacionPage";
 
 export const AppRouter = () => {
-  const { isAuntenticacion  } = useContext(AutenticacionContext);
+  //const { isAuntenticacion  } = useContext(AutenticacionContext);
   return (
        <BrowserRouter>
       <Routes>

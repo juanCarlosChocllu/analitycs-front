@@ -9,10 +9,13 @@ import {
   tasaDeConversion,
   ticketPromedio,
 } from "../../../app/util/ticketPromedio";
+import { Loader } from "../../../app/components/loader/Loader";
 
 export const ListarRendimiento = () => {
   const [filtro, setFiltro] = useState<filtroBuscadorI>({});
   const [datos, setDatos] = useState<DatosAsesor[]>([]);
+
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     listarRendimiento();
@@ -20,10 +23,15 @@ export const ListarRendimiento = () => {
 
   const listarRendimiento = async () => {
     try {
+      setLoading(true)
       const response = await listarRendimientoAsesor(filtro);
       
       setDatos(response.filter((item)=> item.ventas.length > 0));
+      setLoading(false)
+     
     } catch (error) {
+       setLoading(false)
+      
       console.log(error);
     }
   };
@@ -261,6 +269,9 @@ export const ListarRendimiento = () => {
             )}
           </div>
         ))}
+
+
+        {loading && <Loader/>}
       </div>
     </>
   );

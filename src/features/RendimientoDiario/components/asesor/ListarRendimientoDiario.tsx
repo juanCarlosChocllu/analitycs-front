@@ -7,7 +7,9 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Typography
+  Typography,
+  Pagination,
+  Box
 } from '@mui/material';
 
 import { RegistrarRendimientoDiarioModal } from '../../modal/RegistrarRendimientoDiarioModal';
@@ -15,30 +17,41 @@ import { listarRendimientoDiarioAsesor } from '../../service/RendimientoDiarioSe
 import type { RendimientoDiarioI } from '../../interface/RendimientoDiario';
 import { mostrarEnDia } from '../../utils/mostrarDia';
 
-
 export const ListarRendimientoDiario = () => {
-    const [data, setdata] = useState<RendimientoDiarioI[]>([])
-    useEffect(()=>{
-    listar()
-    },[])
+  const [data, setData] = useState<RendimientoDiarioI[]>([]);
+  const [paginaActual, setPaginaActual] = useState<number>(1);
+  const [totalPaginas, setTotalPaginas] = useState<number>(1);
+   const [reload, setReload] = useState<boolean>(false);
 
-    const listar =async()=>{
-        try {
-            const response = await listarRendimientoDiarioAsesor()
-            setdata(response)
-        } catch (error) {
-            console.log('c',error);
-            
-        }
+  useEffect(() => {
+    listar(paginaActual);
+  }, [paginaActual,reload]);
+
+  const listar = async (pagina: number) => {
+    try {
+      const response = await listarRendimientoDiarioAsesor(pagina); 
+      
+  
+      setData(response.data);
+      setTotalPaginas(response.paginas);
+      setPaginaActual(response.paginaActual);
+    } catch (error) {
+      console.error('Error al listar rendimiento diario', error);
     }
+  };
+
+  const handleCambioPagina = (_: React.ChangeEvent<unknown>, value: number) => {
+    setPaginaActual(value);
+  };
+
   return (
-    <TableContainer 
-      component={Paper}
-    >
+    <TableContainer component={Paper}>
       <Typography variant="h6" gutterBottom sx={{ textAlign: 'center', fontWeight: 'bold' }}>
         Rendimiento Diario
       </Typography>
-      <RegistrarRendimientoDiarioModal/>
+      
+      <RegistrarRendimientoDiarioModal reload={reload}  setReload={setReload}/>
+
       <Table sx={{ minWidth: 650 }} aria-label="tabla rendimiento diario">
         <TableHead>
           <TableRow sx={{ backgroundColor: 'primary.main' }}>
@@ -64,6 +77,15 @@ export const ListarRendimientoDiario = () => {
           ))}
         </TableBody>
       </Table>
+
+      <Box display="flex" justifyContent="center" my={2}>
+        <Pagination
+          count={totalPaginas}
+          page={paginaActual}
+          onChange={handleCambioPagina}
+          color="primary"
+        />
+      </Box>
     </TableContainer>
   );
 };

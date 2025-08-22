@@ -30,3 +30,9 @@ export interface DatosAsesor {
   sucursal: string;
   ventas: Venta[];
 }
+
+export interface responseRendimiento<T> {
+  paginas:1,
+  data:T[],
+  paginaActual:number
+}
