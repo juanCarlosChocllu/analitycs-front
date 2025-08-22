@@ -1,20 +1,20 @@
 import type { filtroBuscadorI } from "../../app/interfaces/BuscadorI"
 import type { DataDetalle, DetalleVenta } from "../../app/interfaces/DetalleVenta.interface"
 import { instance } from "../../app/service/instaceAxios"
-import type { MetaSucursalI } from "../interfaces/metaSucursal.interfaces"
+import type { DataMeta, MetaSucursalI } from "../interfaces/metaSucursal.interfaces"
 
 
-export const crearMetaSucursal= async(data: any)=>{
+export const crearMetaSucursal= async(data: DataMeta)=>{
 try {
     const response = await instance.post('metas/sucursal',data)
-    return response.data
+    return response
 } catch (error) {
     throw error
 }
 
 }
 
-export const listarMetasScursal= async(parametros: any, limite: number, pagina: number)=>{
+export const listarMetasScursal= async(parametros: any, limite: number, pagina: number): Promise<any>=>{
     const parmas:any ={
         limite,
         pagina
@@ -51,6 +51,7 @@ export const listarMetasScursal= async(parametros: any, limite: number, pagina: 
     )
         return response.data
     } catch (error) {
+        console.log(error)
         throw error
     }
     
@@ -124,4 +125,35 @@ export const detalleVenta = async(data: DataDetalle): Promise<DetalleVenta[]>=>{
         throw error
     }
 }
+
+
+
+export const listarMetasScursales = async (
+  params: Partial<{
+    sucursal: string;
+    fechaInicio: string;
+    fechaFin: string;
+    fechaMetaInicio: string;
+    fechaMetaFin: string;
+  }>,
+  limit: number,
+  page: number
+): Promise<any> => {
+  const queryParams = Object.entries(params)
+    .filter(([_, value]) => value)
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {
+      limit,
+      page,
+    });
+
+  try {
+    const response = await instance.get('metas/sucursal', {
+      params: queryParams,
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
 
