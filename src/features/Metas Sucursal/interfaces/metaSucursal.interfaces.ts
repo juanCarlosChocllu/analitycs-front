@@ -43,3 +43,23 @@ export interface filtroFecha {
 fechaInicio: string;
 fechaFin: string;
 }
+
+export interface MetasSucursales {
+  _id:         string;
+  monto:       number;
+  ticket:      number;
+  dias:        number;
+  sucursal:    string;
+  fechaInicio: Date;
+  fechaFin:    Date;
+  fecha:       Date;
+}
+
+export interface DataMeta {
+  monto:       number;
+  ticket:      number;
+  dias:        number;
+  fechaInicio: string;
+  fechaFin:    string;
+  sucursal:    string[];
+}
