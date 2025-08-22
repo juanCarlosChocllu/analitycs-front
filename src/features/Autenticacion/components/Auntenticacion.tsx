@@ -20,7 +20,7 @@ export const Autenticacion = () => {
       const response = await autenticacion2(data);
       if (response.status === 200) {
         guardarToken(response.token);
-        window.location.href = "/asesor/inicio";
+        window.location.href = "/inicio";
       }
     } catch (error) {
       console.error(error);
