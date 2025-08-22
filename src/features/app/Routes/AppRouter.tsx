@@ -15,17 +15,6 @@ import { RendimientoDiarioPage } from "../../RendimientoDiario/page/RendimientoD
 import { InicioAsesorPage } from "../../Asesor/page/InicioAsesorPage";
 import { ListarRendimientoAsesorPage } from "../../RendimientoDiario/page/ListarRendimientoAsesorPage";
 import { AutenticacionPage } from "../../Autenticacion/page/AutenticacionPage";
-
-import { ComparativoPage } from "../../Comparativos/page/ComparativoPage"
-import Medicos from "../../Medicos/pages/Medicos"
-import { RecetaMedico } from "../../Medicos/pages/RecetaMedico"
-import { IndicadoresSucursalPage } from "../../Sucursal/pages/IndicadoresSucursalPage"
-import { Layout } from "../Layout/Layout"
-import { BrowserRouter, Routes, Route } from "react-router-dom"
-import { MetaSucursal } from "../../Metas Sucursal/pages/MetaSucursal"
-import { RendimientoAsesoresPage } from "../../Sucursal/pages/RendimientoAsesoresPage"
-import { LentePage } from "../../Lente/pages/LentePage"
-import { AsesorLente } from "../../Lente/pages/AsesorLente"
 import FormDia from "../../Metas/components/FormDia"
 import { DiasPage } from "../../Metas/pages/DiasPage"
 import { MetasSucursales } from "../../Metas Sucursal/pages/MetasSucursales"
@@ -54,17 +43,12 @@ export const AppRouter = () => {
           <Route path="/asesor/inicio" element={<InicioAsesorPage />} />
           <Route path="/rendimiento/diario" element={<RendimientoDiarioPage />} />
           <Route path="/listar/rendimiento/asesor" element={<ListarRendimientoAsesorPage />} />
-        </Route>
-      </Routes>
-
           <Route path="/kpi/asesores" element={<AsesorLente />} />
           <Route path="/metas/dia" element={<FormDia />} />
           <Route path="/dias/listar" element={<DiasPage />} />	
           <Route path="/usuarios" element={<UsuarioPage />} />
-        </Routes>
-      </Layout>
-
-
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
 };
