@@ -21,40 +21,42 @@ import { MetasSucursales } from "../../Metas Sucursal/pages/MetasSucursales"
 import { UsuarioPage } from "../../Usuario/pages/UsuarioPage"
 import { useContext } from "react";
 import { AutenticacionContext } from "../context/AuntenticacionProvider";
+import { Home } from "../components/Home/Home";
 
 
 export const AppRouter = () => {
-  const { isAuntenticacion  } = useContext(AutenticacionContext);
+  const { isAuntenticacion } = useContext(AutenticacionContext);
   return (
-       <BrowserRouter>
+    <BrowserRouter>
       <Routes>
-        
+
         <Route path="/" element={<AutenticacionPage />} />
         <Route path="/asesor" element={<AutenticacionAsesoresPage />} />
         <Route element={<Layout />}>
-        {
-          isAuntenticacion && (
-            <>    
-              <Route path="/kpi/asesores" element={<AsesorLente />} />
-              <Route path="/kpi/medicos" element={<Medicos />} />
-              <Route path="/kpi/receta/medico" element={<RecetaMedico />} />
-              <Route path="/indicadores/sucursal" element={<IndicadoresSucursalPage />} />
-              <Route path="/comparaciones" element={<ComparativoPage />} />
-              <Route path="/metas/sucursal" element={<MetaSucursal />} />
-              <Route path="/metas/listar" element={<MetasSucursales />} />
-              <Route path="/rendimiento" element={<RendimientoAsesoresPage />} />
-              <Route path="/kpi/lentes" element={<LentePage />} />
-    
-              <Route path="/asesor/inicio" element={<InicioAsesorPage />} />
-              <Route path="/rendimiento/diario" element={<RendimientoDiarioPage />} />
-              <Route path="/listar/rendimiento/asesor" element={<ListarRendimientoAsesorPage />} />
-              <Route path="/kpi/asesores" element={<AsesorLente />} />
-              <Route path="/metas/dia" element={<FormDia />} />
-              <Route path="/dias/listar" element={<DiasPage />} />	
-              <Route path="/usuarios" element={<UsuarioPage />} />
+          {
+            isAuntenticacion && (
+              <>
+                <Route path="/inicio" element={<Home />} />
+                <Route path="/kpi/asesores" element={<AsesorLente />} />
+                <Route path="/kpi/medicos" element={<Medicos />} />
+                <Route path="/kpi/receta/medico" element={<RecetaMedico />} />
+                <Route path="/indicadores/sucursal" element={<IndicadoresSucursalPage />} />
+                <Route path="/comparaciones" element={<ComparativoPage />} />
+                <Route path="/metas/sucursal" element={<MetaSucursal />} />
+                <Route path="/metas/listar" element={<MetasSucursales />} />
+                <Route path="/rendimiento" element={<RendimientoAsesoresPage />} />
+                <Route path="/kpi/lentes" element={<LentePage />} />
+
+                <Route path="/asesor/inicio" element={<InicioAsesorPage />} />
+                <Route path="/rendimiento/diario" element={<RendimientoDiarioPage />} />
+                <Route path="/listar/rendimiento/asesor" element={<ListarRendimientoAsesorPage />} />
+                <Route path="/kpi/asesores" element={<AsesorLente />} />
+                <Route path="/metas/dia" element={<FormDia />} />
+                <Route path="/dias/listar" element={<DiasPage />} />
+                <Route path="/usuarios" element={<UsuarioPage />} />
               </>
-          )
-        }
+            )
+          }
         </Route>
       </Routes>
     </BrowserRouter>

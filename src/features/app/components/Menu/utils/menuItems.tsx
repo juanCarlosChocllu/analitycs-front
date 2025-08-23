@@ -105,7 +105,7 @@ export const menuItems: MenuItem[] = [
     ]
   },
   {
-    id: 9,
+    id: 10,
     roles: ['ADMINISTRADOR'],
     text: 'Logs del sistema', icon: <FileText className="text-white" />,
     items: [

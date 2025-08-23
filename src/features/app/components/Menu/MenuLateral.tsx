@@ -17,7 +17,7 @@ export const MenuLateral = ({ open, setOpen }: { open: boolean; setOpen: (open: 
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [itemSelected, setItemSelected] = useState<number | null>(null);
-  const {rol} =useContext(AutenticacionContext)
+  const { rol } = useContext(AutenticacionContext)
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
@@ -27,19 +27,24 @@ export const MenuLateral = ({ open, setOpen }: { open: boolean; setOpen: (open: 
   };
   const navigarPagina = (link: string) => {
     console.log(link);
-    
+
     const isExternal = link.startsWith("https");
     if (isExternal) {
-       window.location.href = link;
+      window.location.href = link;
     } else {
       navigate(link);
     }
     setOpen(false);
     setIsMenuOpen(false);
   };
- const menu = filterMenuByRole(menuItems, rol);
+  const menu = filterMenuByRole(menuItems, rol);
 
-  
+  const handleLogout = () => {
+    localStorage.removeItem('ctx');
+    navigate('/');
+    setOpen(false);
+  }
+
   const DrawerList = (
     <Box
       sx={{ width: 250 }}
@@ -103,9 +108,7 @@ export const MenuLateral = ({ open, setOpen }: { open: boolean; setOpen: (open: 
               marginY: "0.2rem",
               "&:hover": { backgroundColor: "#324155" },
             }}
-            onChange={() => {
-              navigarPagina("/logout");
-            }}
+            onClick={handleLogout}
           >
             <ListItemIcon>
               <LogOut className="text-white" />
@@ -138,7 +141,7 @@ function filterMenuByRole(menuItems: MenuItem[], rol: string): MenuItem[] {
         (subItem) => !subItem.roles || subItem.roles.includes(rol)
       ) || [];
 
-   
+
       return {
         ...menuItem,
         items: filteredSubItems,
