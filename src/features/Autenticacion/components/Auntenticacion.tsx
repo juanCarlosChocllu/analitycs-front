@@ -129,6 +129,7 @@ export const Autenticacion = () => {
             fullWidth
             size="large"
             aria-label="Ingresar al sistema"
+            variant="contained"
             sx={{
               borderRadius: 2,
               px: 3,
@@ -145,6 +146,7 @@ export const Autenticacion = () => {
           >
             Ingresar
           </Button>
+
         </form>
       </Paper>
     </div>
