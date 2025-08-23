@@ -46,20 +46,22 @@ export async function  eliminarUsuarios(id:string){
 
 }
 
-export async function perfil(){    
+export async function perfil():Promise<Usuario>{    
     try {
         const response = await instance.get(`usuarios/perfil`)
+        console.log(response.data)
         return response.data
     } catch (error) {
+        console.log(error)
         throw error
         
     }
 
 }
 
-export async function resetearContrasena(data:any, id:any){    
+export async function cambiarPassword(password:string, id:string){    
     try {
-        const response = await instance.post(`usuarios/resetear/contrasena/${id}`,data)
+        const response = await instance.post(`usuarios/resetear/contrasena/${id}`,{password})
         return response.data
     } catch (error) {
         throw error

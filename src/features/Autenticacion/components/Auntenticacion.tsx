@@ -6,6 +6,8 @@ import { autenticacion2 } from "../service/autenticacionService";
 import { useContext } from "react";
 import { AutenticacionContext } from "../../app/context/AuntenticacionProvider";
 import type { autenticacion } from "../interface/autenticaicon";
+import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 export const Autenticacion = () => {
   const {
@@ -14,21 +16,27 @@ export const Autenticacion = () => {
     formState: { errors },
   } = useForm<autenticacion>();
   const { guardarToken } = useContext(AutenticacionContext);
+  const navigate = useNavigate();
 
   const onSubmit = async (data: autenticacion) => {
     try {
       const response = await autenticacion2(data);
       if (response.status === 200) {
         guardarToken(response.token);
-        window.location.href = "/inicio";
+        navigate('/inicio');
       }
     } catch (error) {
       console.error(error);
+      toast.error('Usuario o contraseña incorrectos');
     }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 via-white to-blue-200 px-4">
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+      />
       <Paper
         elevation={10}
         className="w-full max-w-md p-10 rounded-3xl shadow-2xl border border-blue-200 backdrop-blur-sm bg-white/80"

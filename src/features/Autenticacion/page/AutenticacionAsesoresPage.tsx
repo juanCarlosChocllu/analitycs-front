@@ -1,4 +1,4 @@
-import { AutenticacionAsesor } from "../components/AutenticacionAsesor"
+import { AutenticacionAsesor } from "../Components/AutenticacionAsesor"
 
 export const AutenticacionAsesoresPage = () => {
   return (
