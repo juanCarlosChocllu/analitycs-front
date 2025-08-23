@@ -42,8 +42,6 @@ export const Home: React.FC = () => {
         }
     }, [isRegister])
 
-    const roles = ['Usuario', 'Administrador'];
-
     return (
         <Box className="min-h-screen p-4 md:p-8">
             <Toaster
@@ -142,9 +140,7 @@ export const Home: React.FC = () => {
                                         disabled
                                         className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 border-gray-200 bg-gray-50`}
                                     >
-                                        {roles.map(rol => (
-                                            <option key={rol} value={rol}>{rol}</option>
-                                        ))}
+                                        <option value={profile.rol}>{profile.rol}</option>
                                     </select>
                                 </div>
 
