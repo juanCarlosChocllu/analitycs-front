@@ -139,11 +139,11 @@ export const ModalHome: React.FC<Props> = ({ onClose, setIsRegister, id }) => {
                   <IconButton
                     aria-label="toggle password visibility"
                     onClick={() =>
-                      setShowPasswords((prev) => ({ ...prev, new: !prev.new }))
+                      setShowPasswords(prev => ({ ...prev, confirm: !prev.confirm}))
                     }
                     edge="end"
                   >
-                    {showPasswords.new ? <VisibilityOff /> : <Visibility />}
+                    {showPasswords.confirm ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
               ),
@@ -161,6 +161,8 @@ export const ModalHome: React.FC<Props> = ({ onClose, setIsRegister, id }) => {
             },
           }}
         />
+
+        
       </Box>
       <Typography variant="body2" color="error" sx={{ textAlign: 'center' }}>
         {mensaje}
