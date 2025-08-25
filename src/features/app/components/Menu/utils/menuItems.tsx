@@ -91,10 +91,10 @@ export const menuItems: MenuItem[] = [
       { text: 'Inicio', roles: ['ASESOR', 'GESTOR'], icon: <Circle className="text-white w-3 h-3" />, link: '/asesor/inicio' },
       { text: 'Listar', roles: ['ASESOR', 'GESTOR'], icon: <Circle className="text-white w-3 h-3" />, link: '/rendimiento/diario' },
       { text: 'Listar redimiento por sucursal',roles: ['ADMINISTRADOR'], icon: <Circle className="text-white w-3 h-3" />, link: '/listar/rendimiento/asesor' },
+      { text: 'rendimiento semanal',roles: ['ASESOR', 'GESTOR'], icon: <Circle className="text-white w-3 h-3" />, link: '/rendimiento/diario/asesor' },
 
     ]
   },
-
 
   {
     id: 9,

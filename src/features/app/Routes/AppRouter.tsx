@@ -21,7 +21,11 @@ import { MetasSucursales } from "../../Metas Sucursal/pages/MetasSucursales"
 import { UsuarioPage } from "../../Usuario/pages/UsuarioPage"
 import { useContext } from "react";
 import { AutenticacionContext } from "../context/AuntenticacionProvider";
+
+import { RendimientoDiarioAsesorPage } from "../../RendimientoDiario/page/RendimientoDiarioAsesorPage";
+
 import { Home } from "../components/Home/Home";
+
 
 
 export const AppRouter = () => {
@@ -33,6 +37,7 @@ export const AppRouter = () => {
         <Route path="/" element={<AutenticacionPage />} />
         <Route path="/asesor" element={<AutenticacionAsesoresPage />} />
         <Route element={<Layout />}>
+
           {
             isAuntenticacion && (
               <>
@@ -54,6 +59,7 @@ export const AppRouter = () => {
                 <Route path="/metas/dia" element={<FormDia />} />
                 <Route path="/dias/listar" element={<DiasPage />} />
                 <Route path="/usuarios" element={<UsuarioPage />} />
+
               </>
             )
           }

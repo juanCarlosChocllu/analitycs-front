@@ -1,8 +1,17 @@
 import { useEffect, useState } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
+
 import { BuscadorBase } from "../../../app/components/Buscador/BuscadorBase";
 import type { filtroBuscadorI } from "../../../app/interfaces/BuscadorI";
 import { listarRendimientoAsesor } from "../../service/RendimientoDiarioService";
-
 import type { DatosAsesor } from "../../interface/RendimientoDiario";
 import { mostrarEnDia } from "../../utils/mostrarDia";
 import {
@@ -14,7 +23,6 @@ import { Loader } from "../../../app/components/loader/Loader";
 export const ListarRendimiento = () => {
   const [filtro, setFiltro] = useState<filtroBuscadorI>({});
   const [datos, setDatos] = useState<DatosAsesor[]>([]);
-
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -23,15 +31,12 @@ export const ListarRendimiento = () => {
 
   const listarRendimiento = async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       const response = await listarRendimientoAsesor(filtro);
-      
-      setDatos(response.filter((item)=> item.ventas.length > 0));
-      setLoading(false)
-     
+      setDatos(response.filter((item) => item.ventas.length > 0));
+      setLoading(false);
     } catch (error) {
-       setLoading(false)
-      
+      setLoading(false);
       console.log(error);
     }
   };
@@ -62,7 +67,7 @@ export const ListarRendimiento = () => {
   return (
     <>
       <BuscadorBase setFiltro={setFiltro} filtro={filtro} />
-      <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
+      <div className="grid grid-cols-1 gap-6">
         {datos.map((asesorData, idx) => (
           <div key={idx} className="bg-gray-100 rounded-xl shadow-md p-4">
             <h2 className="text-lg font-semibold text-blue-600 mb-1">
@@ -88,181 +93,127 @@ export const ListarRendimiento = () => {
                     <h3 className="text-md font-bold text-gray-700 mb-2">
                       Semana {semanaIdx + 1} (desde {semanaInicio})
                     </h3>
-                    <div className="overflow-auto">
-                      <table className="min-w-full text-sm text-left border">
-                        <thead className="bg-blue-100">
-                          <tr>
-                            <th className="p-2 font-semibold border">
-                              Concepto
-                            </th>
+
+                    <TableContainer component={Paper}>
+                      <Table size="small" aria-label="rendimiento asesor">
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>Concepto</TableCell>
                             {ventasOrdenadas.map((venta, i) => (
-                              <th key={i} className="p-2 font-semibold border">
+                              <TableCell key={i}>
                                 {mostrarEnDia(venta.fecha)} {venta.fecha}
-                              </th>
+                              </TableCell>
                             ))}
-                            <th className="p-2 font-semibold border">Total</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr className="hover:bg-gray-50">
-                            <td className="p-2 border font-medium">Lentes</td>
-                            {ventasOrdenadas.map((venta, i) => (
-                              <td key={i} className="p-2 border">
-                                {venta.cantidadLente}
-                              </td>
-                            ))}
-                            <td className="p-2 border ">
-                              {ventasOrdenadas.reduce(
+                            <TableCell>Total</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {[
+                            {
+                              label: "Lentes",
+                              values: ventasOrdenadas.map((v) => v.cantidadLente),
+                              total: ventasOrdenadas.reduce(
                                 (acc, v) => acc + v.cantidadLente,
                                 0
-                              )}
-                            </td>
-                          </tr>
-                          <tr className="hover:bg-gray-50">
-                            <td className="p-2 border font-medium">Entregas</td>
-                            {ventasOrdenadas.map((venta, i) => (
-                              <td key={i} className="p-2 border">
-                                {venta.entregas}
-                              </td>
-                            ))}
-                            <td className="p-2 border">
-                              {ventasOrdenadas.reduce(
+                              ),
+                            },
+                            {
+                              label: "Entregas",
+                              values: ventasOrdenadas.map((v) => v.entregas),
+                              total: ventasOrdenadas.reduce(
                                 (acc, v) => acc + v.entregas,
                                 0
-                              )}
-                            </td>
-                          </tr>
-                          <tr className="hover:bg-gray-50">
-                            <td className="p-2 border font-medium">
-                              Progresivos
-                            </td>
-                            {ventasOrdenadas.map((venta, i) => (
-                              <td key={i} className="p-2 border">
-                                {venta.progresivos}
-                              </td>
-                            ))}
-                            <td className="p-2 border ">
-                              {ventasOrdenadas.reduce(
+                              ),
+                            },
+                            {
+                              label: "Progresivos",
+                              values: ventasOrdenadas.map((v) => v.progresivos),
+                              total: ventasOrdenadas.reduce(
                                 (acc, v) => acc + v.progresivos,
                                 0
-                              )}
-                            </td>
-                          </tr>
-                          <tr className="hover:bg-gray-50">
-                            <td className="p-2 border font-medium">
-                              Antireflejos
-                            </td>
-                            {ventasOrdenadas.map((venta, i) => (
-                              <td key={i} className="p-2 border">
-                                {venta.antireflejos}
-                              </td>
-                            ))}
-                            <td className="p-2 border ">
-                              {ventasOrdenadas.reduce(
+                              ),
+                            },
+                            {
+                              label: "Antireflejos",
+                              values: ventasOrdenadas.map((v) => v.antireflejos),
+                              total: ventasOrdenadas.reduce(
                                 (acc, v) => acc + v.antireflejos,
                                 0
-                              )}
-                            </td>
-                          </tr>
-                          <tr className="hover:bg-gray-50">
-                            <td className="p-2 border font-medium">Monto</td>
-                            {ventasOrdenadas.map((venta, i) => (
-                              <td key={i} className="p-2 border">
-                                Bs {venta.montoTotalVentas}
-                              </td>
-                            ))}
-                            <td className="p-2 border ">
-                              Bs{" "}
-                              {ventasOrdenadas
-                                .reduce((acc, v) => acc + v.montoTotalVentas, 0)
-                                .toFixed(2)}
-                            </td>
-                          </tr>
-                          <tr className="hover:bg-gray-50">
-                            <td className="p-2 border font-medium">Tickets</td>
-                            {ventasOrdenadas.map((venta, i) => (
-                              <td key={i} className="p-2 border">
-                                {venta.ticket}
-                              </td>
-                            ))}
-                            <td className="p-2 border">
-                              {ventasOrdenadas.reduce(
+                              ),
+                            },
+                            {
+                              label: "Monto",
+                              values: ventasOrdenadas.map(
+                                (v) => `Bs ${v.montoTotalVentas}`
+                              ),
+                              total:
+                                "Bs " +
+                                ventasOrdenadas
+                                  .reduce((acc, v) => acc + v.montoTotalVentas, 0)
+                                  .toFixed(2),
+                            },
+                            {
+                              label: "Tickets",
+                              values: ventasOrdenadas.map((v) => v.ticket),
+                              total: ventasOrdenadas.reduce(
                                 (acc, v) => acc + v.ticket,
                                 0
-                              )}
-                            </td>
-                          </tr>
-                          <tr className="hover:bg-gray-50">
-                            <td className="p-2 border font-medium">
-                              Atenciones
-                            </td>
-                            {ventasOrdenadas.map((venta, i) => (
-                              <td key={i} className="p-2 border">
-                                {venta.atenciones}
-                              </td>
-                            ))}
-                            <td className="p-2 border">
-                              {ventasOrdenadas.reduce(
+                              ),
+                            },
+                            {
+                              label: "Segundo Par",
+                              values: ventasOrdenadas.map((v) => v.segundoPar),
+                              total: ventasOrdenadas.reduce(
+                                (acc, v) => acc + v.segundoPar,
+                                0
+                              ),
+                            },
+                            {
+                              label: "Atenciones",
+                              values: ventasOrdenadas.map((v) => v.atenciones),
+                              total: ventasOrdenadas.reduce(
                                 (acc, v) => acc + v.atenciones,
                                 0
-                              )}
-                            </td>
-                          </tr>
-                          <tr className="hover:bg-gray-50">
-                            <td className="p-2 border font-medium">
-                              Ticket Promedio
-                            </td>
-                            {ventasOrdenadas.map((venta, i) => (
-                              <td key={i} className="p-2 border">
-                                Bs{" "}
-                                {ticketPromedio(
-                                  venta.ticket,
-                                  venta.montoTotalVentas
-                                )}
-                              </td>
-                            ))}
-                            <td className="p-2 border">
-                              Bs{" "}
-                              {ticketPromedio(
-                                ventasOrdenadas.reduce(
-                                  (acc, v) => acc + v.ticket,
-                                  0
-                                ),
+                              ),
+                            },
+                            {
+                              label: "Ticket Promedio",
+                              values: ventasOrdenadas.map((v) =>
+                                `Bs ${ticketPromedio(v.ticket, v.montoTotalVentas)}`
+                              ),
+                              total: `Bs ${ticketPromedio(
+                                ventasOrdenadas.reduce((acc, v) => acc + v.ticket, 0),
                                 ventasOrdenadas.reduce(
                                   (acc, v) => acc + v.montoTotalVentas,
                                   0
                                 )
-                              )}
-                            </td>
-                          </tr>
-                          <tr className="hover:bg-gray-50">
-                            <td className="p-2 border font-medium">
-                              Tasa de conversión
-                            </td>
-                            {ventasOrdenadas.map((venta, i) => (
-                              <td key={i} className="p-2 border">
-                                {tasaDeConversion(
-                                  venta.ticket,
-                                  venta.atenciones
-                                )}
-                              </td>
-                            ))}
-                            <td className="p-2 border ">
-                              {tasaDeConversion(
-                                ventasOrdenadas.reduce(
-                                  (acc, v) => acc + v.ticket,
-                                  0
-                                ),
+                              )}`,
+                            },
+                            {
+                              label: "Tasa de conversión",
+                              values: ventasOrdenadas.map((v) =>
+                                tasaDeConversion(v.ticket, v.atenciones)
+                              ),
+                              total: tasaDeConversion(
+                                ventasOrdenadas.reduce((acc, v) => acc + v.ticket, 0),
                                 ventasOrdenadas.reduce(
                                   (acc, v) => acc + v.atenciones,
                                   0
                                 )
-                              )}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
+                              ),
+                            },
+                          ].map((row, i) => (
+                            <TableRow key={i}>
+                              <TableCell>{row.label}</TableCell>
+                              {row.values.map((value, j) => (
+                                <TableCell key={j}>{value}</TableCell>
+                              ))}
+                              <TableCell>{row.total}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
                   </div>
                 );
               }
@@ -270,8 +221,7 @@ export const ListarRendimiento = () => {
           </div>
         ))}
 
-
-        {loading && <Loader/>}
+        {loading && <Loader />}
       </div>
     </>
   );
