@@ -23,7 +23,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { Pencil, PlusCircle, Trash2 } from "lucide-react";
-// import { EditarUsuarioPage } from "../components/EditarUsuarioPage";
+import { EditarUsuarioPage } from "./EditarUsuarioPage";
 
 export const UsuarioAsesorPage = () => {
   const [monstrarEdicion, setMostrarEdicion] = useState<boolean>(false);
@@ -139,13 +139,13 @@ export const UsuarioAsesorPage = () => {
             </Table>
           </TableContainer>
 
-          {/* {monstrarEdicion && (
+          { monstrarEdicion && (
             <EditarUsuarioPage
               usuario={usuarioEditar}
               mostrarEdicion={monstrarEdicion}
               setMostrarEdicion={setMostrarEdicion}
             />
-          )} */}
+          ) }
         </CardContent>
       </Card>
     </Container>

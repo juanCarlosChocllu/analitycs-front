@@ -11,7 +11,6 @@ import { Card, CardContent, CardHeader, Input } from "@mui/material";
 
 interface Props {
   usuario: UsuarioAsesor;
-  refetch:()=>void;
   setMostrarEdicion:(value:boolean)=>void;
   mostrarEdicion:boolean;
 
@@ -21,7 +20,7 @@ interface Props {
 
 export const EditarUsuarioPage = ({
   usuario,
-  refetch,
+
   mostrarEdicion,
   setMostrarEdicion
 }: Props) => {  
@@ -69,7 +68,7 @@ export const EditarUsuarioPage = ({
         if (response?.status === 200) {
 
           toast.success("Usuario creado exitosamente");
-          refetch()
+   
           setMostrarEdicion(!mostrarEdicion)
         } else {
 

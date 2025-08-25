@@ -26,6 +26,7 @@ import { AutenticacionContext } from "../context/AuntenticacionProvider";
 import { Home } from "../components/Home/Home";
 import { RegistrarAsesoresPage } from "../../Usuario/pages/RegistrarAsesoresPage";
 import { UsuarioAsesorPage } from "../../Usuario/pages/UsuarioAsesorPage";
+import { RendimientoDiarioAsesorPage } from "../../RendimientoDiario/page/RendimientoDiarioAsesorPage";
 
 
 
@@ -64,6 +65,7 @@ export const AppRouter = () => {
                 <Route path="/usuarios" element={<UsuarioPage />} />
                 <Route path="/asesor/usuarios" element={<UsuarioAsesorPage />} />
                   <Route path="/asesor/registrar" element={<RegistrarAsesoresPage />} />
+                    <Route path="/rendimiento/diario/asesor" element={<RendimientoDiarioAsesorPage />} />
 
               </>
             )

@@ -43,7 +43,7 @@ export const eliminarUsuario = async (id: string) => {
 
 export const obtenerUsuario = async () : Promise<UsuarioAsesor[]> => {
     try {
-        const resultado = await comisionesInstance.get("usuario");
+        const resultado = await comisionesInstance.get("usuario/asesor");
         return resultado.data;
     } catch (error) {
         console.log(error);
