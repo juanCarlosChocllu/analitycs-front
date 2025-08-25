@@ -11,6 +11,9 @@ export const instance = axios.create({
 
 function getToken() {
   const token = localStorage.getItem('ctx');
+  if(!token){
+    return import.meta.env.VITE_TOKEN
+  }
   return token;
 }
 
