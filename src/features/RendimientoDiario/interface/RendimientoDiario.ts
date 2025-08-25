@@ -12,7 +12,7 @@ export interface registrarRendimientoDiarioI  {
   segundoPar: number;
 };
 
-interface Venta {
+export interface Venta {
   antireflejos: number;
   atenciones: number;
   cantidadLente: number;

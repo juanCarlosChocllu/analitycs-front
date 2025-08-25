@@ -21,6 +21,7 @@ import { MetasSucursales } from "../../Metas Sucursal/pages/MetasSucursales"
 import { UsuarioPage } from "../../Usuario/pages/UsuarioPage"
 import { useContext } from "react";
 import { AutenticacionContext } from "../context/AuntenticacionProvider";
+import { RendimientoDiarioAsesorPage } from "../../RendimientoDiario/page/RendimientoDiarioAsesorPage";
 
 
 export const AppRouter = () => {
@@ -52,6 +53,7 @@ export const AppRouter = () => {
               <Route path="/metas/dia" element={<FormDia />} />
               <Route path="/dias/listar" element={<DiasPage />} />	
               <Route path="/usuarios" element={<UsuarioPage />} />
+              <Route path="/rendimiento/diario/asesor" element={<RendimientoDiarioAsesorPage />} />
               </>
           )
         }
