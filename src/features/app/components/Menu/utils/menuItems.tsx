@@ -20,7 +20,7 @@ export const menuItems: MenuItem[] = [
     icon: <House className="text-white" />,
     roles: ['ADMINISTRADOR'],
     items: [
-      { text: 'Perfil', icon: <Circle className="text-white w-3 h-3" />, link: 'https://analitycs-frontend.vercel.app/perfil' },
+      { text: 'Perfil', icon: <Circle className="text-white w-3 h-3" />, link: '/inicio' },
     ]
   },
   {
@@ -28,7 +28,7 @@ export const menuItems: MenuItem[] = [
     roles: ['ADMINISTRADOR'],
     text: 'Trafico', icon: <TrafficCone className="text-white" />,
     items: [
-      { text: 'Trafico', icon: <Circle className="text-white w-3 h-3" />, link: 'https://analitycs-frontend.vercel.app/trafico' },
+      { text: 'Trafico', icon: <Circle className="text-white w-3 h-3" />, link: '/inicio' },
     ]
   },
   {
@@ -56,10 +56,10 @@ export const menuItems: MenuItem[] = [
       { text: 'Kpi sucursal', icon: <Circle className="text-white w-3 h-3" />, link: '/kpi/lentes' },
       { text: 'Kpi asesor', icon: <Circle className="text-white w-3 h-3" />, link: '/kpi/asesores' },
       { text: 'Kpi material', icon: <Circle className="text-white w-3 h-3" />, link: 'https://analitycs-frontend.vercel.app/kpi/material' },
-      { text: 'Kpi monturas vip', icon: <Circle className="text-white w-3 h-3" />, link: 'https://analitycs-frontend.vercel.app/kpi/monturas/vip' },
-      { text: 'Kpi monturas', icon: <Circle className="text-white w-3 h-3" />, link: '/kpi/monturas' },
-      { text: 'Kpi lente de contacto', icon: <Circle className="text-white w-3 h-3" />, link: 'https://analitycs-frontend.vercel.app/kpi/lentes/contactos' },
-      { text: 'Kpi gafa', icon: <Circle className="text-white w-3 h-3" />, link: 'https://analitycs-frontend.vercel.app/kpi/gafa' },
+      // { text: 'Kpi monturas vip', icon: <Circle className="text-white w-3 h-3" />, link: 'https://analitycs-frontend.vercel.app/kpi/monturas/vip' },
+      // { text: 'Kpi monturas', icon: <Circle className="text-white w-3 h-3" />, link: '/kpi/monturas' },
+      // { text: 'Kpi lente de contacto', icon: <Circle className="text-white w-3 h-3" />, link: 'https://analitycs-frontend.vercel.app/kpi/lentes/contactos' },
+      // { text: 'Kpi gafa', icon: <Circle className="text-white w-3 h-3" />, link: 'https://analitycs-frontend.vercel.app/kpi/gafa' },
     ]
   },
   {
@@ -105,7 +105,7 @@ export const menuItems: MenuItem[] = [
     ]
   },
   {
-    id: 9,
+    id: 10,
     roles: ['ADMINISTRADOR'],
     text: 'Logs del sistema', icon: <FileText className="text-white" />,
     items: [

@@ -88,7 +88,19 @@ export const AutenticacionAsesor = () => {
             type="submit"
             fullWidth
             size="large"
-            className="!bg-gradient-to-r !from-blue-600 !to-blue-800 hover:!from-blue-700 hover:!to-blue-900 !text-white !py-3 !rounded-xl shadow-lg"
+            sx={{
+              borderRadius: 2,
+              px: 3,
+              py: 1.5,
+              fontWeight: 500,
+              textTransform: 'none',
+              fontSize: '1rem',
+              background: 'linear-gradient(45deg, #2196F3 30%, #3F51B5 90%)',
+              boxShadow: '0 3px 5px 2px rgba(33, 203, 243, .3)',
+              '&:hover': {
+                background: 'linear-gradient(45deg, #1976D2 30%, #303F9F 90%)',
+              },
+            }}
           >
             Ingresar
           </Button>

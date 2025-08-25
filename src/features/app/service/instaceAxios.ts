@@ -1,6 +1,5 @@
 import axios, { AxiosError } from "axios";
 
-const api_key = import.meta.env.VITE_API_KEY
 const url_api = import.meta.env.VITE_API_BASE_URL
 export const instance = axios.create({
   baseURL: `${url_api}/api/`,
@@ -9,10 +8,12 @@ export const instance = axios.create({
   },
   withCredentials: true,
 });
-console.log(import.meta.env.VITE_API_KEY);
 
 function getToken() {
-  const token = api_key//localStorage.getItem("token");
+  const token = localStorage.getItem('ctx');
+  if(!token){
+    return import.meta.env.VITE_TOKEN
+  }
   return token;
 }
 

@@ -6,6 +6,8 @@ import { autenticacion2 } from "../service/autenticacionService";
 import { useContext } from "react";
 import { AutenticacionContext } from "../../app/context/AuntenticacionProvider";
 import type { autenticacion } from "../interface/autenticaicon";
+import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 export const Autenticacion = () => {
   const {
@@ -14,21 +16,27 @@ export const Autenticacion = () => {
     formState: { errors },
   } = useForm<autenticacion>();
   const { guardarToken } = useContext(AutenticacionContext);
+  const navigate = useNavigate();
 
   const onSubmit = async (data: autenticacion) => {
     try {
       const response = await autenticacion2(data);
       if (response.status === 200) {
         guardarToken(response.token);
-        window.location.href = "/inicio";
+        navigate('/inicio');
       }
     } catch (error) {
       console.error(error);
+      toast.error('Usuario o contraseña incorrectos');
     }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 via-white to-blue-200 px-4">
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+      />
       <Paper
         elevation={10}
         className="w-full max-w-md p-10 rounded-3xl shadow-2xl border border-blue-200 backdrop-blur-sm bg-white/80"
@@ -120,11 +128,25 @@ export const Autenticacion = () => {
             type="submit"
             fullWidth
             size="large"
-            className="!bg-gradient-to-r !from-blue-600 !to-blue-800 hover:!from-blue-700 hover:!to-blue-900 !text-white !py-3 !rounded-xl shadow-lg"
             aria-label="Ingresar al sistema"
+            variant="contained"
+            sx={{
+              borderRadius: 2,
+              px: 3,
+              py: 1.5,
+              fontWeight: 500,
+              textTransform: 'none',
+              fontSize: '1rem',
+              background: 'linear-gradient(45deg, #2196F3 30%, #3F51B5 90%)',
+              boxShadow: '0 3px 5px 2px rgba(33, 203, 243, .3)',
+              '&:hover': {
+                background: 'linear-gradient(45deg, #1976D2 30%, #303F9F 90%)',
+              },
+            }}
           >
             Ingresar
           </Button>
+
         </form>
       </Paper>
     </div>
