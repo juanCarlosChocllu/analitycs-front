@@ -53,9 +53,15 @@ export const Home: React.FC = () => {
                 <Box sx={{ background: '#fff', borderRadius: 2, boxShadow: 1, p: 4, mb: 4 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <div className="bg-gradient-to-br from-blue-400 to-indigo-600 p-4 rounded-full">
+                            <Box 
+                            sx={{
+                                background: 'linear-gradient(to bottom right, rgba(82, 163, 255, 1), rgba(78, 56, 245, 1))',
+                                borderRadius: '50%',
+                                p: 2,
+                            }}
+                            >
                                 <User className="w-8 h-8 text-white" />
-                            </div>
+                            </Box>
                             <Box sx={{ ml: 2 }}>
                                 <Typography variant="h5" component="h2" gutterBottom>
                                     Perfil de Usuario
