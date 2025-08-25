@@ -22,14 +22,17 @@ import { UsuarioPage } from "../../Usuario/pages/UsuarioPage"
 import { useContext } from "react";
 import { AutenticacionContext } from "../context/AuntenticacionProvider";
 
-import { RendimientoDiarioAsesorPage } from "../../RendimientoDiario/page/RendimientoDiarioAsesorPage";
 
 import { Home } from "../components/Home/Home";
+import { RegistrarAsesoresPage } from "../../Usuario/pages/RegistrarAsesoresPage";
+import { UsuarioAsesorPage } from "../../Usuario/pages/UsuarioAsesorPage";
 
 
 
 export const AppRouter = () => {
   const { isAuntenticacion } = useContext(AutenticacionContext);
+
+  
   return (
     <BrowserRouter>
       <Routes>
@@ -59,6 +62,8 @@ export const AppRouter = () => {
                 <Route path="/metas/dia" element={<FormDia />} />
                 <Route path="/dias/listar" element={<DiasPage />} />
                 <Route path="/usuarios" element={<UsuarioPage />} />
+                <Route path="/asesor/usuarios" element={<UsuarioAsesorPage />} />
+                  <Route path="/asesor/registrar" element={<RegistrarAsesoresPage />} />
 
               </>
             )
