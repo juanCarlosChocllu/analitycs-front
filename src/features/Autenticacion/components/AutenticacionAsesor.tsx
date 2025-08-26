@@ -19,7 +19,7 @@ export const AutenticacionAsesor = () => {
       const response = await autenticacionAsesorService(data)
      if(response.status == 200){
         guardarToken(response.token)
-        window.location.href = '/asesor/inicio'
+        window.location.href = '/rendimiento/diario'
      }
     } catch (error) {
       console.log(error);

@@ -172,8 +172,7 @@ export const RegistrarAsesoresPage = () => {
                 {...register("rol", { required: "El rol es requerido" })}
               >
                 <MenuItem value="">Selecciona un rol</MenuItem>
-                <MenuItem value="ADMINISTRADOR">Administrador</MenuItem>
-                <MenuItem value="GESTOR">Gestor</MenuItem>
+                
                 <MenuItem value="ASESOR">Asesor</MenuItem>
               </Select>
               {errors.rol && (

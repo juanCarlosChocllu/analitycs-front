@@ -22,10 +22,13 @@ import {
   ListItem,
   IconButton,
 } from "@mui/material";
-import { Pencil, PlusCircle, Trash2 } from "lucide-react";
-import { EditarUsuarioPage } from "./EditarUsuarioPage";
 
-export const UsuarioAsesorPage = () => {
+import {  Pencil, PlusCircle, Trash2 } from "lucide-react";
+import { EditarUsuarioPage } from "./EditarUsuarioPage";
+import { AsignarSucursalModal } from "../../Asesor/modal/AsignarSucursalModal";
+
+export const ListarAsesorPage = () => {
+   const [reload, sertReload] = useState<boolean>(false);
   const [monstrarEdicion, setMostrarEdicion] = useState<boolean>(false);
   const [usuarioEditar, setUsuarioEditar] = useState<UsuarioAsesor>({
     _id: "",
@@ -34,9 +37,11 @@ export const UsuarioAsesorPage = () => {
     username: "",
     password: "",
     rol: "usuario",
+    asesor:"",
     flag: "activo",
     sucursales: [],
   });
+
   const [usuarios, setUsuarios] = useState<UsuarioAsesor[]>([]);
 
   const handleDelete = async (id: string) => {
@@ -51,11 +56,13 @@ export const UsuarioAsesorPage = () => {
 
   useEffect(() => {
     listar();
-  }, []);
+  }, [reload]);
 
   const listar = async () => {
     try {
       const response = await obtenerUsuario();
+      console.log(response);
+      
       setUsuarios(response);
     } catch (error) {
       console.error(error);
@@ -63,11 +70,11 @@ export const UsuarioAsesorPage = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
+   <Container  maxWidth={false}>
       <Toaster position="top-center" reverseOrder={false} />
-      <Card variant="outlined">
-        <CardContent>
-          <Box display="flex" justifyContent="flex-end" mb={2}>
+     
+       
+          <Box >
             <Button
               variant="contained"
               color="warning"
@@ -86,7 +93,8 @@ export const UsuarioAsesorPage = () => {
                   <TableCell><Typography fontWeight="bold">Apellidos</Typography></TableCell>
                   <TableCell><Typography fontWeight="bold">Usuario</Typography></TableCell>
                   <TableCell><Typography fontWeight="bold">Rol</Typography></TableCell>
-                  <TableCell><Typography fontWeight="bold">Sucursal</Typography></TableCell>
+                  <TableCell><Typography fontWeight="bold">Sucursales</Typography></TableCell>
+                  <TableCell><Typography fontWeight="bold">Sucursal asignada</Typography></TableCell>
                   <TableCell align="center"><Typography fontWeight="bold">Acciones</Typography></TableCell>
                 </TableRow>
               </TableHead>
@@ -99,23 +107,28 @@ export const UsuarioAsesorPage = () => {
                     <TableCell>
                       <Chip
                         label={usuario.rol}
-                        color={
-                          usuario.rol === "ADMINISTRADOR" ? "success" : "warning"
-                        }
+                        color={usuario.rol === "ADMINISTRADOR" ? "success" : "warning"}
                         size="small"
                       />
                     </TableCell>
                     <TableCell>
                       <List dense>
-                        {usuario.sucursales  && usuario.sucursales.map((item, index) => (
+                        {usuario.sucursales && usuario.sucursales.map((item, index) => (
                           <ListItem key={index} sx={{ py: 0, px: 1 }}>
                             {item.sucursal}
                           </ListItem>
                         ))}
                       </List>
                     </TableCell>
+                    <TableCell>
+                      {usuario.sucursales && usuario.sucursales.filter((item)=> item.asesor === usuario.asesor).map((item, index)=>(   <ListItem key={index} sx={{ py: 0, px: 1 }}>
+                            {item.sucursal}
+                          </ListItem>))}
+                    </TableCell>
                     <TableCell align="center">
-                      <Box display="flex" justifyContent="center" gap={1}>
+                      <Box display="flex" justifyContent="center" gap={1} flexWrap="wrap">
+                        <AsignarSucursalModal id={usuario._id} reload={reload} setReload={sertReload}/>
+
                         <IconButton
                           color="primary"
                           onClick={() => {
@@ -125,6 +138,7 @@ export const UsuarioAsesorPage = () => {
                         >
                           <Pencil size={18} />
                         </IconButton>
+
                         <IconButton
                           color="error"
                           onClick={() => handleDelete(usuario._id)}
@@ -139,15 +153,15 @@ export const UsuarioAsesorPage = () => {
             </Table>
           </TableContainer>
 
-          { monstrarEdicion && (
+          {monstrarEdicion && (
             <EditarUsuarioPage
               usuario={usuarioEditar}
               mostrarEdicion={monstrarEdicion}
               setMostrarEdicion={setMostrarEdicion}
             />
-          ) }
-        </CardContent>
-      </Card>
+          )}
+        
+     
     </Container>
   );
 };

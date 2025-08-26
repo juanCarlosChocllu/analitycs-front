@@ -16,6 +16,7 @@ export interface UsuarioAsesor {
     username: string;
     password?: string;
     sucursales?: dataAsesor[];
+    asesor:string
     rol: string;
     flag?: string;
     asesorUsuario?:string[]

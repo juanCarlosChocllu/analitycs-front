@@ -32,6 +32,19 @@ export async function registrarRendimientoDiarioAsesor(data: registrarRendimient
     
 }
 
+export async function editarRendimientoDiarioAsesor(data: registrarRendimientoDiarioI, id:string):Promise<AxiosResponse> {
+    try {
+        
+        
+        const response = await comisionesInstance.patch(`rendimiento/diario/${id}`, data)
+        return response.data
+    } catch (error) {
+        throw error
+    }
+    
+}
+
+
 export async function listarRendimientoAsesor(filtro: filtroBuscadorI):Promise<DatosAsesor[]> {
     try {
         

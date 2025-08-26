@@ -25,7 +25,7 @@ import { AutenticacionContext } from "../context/AuntenticacionProvider";
 
 import { Home } from "../components/Home/Home";
 import { RegistrarAsesoresPage } from "../../Usuario/pages/RegistrarAsesoresPage";
-import { UsuarioAsesorPage } from "../../Usuario/pages/UsuarioAsesorPage";
+import { ListarAsesorPage } from "../../Usuario/pages/ListarAsesorPage";
 import { RendimientoDiarioAsesorPage } from "../../RendimientoDiario/page/RendimientoDiarioAsesorPage";
 
 
@@ -56,14 +56,14 @@ export const AppRouter = () => {
                 <Route path="/rendimiento" element={<RendimientoAsesoresPage />} />
                 <Route path="/kpi/lentes" element={<LentePage />} />
 
-                <Route path="/asesor/inicio" element={<InicioAsesorPage />} />
+                {/*<Route path="/asesor/inicio" element={<InicioAsesorPage />} />*/}
                 <Route path="/rendimiento/diario" element={<RendimientoDiarioPage />} />
                 <Route path="/listar/rendimiento/asesor" element={<ListarRendimientoAsesorPage />} />
                 <Route path="/kpi/asesores" element={<AsesorLente />} />
                 <Route path="/metas/dia" element={<FormDia />} />
                 <Route path="/dias/listar" element={<DiasPage />} />
                 <Route path="/usuarios" element={<UsuarioPage />} />
-                <Route path="/asesor/usuarios" element={<UsuarioAsesorPage />} />
+                <Route path="/asesor/usuarios" element={<ListarAsesorPage />} />
                   <Route path="/asesor/registrar" element={<RegistrarAsesoresPage />} />
                     <Route path="/rendimiento/diario/asesor" element={<RendimientoDiarioAsesorPage />} />
 

@@ -146,12 +146,7 @@ export const menuItems: MenuItem[] = [
     text: "Rendimiento asesor",
     icon: <Target className="text-white" />,
     items: [
-      {
-        text: "Inicio",
-        roles: ["ASESOR", "GESTOR"],
-        icon: <Circle className="text-white w-3 h-3" />,
-        link: "/asesor/inicio",
-      },
+     
       {
         text: "Listar",
         roles: ["ASESOR", "GESTOR"],

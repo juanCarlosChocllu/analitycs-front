@@ -5,6 +5,7 @@ export interface RendimientoDiarioI {
   segundoPar: number;
   fechaDia: string;
   fecha : string;
+  _id:string
 }
 
 export interface registrarRendimientoDiarioI  {
