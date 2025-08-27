@@ -1,4 +1,4 @@
-import React from "react";
+
 import {
   Table,
   TableBody,
@@ -11,7 +11,7 @@ import {
   Box,
 } from "@mui/material";
 import type { VentasDetallaeMetas } from "../../interface/RendimientoDiario";
-import { mostrarEnDia } from "../../utils/mostrarDia";
+
 
 // Obtener el lunes de la semana
 const getMonday = (date: Date): Date => {
