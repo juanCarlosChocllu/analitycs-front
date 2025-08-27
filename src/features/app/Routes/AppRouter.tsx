@@ -2,7 +2,7 @@
 import { ComparativoPage } from "../../Comparativos/page/ComparativoPage";
 import Medicos from "../../Medicos/pages/Medicos";
 import { RecetaMedico } from "../../Medicos/pages/RecetaMedico";
-import { IndicadoresSucursalPage } from "../../Sucursal/pages/IndicadoresSucursalPage";
+import { IndicadoresSucursalPage } from "../../Sucursal/pages/IndicadoresSucursalPage";https://github.com/juanCarlosChocllu/analitycs-front/pull/50/conflict?name=src%252Ffeatures%252Fapp%252FRoutes%252FAppRouter.tsx&ancestor_oid=a6ba0dccb807c08ed70fff94849ddc3710622d1c&base_oid=9e5d62b0f93fb1f23532b03be8b8f80ab6ad1026&head_oid=ea8f0611b5050b25d465db4b341d6903826080c4
 import { Layout } from "../Layout/Layout";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { MetaSucursal } from "../../Metas Sucursal/pages/MetaSucursal";
@@ -24,10 +24,14 @@ import { AutenticacionContext } from "../context/AuntenticacionProvider";
 
 
 import { Home } from "../components/Home/Home";
+
+import { RendimientoSemanal } from "../../RendimientoDiario/page/RendimientoSemanal";
+
 import { RegistrarAsesoresPage } from "../../Usuario/pages/RegistrarAsesoresPage";
 import { ListarAsesorPage } from "../../Usuario/pages/ListarAsesorPage";
 import { RendimientoDiarioAsesorPage } from "../../RendimientoDiario/page/RendimientoDiarioAsesorPage";
 import { AvanceMetasAsesorPage } from "../../RendimientoDiario/page/AvanceMetasAsesorPage";
+
 
 
 
@@ -60,6 +64,7 @@ export const AppRouter = () => {
                 {/*<Route path="/asesor/inicio" element={<InicioAsesorPage />} />*/}
                 <Route path="/rendimiento/diario" element={<RendimientoDiarioPage />} />
                 <Route path="/listar/rendimiento/asesor" element={<ListarRendimientoAsesorPage />} />
+                <Route path="/rendimiento/semanal/asesor" element={<RendimientoSemanal />} />
                 <Route path="/kpi/asesores" element={<AsesorLente />} />
                 <Route path="/metas/dia" element={<FormDia />} />
                 <Route path="/dias/listar" element={<DiasPage />} />

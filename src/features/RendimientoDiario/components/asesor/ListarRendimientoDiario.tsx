@@ -50,12 +50,14 @@ export const ListarRendimientoDiario = () => {
 
   return (
     <TableContainer component={Paper}>
-      <Typography variant="h6" gutterBottom sx={{ textAlign: 'center', fontWeight: 'bold' }}>
+      <Typography variant="h6" gutterBottom sx={{ textAlign: 'center', fontWeight: 'bold', textTransform: 'uppercase', color: '#001638' }}>
         Rendimiento Diario
       </Typography>
-      
-      <RegistrarRendimientoDiarioModal reload={reload}  setReload={setReload}/>
 
+      <Box display="flex" justifyContent="flex-end" m={2}>
+        <RegistrarRendimientoDiarioModal reload={reload}  setReload={setReload}/>
+      </Box>
+      
       <Table sx={{ minWidth: 650 }} aria-label="tabla rendimiento diario">
         <TableHead>
           <TableRow sx={{ backgroundColor: 'primary.main' }}>
