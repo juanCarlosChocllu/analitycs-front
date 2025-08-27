@@ -149,13 +149,11 @@ export const menuItems: MenuItem[] = [
 
       { text: 'Inicio', roles: ['ASESOR', 'GESTOR'], icon: <Circle className="text-white w-3 h-3" />, link: '/asesor/inicio' },
       { text: 'Listar', roles: ['ASESOR', 'GESTOR'], icon: <Circle className="text-white w-3 h-3" />, link: '/rendimiento/diario' },
-      { text: 'Listar redimiento por sucursal',roles: ['ADMINISTRADOR'], icon: <Circle className="text-white w-3 h-3" />, link: '/listar/rendimiento/asesor' },
-      { text: 'rendimiento semanal',roles: ['ASESOR', 'GESTOR'], icon: <Circle className="text-white w-3 h-3" />, link: '/rendimiento/diario/asesor' },
-      { text: 'Resumen de Desempeño Semanal',roles: ['ADMINISTRADOR', "GESTOR", "ASESOR"], icon: <Circle className="text-white w-3 h-3" />, link: '/rendimiento/semanal/asesor' },
+      { text: 'Listar redimiento por sucursal', roles: ['ADMINISTRADOR'], icon: <Circle className="text-white w-3 h-3" />, link: '/listar/rendimiento/asesor' },
+      { text: 'rendimiento semanal', roles: ['ASESOR', 'GESTOR'], icon: <Circle className="text-white w-3 h-3" />, link: '/rendimiento/diario/asesor' },
+      { text: 'Resumen de Desempeño Semanal', roles: ['ADMINISTRADOR', "GESTOR", "ASESOR"], icon: <Circle className="text-white w-3 h-3" />, link: '/rendimiento/semanal/asesor' },
 
-    ]
-
-     
+      
       {
         text: "Listar",
         roles: ["ASESOR", "GESTOR"],
@@ -174,7 +172,7 @@ export const menuItems: MenuItem[] = [
         icon: <Circle className="text-white w-3 h-3" />,
         link: "/rendimiento/diario/asesor",
       },
-       {
+      {
         text: "Avance metas asesor",
         roles: ["ADMINISTRADOR"],
         icon: <Circle className="text-white w-3 h-3" />,
