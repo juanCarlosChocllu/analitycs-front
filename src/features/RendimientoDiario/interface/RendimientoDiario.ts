@@ -10,6 +10,7 @@ export interface RendimientoDiarioI {
 export interface registrarRendimientoDiarioI  {
   atenciones: number;
   segundoPar: number;
+  presupuesto: number;
 };
 
 export interface Venta {
@@ -23,6 +24,7 @@ export interface Venta {
   progresivos: number;
   segundoPar: number;
   ticket: number;
+  idAsesor?: string;
 }
 
 export interface DatosAsesor {
@@ -36,3 +38,34 @@ export interface responseRendimiento<T> {
   data:T[],
   paginaActual:number
 }
+
+  // Interfaces para el resultado - estructura procesada por semanas
+  export interface AsesorSemanal {
+    idAsesor: string;
+    asesor: string;
+    antireflejoSemanal: number;
+    atencionesSemanal: number;
+    cantidadLenteSemanal: number;
+    entregasSemanal: number;
+    lcSemanal: number;
+    montoTotalVentasSemanal: number;
+    progresivosSemanal: number;
+    segundoParSemanal: number;
+    ticketSemanal: number;
+  }
+  
+  export interface SemanaDatos {
+    semana: number;
+    fechaInicio: string; // formato: "YYYY-MM-DD"
+    fechaFin: string; // formato: "YYYY-MM-DD"
+    asesores: AsesorSemanal[];
+  }
+  
+  export interface SucursalPorSemanas {
+    sucursal: string;
+    fechaInicio: string; // formato: "YYYY-MM-DD"
+    fechaFin: string; // formato: "YYYY-MM-DD"
+    semanas: SemanaDatos[];
+  }
+  
+  export type RespuestaProcesadaPorSemanas = SucursalPorSemanas[];

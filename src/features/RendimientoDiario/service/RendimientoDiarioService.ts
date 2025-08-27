@@ -35,8 +35,9 @@ export async function registrarRendimientoDiarioAsesor(data: registrarRendimient
 export async function listarRendimientoAsesor(filtro: filtroBuscadorI):Promise<DatosAsesor[]> {
     try {
         
-        
+        console.log("filtro Asesor: ",filtro)
         const response = await comisionesInstance.post('rendimiento/diario/listar', filtro)
+        console.log("response Asesor: ",response.data)
         return response.data
     } catch (error) {
         throw error

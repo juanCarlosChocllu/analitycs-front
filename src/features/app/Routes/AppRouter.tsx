@@ -24,6 +24,7 @@ import { AutenticacionContext } from "../context/AuntenticacionProvider";
 
 
 import { Home } from "../components/Home/Home";
+import { RendimientoSemanal } from "../../RendimientoDiario/page/RendimientoSemanal";
 
 
 
@@ -54,6 +55,7 @@ export const AppRouter = () => {
                 <Route path="/asesor/inicio" element={<InicioAsesorPage />} />
                 <Route path="/rendimiento/diario" element={<RendimientoDiarioPage />} />
                 <Route path="/listar/rendimiento/asesor" element={<ListarRendimientoAsesorPage />} />
+                <Route path="/rendimiento/semanal/asesor" element={<RendimientoSemanal />} />
                 <Route path="/kpi/asesores" element={<AsesorLente />} />
                 <Route path="/metas/dia" element={<FormDia />} />
                 <Route path="/dias/listar" element={<DiasPage />} />
