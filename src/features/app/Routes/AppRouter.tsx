@@ -27,6 +27,7 @@ import { Home } from "../components/Home/Home";
 import { RegistrarAsesoresPage } from "../../Usuario/pages/RegistrarAsesoresPage";
 import { ListarAsesorPage } from "../../Usuario/pages/ListarAsesorPage";
 import { RendimientoDiarioAsesorPage } from "../../RendimientoDiario/page/RendimientoDiarioAsesorPage";
+import { AvanceMetasAsesorPage } from "../../RendimientoDiario/page/AvanceMetasAsesorPage";
 
 
 
@@ -64,8 +65,9 @@ export const AppRouter = () => {
                 <Route path="/dias/listar" element={<DiasPage />} />
                 <Route path="/usuarios" element={<UsuarioPage />} />
                 <Route path="/asesor/usuarios" element={<ListarAsesorPage />} />
-                  <Route path="/asesor/registrar" element={<RegistrarAsesoresPage />} />
-                    <Route path="/rendimiento/diario/asesor" element={<RendimientoDiarioAsesorPage />} />
+                <Route path="/asesor/registrar" element={<RegistrarAsesoresPage />} />
+                <Route path="/rendimiento/diario/asesor" element={<RendimientoDiarioAsesorPage />} />
+                 <Route path="/avance/metas/asesor" element={<AvanceMetasAsesorPage />} />
 
               </>
             )

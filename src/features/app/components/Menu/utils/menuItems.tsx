@@ -165,6 +165,12 @@ export const menuItems: MenuItem[] = [
         icon: <Circle className="text-white w-3 h-3" />,
         link: "/rendimiento/diario/asesor",
       },
+       {
+        text: "Avance metas asesor",
+        roles: ["ADMINISTRADOR"],
+        icon: <Circle className="text-white w-3 h-3" />,
+        link: "/avance/metas/asesor",
+      },
     ],
   },
 
