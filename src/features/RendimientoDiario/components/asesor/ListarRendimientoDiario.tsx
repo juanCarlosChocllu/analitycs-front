@@ -9,20 +9,24 @@ import {
   Paper,
   Typography,
   Pagination,
-  Box
+  Box,
 } from '@mui/material';
 
 import { RegistrarRendimientoDiarioModal } from '../../modal/RegistrarRendimientoDiarioModal';
 import { listarRendimientoDiarioAsesor } from '../../service/RendimientoDiarioService';
 import type { RendimientoDiarioI } from '../../interface/RendimientoDiario';
 import { mostrarEnDia } from '../../utils/mostrarDia';
+import { EditarRendimientoDiarioModal } from '../../modal/EditarRendimientoDiarioModal';
 
 export const ListarRendimientoDiario = () => {
+  const date = new Date()
+  const diaRegistro: string = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
   const [data, setData] = useState<RendimientoDiarioI[]>([]);
   const [paginaActual, setPaginaActual] = useState<number>(1);
   const [totalPaginas, setTotalPaginas] = useState<number>(1);
    const [reload, setReload] = useState<boolean>(false);
-
+  console.log(diaRegistro);
+  
   useEffect(() => {
     listar(paginaActual);
   }, [paginaActual,reload]);
@@ -61,6 +65,7 @@ export const ListarRendimientoDiario = () => {
             <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Segundo Par</TableCell>
             <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Día</TableCell>
             <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Fecha de Creación</TableCell>
+              <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Accion</TableCell>
           </TableRow>
         </TableHead>
 
@@ -73,6 +78,9 @@ export const ListarRendimientoDiario = () => {
               <TableCell>{row.segundoPar}</TableCell>
               <TableCell>{mostrarEnDia(row.fechaDia)}</TableCell>
               <TableCell>{row.fecha}</TableCell>
+              <TableCell> {row.fechaDia == diaRegistro && <EditarRendimientoDiarioModal reload={reload} setReload={setReload} 
+              antenciones={row.atenciones} segundoPar={row.segundoPar}  id={row._id} />} </TableCell>
+
             </TableRow>
           ))}
         </TableBody>

@@ -12,7 +12,7 @@ import { AsesorLente } from "../../Lente/pages/AsesorLente";
 import { AutenticacionAsesoresPage } from "../../Autenticacion/page/AutenticacionAsesoresPage";
 
 import { RendimientoDiarioPage } from "../../RendimientoDiario/page/RendimientoDiarioPage";
-import { InicioAsesorPage } from "../../Asesor/page/InicioAsesorPage";
+
 import { ListarRendimientoAsesorPage } from "../../RendimientoDiario/page/ListarRendimientoAsesorPage";
 import { AutenticacionPage } from "../../Autenticacion/page/AutenticacionPage";
 import FormDia from "../../Metas/components/FormDia"
@@ -22,14 +22,19 @@ import { UsuarioPage } from "../../Usuario/pages/UsuarioPage"
 import { useContext } from "react";
 import { AutenticacionContext } from "../context/AuntenticacionProvider";
 
-import { RendimientoDiarioAsesorPage } from "../../RendimientoDiario/page/RendimientoDiarioAsesorPage";
 
 import { Home } from "../components/Home/Home";
+import { RegistrarAsesoresPage } from "../../Usuario/pages/RegistrarAsesoresPage";
+import { ListarAsesorPage } from "../../Usuario/pages/ListarAsesorPage";
+import { RendimientoDiarioAsesorPage } from "../../RendimientoDiario/page/RendimientoDiarioAsesorPage";
+import { AvanceMetasAsesorPage } from "../../RendimientoDiario/page/AvanceMetasAsesorPage";
 
 
 
 export const AppRouter = () => {
   const { isAuntenticacion } = useContext(AutenticacionContext);
+
+  
   return (
     <BrowserRouter>
       <Routes>
@@ -52,13 +57,17 @@ export const AppRouter = () => {
                 <Route path="/rendimiento" element={<RendimientoAsesoresPage />} />
                 <Route path="/kpi/lentes" element={<LentePage />} />
 
-                <Route path="/asesor/inicio" element={<InicioAsesorPage />} />
+                {/*<Route path="/asesor/inicio" element={<InicioAsesorPage />} />*/}
                 <Route path="/rendimiento/diario" element={<RendimientoDiarioPage />} />
                 <Route path="/listar/rendimiento/asesor" element={<ListarRendimientoAsesorPage />} />
                 <Route path="/kpi/asesores" element={<AsesorLente />} />
                 <Route path="/metas/dia" element={<FormDia />} />
                 <Route path="/dias/listar" element={<DiasPage />} />
                 <Route path="/usuarios" element={<UsuarioPage />} />
+                <Route path="/asesor/usuarios" element={<ListarAsesorPage />} />
+                <Route path="/asesor/registrar" element={<RegistrarAsesoresPage />} />
+                <Route path="/rendimiento/diario/asesor" element={<RendimientoDiarioAsesorPage />} />
+                 <Route path="/avance/metas/asesor" element={<AvanceMetasAsesorPage />} />
 
               </>
             )

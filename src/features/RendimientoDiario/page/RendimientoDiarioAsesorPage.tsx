@@ -55,7 +55,6 @@ export const RendimientoDiarioAsesorPage = () => {
     semanas[clave].push(venta);
   });
 
-  // Ordenar por fecha
   return Object.entries(semanas).sort(
     ([fechaA], [fechaB]) =>
       new Date(fechaA).getTime() - new Date(fechaB).getTime()

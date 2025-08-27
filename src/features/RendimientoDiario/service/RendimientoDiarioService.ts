@@ -1,7 +1,7 @@
 import type { AxiosResponse } from "axios"
 import type { filtroBuscadorI } from "../../app/interfaces/BuscadorI"
 import { comisionesInstance } from "../../app/service/comisionesInstance"
-import type { DatosAsesor, registrarRendimientoDiarioI, RendimientoDiarioI, responseRendimiento } from "../interface/RendimientoDiario"
+import type { DatosAsesor, registrarRendimientoDiarioI, RendimientoDiarioI, responseRendimiento, VentaMestaAsesor } from "../interface/RendimientoDiario"
 import type { Venta } from "../interface/RendimientoDiario";
 
 
@@ -12,6 +12,18 @@ export async function listarRendimientoDiarioAsesor(pagina:number):Promise<respo
                 pagina:pagina
             }
         })
+        return response.data
+    } catch (error) {
+        throw error
+    }
+    
+}
+
+export async function ListarAvanceMetasAsesor(filtro: filtroBuscadorI):Promise<VentaMestaAsesor[]> {
+    try {
+        
+        
+        const response = await comisionesInstance.post('venta/metas/porAsesor', filtro)
         return response.data
     } catch (error) {
         throw error
@@ -31,6 +43,19 @@ export async function registrarRendimientoDiarioAsesor(data: registrarRendimient
     }
     
 }
+
+export async function editarRendimientoDiarioAsesor(data: registrarRendimientoDiarioI, id:string):Promise<AxiosResponse> {
+    try {
+        
+        
+        const response = await comisionesInstance.patch(`rendimiento/diario/${id}`, data)
+        return response.data
+    } catch (error) {
+        throw error
+    }
+    
+}
+
 
 export async function listarRendimientoAsesor(filtro: filtroBuscadorI):Promise<DatosAsesor[]> {
     try {
