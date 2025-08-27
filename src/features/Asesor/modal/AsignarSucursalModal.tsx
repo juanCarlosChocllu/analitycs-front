@@ -14,7 +14,6 @@ import {
 import { Store } from "lucide-react";
 import {
   asignarSucursal,
-  listarAsesorSucursal,
   listarAsesorSucursal2,
 } from "../service/asesorService";
 import type { asesorSucursalI } from "../interface/asesorSucursal";

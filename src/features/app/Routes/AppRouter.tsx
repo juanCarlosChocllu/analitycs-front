@@ -12,7 +12,7 @@ import { AsesorLente } from "../../Lente/pages/AsesorLente";
 import { AutenticacionAsesoresPage } from "../../Autenticacion/page/AutenticacionAsesoresPage";
 
 import { RendimientoDiarioPage } from "../../RendimientoDiario/page/RendimientoDiarioPage";
-import { InicioAsesorPage } from "../../Asesor/page/InicioAsesorPage";
+
 import { ListarRendimientoAsesorPage } from "../../RendimientoDiario/page/ListarRendimientoAsesorPage";
 import { AutenticacionPage } from "../../Autenticacion/page/AutenticacionPage";
 import FormDia from "../../Metas/components/FormDia"

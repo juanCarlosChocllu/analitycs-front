@@ -1,12 +1,12 @@
 
 import { AxiosError } from "axios";
 import { ListarAsesor } from "../components/ListarAsesor";
-import type { ErrorUser, Usuario, UsuarioAsesor } from "../interfaces/usuario.interface";
+import type { ErrorUser,  UsuarioAsesor } from "../interfaces/usuario.interface";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { editarUsuario } from "../services/comisionesService";
 import toast, { Toaster } from "react-hot-toast";
-import { Card, CardContent, CardHeader, Input } from "@mui/material";
+import { Card, CardContent,  Input } from "@mui/material";
 
 
 interface Props {

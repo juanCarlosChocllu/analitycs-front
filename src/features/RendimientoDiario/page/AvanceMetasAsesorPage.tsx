@@ -21,7 +21,11 @@ import {
 import { DetalleAvanceMetaAsesor } from "../components/asesor/DetalleAvanceMetaAsesor";
 import { TablaMetaHeader } from "../components/TablaMetaHeader";
 import { TablaMetasInformacion } from "../components/TablaMetasInformacion";
-import { cumplimientoMetaAsesor, metasFaltantes, ventasPordiaAsesor } from "../utils/rendimientoUtil";
+import {
+  cumplimientoMetaAsesor,
+  metasFaltantes,
+  ventasPordiaAsesor,
+} from "../utils/rendimientoUtil";
 
 export const AvanceMetasAsesorPage = () => {
   const [filtro, setFiltro] = useState<filtroBuscadorI>({});
@@ -129,26 +133,37 @@ export const AvanceMetasAsesorPage = () => {
                                 0
                               )}
                             </TableCell>
-                            <TableCell>{cumplimientoMetaAsesor(item.ventas.reduce(
-                                (acc, venta) => acc + venta.ticket,
-                                0
-                              ),Math.round(
-                                item.dias *
-                                  ventasPordiaAsesor(
-                                    d.ventaAsesor,
-                                    d.metaTicket
-                                  )
-                              ) )} %</TableCell>
-                            <TableCell>{metasFaltantes(Math.round(
-                                item.dias *
-                                  ventasPordiaAsesor(
-                                    d.ventaAsesor,
-                                    d.metaTicket
-                                  )
-                              ), item.ventas.reduce(
-                                (acc, venta) => acc + venta.ticket,
-                                0
-                              ))}</TableCell>
+                            <TableCell>
+                              {cumplimientoMetaAsesor(
+                                item.ventas.reduce(
+                                  (acc, venta) => acc + venta.ticket,
+                                  0
+                                ),
+                                Math.round(
+                                  item.dias *
+                                    ventasPordiaAsesor(
+                                      d.ventaAsesor,
+                                      d.metaTicket
+                                    )
+                                )
+                              )}{" "}
+                              %
+                            </TableCell>
+                            <TableCell>
+                              {metasFaltantes(
+                                Math.round(
+                                  item.dias *
+                                    ventasPordiaAsesor(
+                                      d.ventaAsesor,
+                                      d.metaTicket
+                                    )
+                                ),
+                                item.ventas.reduce(
+                                  (acc, venta) => acc + venta.ticket,
+                                  0
+                                )
+                              )}
+                            </TableCell>
                             <TableCell>
                               <Button
                                 size="small"

@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import type { registrarRendimientoDiarioI } from '../interface/RendimientoDiario';
-import { editarRendimientoDiarioAsesor, registrarRendimientoDiarioAsesor } from '../service/RendimientoDiarioService';
+import { editarRendimientoDiarioAsesor } from '../service/RendimientoDiarioService';
 import type { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
 

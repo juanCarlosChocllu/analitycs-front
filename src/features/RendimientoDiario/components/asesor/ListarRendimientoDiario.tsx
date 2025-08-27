@@ -10,7 +10,6 @@ import {
   Typography,
   Pagination,
   Box,
-  Button
 } from '@mui/material';
 
 import { RegistrarRendimientoDiarioModal } from '../../modal/RegistrarRendimientoDiarioModal';

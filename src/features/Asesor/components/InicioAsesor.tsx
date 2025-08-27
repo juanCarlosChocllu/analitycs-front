@@ -11,7 +11,6 @@ import {
   Divider,
 } from "@mui/material";
 import {
-  asignarSucursal,
   listarAsesorSucursal,
 } from "../service/asesorService";
 import type { asesorSucursalI } from "../interface/asesorSucursal";
@@ -26,14 +25,14 @@ export const InicioAsesor = () => {
   };
 
   const btnIngresar = async () => {
-    try {
+   /* try {
       const response = await asignarSucursal(asesor);
       if (response.status == 200) {
         window.location.href = "/rendimiento/diario";
       }
     } catch (error) {
       console.log(error);
-    }
+    }*/
   };
 
   useEffect(() => {
