@@ -2,7 +2,7 @@
 import { ComparativoPage } from "../../Comparativos/page/ComparativoPage";
 import Medicos from "../../Medicos/pages/Medicos";
 import { RecetaMedico } from "../../Medicos/pages/RecetaMedico";
-import { IndicadoresSucursalPage } from "../../Sucursal/pages/IndicadoresSucursalPage";https://github.com/juanCarlosChocllu/analitycs-front/pull/50/conflict?name=src%252Ffeatures%252Fapp%252FRoutes%252FAppRouter.tsx&ancestor_oid=a6ba0dccb807c08ed70fff94849ddc3710622d1c&base_oid=9e5d62b0f93fb1f23532b03be8b8f80ab6ad1026&head_oid=ea8f0611b5050b25d465db4b341d6903826080c4
+import { IndicadoresSucursalPage } from "../../Sucursal/pages/IndicadoresSucursalPage";
 import { Layout } from "../Layout/Layout";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { MetaSucursal } from "../../Metas Sucursal/pages/MetaSucursal";
