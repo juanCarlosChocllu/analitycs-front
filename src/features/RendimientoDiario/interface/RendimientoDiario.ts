@@ -32,6 +32,9 @@ export interface Venta {
 export interface DatosAsesor {
   asesor: string;
   sucursal: string;
+  metas:{
+    monto:number, dias:number,ticket:number
+  }
   ventas: Venta[];
 }
 
@@ -99,4 +102,36 @@ export interface VentaMestaAsesor {
   ventaAsesor: ventaAsesor[];
 
 }
+
+
+export interface VentaDetalleI {
+   antireflejos: number;
+   asesor:string
+  atenciones: number;
+  cantidadLente: number;
+  entregas: number;
+  fecha: string;
+  lc: number;
+  montoTotalVentas: number;
+  progresivos: number;
+  segundoPar: number;
+  ticket: number;
+  idAsesor?: string;
+
+}
+
+export interface ventaAsesorI{
+  asesor:string
+  ventaAsesor:VentaDetalleI[]
+}
+
+
+export interface ResultadoRendimientoDiarioI {
+  diasComerciales: number; 
+  metaMonto: number; 
+  metaTicket: number; 
+  sucursal: string; 
+  ventas: ventaAsesorI[]; 
+}
+
 
