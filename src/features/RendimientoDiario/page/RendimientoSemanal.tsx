@@ -41,8 +41,8 @@ export const RendimientoSemanal = () => {
     const listarRendimiento = async () => {
         try {
             setLoading(true);
-            const response = await listarRendimientoAsesor(filtro);
-            setDatos(response.filter((item) => item.ventas.length > 0));
+             await listarRendimientoAsesor(filtro);
+            setDatos([]);
             setLoading(false);
         } catch (error) {
             setLoading(false);
