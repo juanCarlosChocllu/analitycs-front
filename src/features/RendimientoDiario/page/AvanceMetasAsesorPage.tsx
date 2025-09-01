@@ -119,7 +119,7 @@ export const AvanceMetasAsesorPage = () => {
                             <TableCell>{item.asesor}</TableCell>
                             <TableCell>{item.dias}</TableCell>
                             <TableCell>
-                              {Math.round(
+                              { Math.round(
                                 item.dias *
                                   ventasPordiaAsesor(
                                     d.ventaAsesor,
