@@ -3,6 +3,7 @@ export interface RendimientoDiarioI {
   sucursal: string;
   atenciones: number;
   segundoPar: number;
+  presupuesto: number;
   fechaDia: string;
   fecha: string;
   _id: string;
