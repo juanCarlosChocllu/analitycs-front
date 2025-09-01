@@ -24,19 +24,30 @@ const style = {
   p: 4,
 };
 
+interface EditarRendimientoDiarioModalProps {
+  reload: boolean;
+  setReload: (data: boolean) => void;
+  antenciones: number;
+  id: string;
+  segundoPar: number;
+  presupuesto: number;
+}
 
 
-export const EditarRendimientoDiarioModal = ({reload,setReload,antenciones,id,segundoPar}:{reload:boolean, setReload:(data:boolean) => void, segundoPar:number, antenciones:number, id:string}) => {
+
+export const EditarRendimientoDiarioModal = ({reload,setReload,antenciones,id,segundoPar,presupuesto}:EditarRendimientoDiarioModalProps) => {
   const [open, setOpen] = useState(false);
   const { control, handleSubmit, reset, formState: { errors }, setValue } = useForm<registrarRendimientoDiarioI>({
     defaultValues: {
       atenciones: 0,
-      segundoPar: 0
+      segundoPar: 0,
+      presupuesto: 0
     }
   });
   useEffect(()=>{
     setValue("atenciones", antenciones)
      setValue("segundoPar", segundoPar)
+     setValue("presupuesto", presupuesto)
   },)
 
   const handleOpen = () => setOpen(true);
@@ -49,6 +60,7 @@ export const EditarRendimientoDiarioModal = ({reload,setReload,antenciones,id,se
     try {
       data.atenciones = Number(data.atenciones)
       data.segundoPar = Number(data.segundoPar)
+      data.presupuesto = Number(data.presupuesto)
       await editarRendimientoDiarioAsesor(data, id)
       setReload(!reload)
       handleClose();
@@ -111,6 +123,22 @@ export const EditarRendimientoDiarioModal = ({reload,setReload,antenciones,id,se
                   margin="normal"
                   error={!!errors.segundoPar}
                   helperText={errors.segundoPar ? errors.segundoPar.message : ''}
+                />
+              )}
+            />
+            <Controller
+              name="presupuesto"
+              control={control}
+              rules={{ required: 'Presupuesto es requerido', min: { value: 0, message: 'Debe ser positivo' } }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Presupuesto"
+                  type="number"
+                  fullWidth
+                  margin="normal"
+                  error={!!errors.presupuesto}
+                  helperText={errors.presupuesto ? errors.presupuesto.message : ''}
                 />
               )}
             />

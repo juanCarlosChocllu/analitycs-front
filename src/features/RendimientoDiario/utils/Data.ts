@@ -1,3 +1,4 @@
+import type { AvanceVentas } from "../interface/avanceVentas";
 import type { DatosAsesor } from "../interface/RendimientoDiario";
 
 export const datoAsesor: DatosAsesor[]=[
@@ -469,3 +470,181 @@ export const datoAsesor: DatosAsesor[]=[
         ventas: []
     }
 ]
+
+
+export const dataTrasformada: AvanceVentas = {
+    sucursal: "SUCRE  CENTRAL",
+    metaTicket: 420,
+    metaMonto: 50000,
+    diasComerciales: 24,
+    ventas: [
+        {
+            atenciones: 0,
+            feha: "2025-3-26",
+            presupuestos: 0,
+            vendidos: 29,
+            entregadas: 28
+        },
+        {
+            atenciones: 0,
+            feha: "2025-3-28",
+            presupuestos: 0,
+            vendidos: 15,
+            entregadas: 15
+        },
+        {
+            atenciones: 0,
+            feha: "2025-3-12",
+            presupuestos: 0,
+            vendidos: 18,
+            entregadas: 17
+        },
+        {
+            atenciones: 0,
+            feha: "2025-3-25",
+            presupuestos: 0,
+            vendidos: 25,
+            entregadas: 25
+        },
+        {
+            atenciones: 0,
+            feha: "2025-3-17",
+            presupuestos: 0,
+            vendidos: 21,
+            entregadas: 19
+        },
+        {
+            atenciones: 0,
+            feha: "2025-3-13",
+            presupuestos: 0,
+            vendidos: 15,
+            entregadas: 15
+        },
+        {
+            atenciones: 0,
+            feha: "2025-3-11",
+            presupuestos: 0,
+            vendidos: 29,
+            entregadas: 27
+        },
+        {
+            atenciones: 0,
+            feha: "2025-3-5",
+            presupuestos: 0,
+            vendidos: 22,
+            entregadas: 22
+        },
+        {
+            atenciones: 0,
+            feha: "2025-3-21",
+            presupuestos: 0,
+            vendidos: 18,
+            entregadas: 18
+        },
+        {
+            atenciones: 0,
+            feha: "2025-3-8",
+            presupuestos: 0,
+            vendidos: 25,
+            entregadas: 25
+        },
+        {
+            atenciones: 0,
+            feha: "2025-3-27",
+            presupuestos: 0,
+            vendidos: 16,
+            entregadas: 16
+        },
+        {
+            atenciones: 0,
+            feha: "2025-3-6",
+            presupuestos: 0,
+            vendidos: 32,
+            entregadas: 32
+        },
+        {
+            atenciones: 0,
+            feha: "2025-3-14",
+            presupuestos: 0,
+            vendidos: 13,
+            entregadas: 12
+        },
+        {
+            atenciones: 0,
+            feha: "2025-3-15",
+            presupuestos: 0,
+            vendidos: 18,
+            entregadas: 18
+        },
+        {
+            atenciones: 0,
+            feha: "2025-3-20",
+            presupuestos: 0,
+            vendidos: 16,
+            entregadas: 16
+        },
+        {
+            atenciones: 0,
+            feha: "2025-3-31",
+            presupuestos: 0,
+            vendidos: 18,
+            entregadas: 17
+        },
+        {
+            atenciones: 0,
+            feha: "2025-3-29",
+            presupuestos: 0,
+            vendidos: 8,
+            entregadas: 8
+        },
+        {
+            atenciones: 0,
+            feha: "2025-3-1",
+            presupuestos: 0,
+            vendidos: 3,
+            entregadas: 3
+        },
+        {
+            atenciones: 0,
+            feha: "2025-3-7",
+            presupuestos: 0,
+            vendidos: 26,
+            entregadas: 26
+        },
+        {
+            atenciones: 0,
+            feha: "2025-3-10",
+            presupuestos: 0,
+            vendidos: 27,
+            entregadas: 26
+        },
+        {
+            atenciones: 0,
+            feha: "2025-3-22",
+            presupuestos: 0,
+            vendidos: 23,
+            entregadas: 23
+        },
+        {
+            atenciones: 0,
+            feha: "2025-3-24",
+            presupuestos: 0,
+            vendidos: 23,
+            entregadas: 23
+        },
+        {
+            atenciones: 0,
+            feha: "2025-3-19",
+            presupuestos: 0,
+            vendidos: 19,
+            entregadas: 19
+        },
+        {
+            atenciones: 0,
+            feha: "2025-3-18",
+            presupuestos: 0,
+            vendidos: 24,
+            entregadas: 23
+        }
+    ]
+}
