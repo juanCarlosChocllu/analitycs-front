@@ -152,7 +152,7 @@ export const ListarRendimiento = () => {
                                   total:
                                     "Bs " +
                                     ventasOrdenadas.reduce((acc, v) => acc + v.montoTotalVentas, 0).toFixed(2),
-                                    operacion:`${asesorData.metaMonto / asesorData.metaTicket} Bs`,
+                                    operacion:`${(asesorData.metaMonto / asesorData.metaTicket).toFixed(2)} Bs`,
                                 },
                                 {
                                   label: "Tickets",
