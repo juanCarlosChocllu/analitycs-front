@@ -149,35 +149,41 @@ export const menuItems: MenuItem[] = [
 
       { text: 'Inicio', roles: ['ASESOR', 'GESTOR'], icon: <Circle className="text-white w-3 h-3" />, link: '/asesor/inicio' },
       { text: 'Listar', roles: ['ASESOR', 'GESTOR'], icon: <Circle className="text-white w-3 h-3" />, link: '/rendimiento/diario' },
-      { text: 'Listar redimiento por sucursal', roles: ['ADMINISTRADOR'], icon: <Circle className="text-white w-3 h-3" />, link: '/listar/rendimiento/asesor' },
-      { text: 'rendimiento semanal', roles: ['ASESOR', 'GESTOR'], icon: <Circle className="text-white w-3 h-3" />, link: '/rendimiento/diario/asesor' },
+      { text: 'Rendimiento por sucursal', roles: ['ADMINISTRADOR'], icon: <Circle className="text-white w-3 h-3" />, link: '/listar/rendimiento/asesor' },
+      { text: 'Resumen semanal', roles: ['ASESOR', 'GESTOR'], icon: <Circle className="text-white w-3 h-3" />, link: '/rendimiento/diario/asesor' },
       { text: 'Resumen de Desempeño Semanal', roles: ['ADMINISTRADOR', "GESTOR", "ASESOR"], icon: <Circle className="text-white w-3 h-3" />, link: '/rendimiento/semanal/asesor' },
 
       
       {
-        text: "Listar",
+        text: "Rendimiento diario",
         roles: ["ASESOR", "GESTOR"],
         icon: <Circle className="text-white w-3 h-3" />,
         link: "/rendimiento/diario",
       },
       {
-        text: "Listar redimiento por sucursal",
+        text: "Rendimiento por sucursal",
         roles: ["ADMINISTRADOR"],
         icon: <Circle className="text-white w-3 h-3" />,
         link: "/listar/rendimiento/asesor",
       },
       {
-        text: "rendimiento semanal",
+        text: "Resumen semanal",
         roles: ["ASESOR", "GESTOR"],
         icon: <Circle className="text-white w-3 h-3" />,
         link: "/rendimiento/diario/asesor",
       },
       {
-        text: "Avance metas asesor",
+        text: "Avance de metas",
         roles: ["ADMINISTRADOR"],
         icon: <Circle className="text-white w-3 h-3" />,
         link: "/avance/metas/asesor",
       },
+      {
+        text: "Avance de ventas",
+        roles: ["ADMINISTRADOR"],
+        icon: <Circle className="text-white w-3 h-3" />,
+        link: "/avance/ventas/asesor",
+      }
     ],
 
   },
