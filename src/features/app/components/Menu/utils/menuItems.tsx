@@ -206,7 +206,7 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
-  {
+/*  {
     id: 10,
     roles: ["ADMINISTRADOR"],
     text: "Logs del sistema",
@@ -218,5 +218,5 @@ export const menuItems: MenuItem[] = [
         link: "/log/descargas",
       },
     ],
-  },
+  },*/
 ];
