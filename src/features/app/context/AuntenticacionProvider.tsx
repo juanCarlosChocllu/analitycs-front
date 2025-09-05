@@ -37,6 +37,7 @@ export const AutenticacionProvider  = ({children}:{children:ReactNode}) => {
           
         setRol("ADMINISTRADOR")
         }
+        
     } catch (error) {
       console.log(error);
       
