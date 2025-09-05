@@ -18,6 +18,7 @@ import type { RendimientoDiarioI } from '../../interface/RendimientoDiario';
 import { mostrarEnDia } from '../../utils/mostrarDia';
 import { EditarRendimientoDiarioModal } from '../../modal/EditarRendimientoDiarioModal';
 
+
 export const ListarRendimientoDiario = () => {
   const date = new Date()
   const diaRegistro: string = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
@@ -65,6 +66,7 @@ export const ListarRendimientoDiario = () => {
             <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Sucursal</TableCell>
             <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Atenciones</TableCell>
             <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Segundo Par</TableCell>
+            <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Presupuesto</TableCell>
             <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Día</TableCell>
             <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Fecha de Creación</TableCell>
               <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Accion</TableCell>
@@ -78,10 +80,11 @@ export const ListarRendimientoDiario = () => {
               <TableCell>{row.sucursal}</TableCell>
               <TableCell>{row.atenciones}</TableCell>
               <TableCell>{row.segundoPar}</TableCell>
+              <TableCell>{row.presupuesto}</TableCell>
               <TableCell>{mostrarEnDia(row.fechaDia)}</TableCell>
               <TableCell>{row.fecha}</TableCell>
               <TableCell> {row.fechaDia == diaRegistro && <EditarRendimientoDiarioModal reload={reload} setReload={setReload} 
-              antenciones={row.atenciones} segundoPar={row.segundoPar}  id={row._id} />} </TableCell>
+              antenciones={row.atenciones} segundoPar={row.segundoPar} presupuesto={row.presupuesto} id={row._id} />} </TableCell>
 
             </TableRow>
           ))}

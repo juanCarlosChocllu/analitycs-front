@@ -47,9 +47,8 @@ export const MenuLateral = ({ open, setOpen }: { open: boolean; setOpen: (open: 
 
   const DrawerList = (
     <Box
-      sx={{ width: 250 }}
+      sx={{ width: 320, height: "100%", background: "#1e2939", transform: "none", overflow: "auto", color: "white", padding: "1rem" }}
       role="presentation"
-      className=" bg-gray-800 h-full text-white w-64 p-4 transform-none"
     >
       <div className="flex justify-start items-center gap-4">
         <button

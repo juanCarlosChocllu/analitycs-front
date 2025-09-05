@@ -6,5 +6,5 @@ export function porcentaje(cantidad:number, total:number){
      const  porce= ((cantidad / total)* 100)
 
     
-    return Math.round(porce)
+    return Math.round(porce).toFixed(2);
 }

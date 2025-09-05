@@ -3,6 +3,7 @@ export interface RendimientoDiarioI {
   sucursal: string;
   atenciones: number;
   segundoPar: number;
+  presupuesto: number;
   fechaDia: string;
   fecha: string;
   _id: string;
@@ -72,6 +73,9 @@ export interface responseRendimiento<T> {
     fechaInicio: string; // formato: "YYYY-MM-DD"
     fechaFin: string; // formato: "YYYY-MM-DD"
     semanas: SemanaDatos[];
+    metaTicket: number;
+    metaMonto: number;
+    diasComerciales: number;
   }
   
   export type RespuestaProcesadaPorSemanas = SucursalPorSemanas[];
@@ -135,3 +139,30 @@ export interface ResultadoRendimientoDiarioI {
 }
 
 
+export interface VentaAsesor {
+  asesor: string;
+  antireflejos: number;
+  atenciones: number;
+  cantidadLente: number;
+  entregas: number;
+  lc: number;
+  montoTotalVentas: number;
+  progresivos: number;
+  fecha: string;
+  idAsesor: string;
+  segundoPar: number;
+  ticket: number;
+}
+
+export interface VentasPorAsesor {
+  asesor: string;
+  ventaAsesor: VentaAsesor[];
+}
+
+export interface SucursalData {
+  sucursal: string;
+  metaTicket: number;
+  diasComerciales: number;
+  metaMonto: number;
+  ventas: VentasPorAsesor[];
+}
