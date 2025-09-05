@@ -7,7 +7,6 @@ import {
   Stethoscope,
   Target,
   Users,
-  FileText,
   Circle,
 } from "lucide-react";
 import type { MenuItem } from "../../../interfaces/menu";
