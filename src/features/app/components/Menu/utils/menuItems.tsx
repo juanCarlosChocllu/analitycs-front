@@ -85,11 +85,11 @@ export const menuItems: MenuItem[] = [
         icon: <Circle className="text-white w-3 h-3" />,
         link: "/kpi/asesores",
       },
-      {
+     /* {
         text: "Kpi material",
         icon: <Circle className="text-white w-3 h-3" />,
         link: "https://analitycs-frontend.vercel.app/kpi/material",
-      },
+      },*/
       // { text: 'Kpi monturas vip', icon: <Circle className="text-white w-3 h-3" />, link: 'https://analitycs-frontend.vercel.app/kpi/monturas/vip' },
       // { text: 'Kpi monturas', icon: <Circle className="text-white w-3 h-3" />, link: '/kpi/monturas' },
       // { text: 'Kpi lente de contacto', icon: <Circle className="text-white w-3 h-3" />, link: 'https://analitycs-frontend.vercel.app/kpi/lentes/contactos' },
