@@ -66,3 +66,21 @@ export interface MedicoVenta {
     medicoAnterior: Partial<MedicoVenta>;
   }
   
+
+  export interface DataMedico {
+    ventaLenteLc: number;
+    sucursal:     string;
+    totalRecetas: number;
+    importe:      number;
+    idScursal:    string;
+    data:         Datum[];
+}
+
+export interface Datum {
+    cantidad:      number;
+    medico:        string;
+    e:             string;
+    importe:       number;
+    nombre:        string;
+    ventasLenteLc: number;
+}

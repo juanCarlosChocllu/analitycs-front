@@ -2,6 +2,7 @@ import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material"
 import { calcularVariacionPorcentual } from "../../app/utils/variacion";
 import type { SucursalVenta } from "../interfaces/Medicos";
 import { filtroMedicoEspecialidad } from "../utils/filtroMedicoEspecialidad";
+import { formatearImporte } from "../utils/funcionesDeCalculo";
 
 interface TablaMedicoProps {
     dataActual: SucursalVenta[];
@@ -96,7 +97,7 @@ export const TotalOftometras = ({dataActual,dataAnterior}:TablaMedicoProps) => {
               {recetasActual}
             </TableCell>
             <TableCell className="px-4 py-2 text-left text-sm font-medium text-gray-700">
-              {parseFloat(importeActual.toString()).toLocaleString("en-US")} Bs
+              {formatearImporte(importeActual, "OPTICENTRO PARAGUAY")}
             </TableCell>
 
             <TableCell
@@ -176,7 +177,7 @@ export const TotalOftometras = ({dataActual,dataAnterior}:TablaMedicoProps) => {
               {recetasAnterior}
             </TableCell>
             <TableCell className="px-4 py-2 text-left text-sm font-medium text-gray-700">
-              {parseFloat(importeAnterior.toString()).toLocaleString("en-US")} Bs
+            {formatearImporte(importeAnterior, "OPTICENTRO PARAGUAY")}
             </TableCell>
           </TableRow>
         </TableBody>
