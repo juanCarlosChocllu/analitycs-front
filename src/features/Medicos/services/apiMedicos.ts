@@ -5,7 +5,6 @@ import type { SucursalVenta } from "../interfaces/Medicos";
 export const optometraActual = async (data: ventaMedicoInterface): Promise<SucursalVenta[]> => {
     try {
         const response = await instance.post("venta/recetas/actual/medicos", data);
-        console.log(response.data);
         return response.data;
     } catch (error) {
         throw error;
@@ -35,8 +34,7 @@ export async  function optometraAnterior(data: ventaMedicoInterface): Promise<Su
         return response.data
         
     } catch (error) {
-        console.log(error);
-        
+
         throw error
         
     }
@@ -96,7 +94,6 @@ export const listarRecetasMedicos = async(data: recetaMedicoInterface): Promise<
         })
         return response.data
     } catch (error) {
-        console.log(error);
         throw error
     }
 

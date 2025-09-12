@@ -41,9 +41,6 @@ export const TablaMedico = ({ dataActual, dataAnterior }: TablaMedicoProps) => {
   const [columnaOrdenada, setColumnaOrdenada] = useState<Ordenable>("nombre");
   const [tipoOrdenamiento, setTipoOrdenamiento] = useState<"asc" | "desc">("asc");
 
-  console.log("dataActual tabla", dataActual);
-  console.log("dataAnterior tabla", dataAnterior);
-
   // Función auxiliar para obtener datos anidados
   function getCellValue(medico: any, campo: Ordenable): any {
     // Actual

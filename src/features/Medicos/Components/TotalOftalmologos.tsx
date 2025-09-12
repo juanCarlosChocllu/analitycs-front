@@ -12,8 +12,6 @@ export const TotalOftalmologos = ({ dataActual, dataAnterior }: TablaMedicoProps
   const [dataActualOftalmologo, dataAnteriorOftalmologo] =
     filtroMedicoEspecialidad({ dataActual, dataAnterior }, "OFTALMOLOGO");
 
-  console.log(dataActualOftalmologo);
-
   function calcularVariacionPorcentual(actual: number, anterior: number): string {
     if (anterior === 0) return "N/A";
     const variacion = ((actual - anterior) / anterior) * 100;

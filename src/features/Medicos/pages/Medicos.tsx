@@ -38,11 +38,8 @@ export default function Medicos() {
       setDataAnterior(datosAnteriores);
       setDataAtual(datosActuales);
       setLoading(false);
-      console.log("responseActual", responseActual);
-      console.log("responseAnterior", responseAnterior);
     } catch (error) {
       setLoading(false);
-      console.log(error);
     }
   };
 
