@@ -1,6 +1,7 @@
 import type { MedicoVenta, SucursalVenta } from "../interfaces/Medicos";
 import { filtroMedicoEspecialidad } from "../utils/filtroMedicoEspecialidad";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { formatearImporte } from "../utils/funcionesDeCalculo";
 
 interface TablaMedicoProps {
   dataActual: SucursalVenta[];
@@ -10,8 +11,6 @@ interface TablaMedicoProps {
 export const TotalOftalmologos = ({ dataActual, dataAnterior }: TablaMedicoProps) => {
   const [dataActualOftalmologo, dataAnteriorOftalmologo] =
     filtroMedicoEspecialidad({ dataActual, dataAnterior }, "OFTALMOLOGO");
-
-  console.log(dataActualOftalmologo);
 
   function calcularVariacionPorcentual(actual: number, anterior: number): string {
     if (anterior === 0) return "N/A";
@@ -109,7 +108,7 @@ export const TotalOftalmologos = ({ dataActual, dataAnterior }: TablaMedicoProps
                 {recetasActual}
               </TableCell>
               <TableCell className="px-4 py-2 text-left text-sm font-medium text-gray-700">
-                {parseFloat(importeActual.toString()).toLocaleString("en-US")} Bs
+                {formatearImporte(importeActual, "OPTICENTRO PARAGUAY")}
               </TableCell>
 
               <TableCell
@@ -184,7 +183,7 @@ export const TotalOftalmologos = ({ dataActual, dataAnterior }: TablaMedicoProps
                 {recetasAnterior}
               </TableCell>
               <TableCell className="px-4 py-2 text-left text-sm font-medium text-gray-700">
-                {parseFloat(importeAnterior.toString()).toLocaleString("en-US")} Bs
+                {formatearImporte(importeAnterior, "OPTICENTRO PARAGUAY")}
               </TableCell>
             </TableRow>
           </TableBody>

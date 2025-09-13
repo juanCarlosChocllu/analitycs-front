@@ -1,17 +1,17 @@
 import { instance } from "../../app/service/instaceAxios";
 import type { recetaMedicoInterface, ventaMedicoInterface } from "../interfaces/FiltroMedico";
+import type { SucursalVenta } from "../interfaces/Medicos";
 
-export const optometraActual = async (data: ventaMedicoInterface): Promise<any> => {
+export const optometraActual = async (data: ventaMedicoInterface): Promise<SucursalVenta[]> => {
     try {
         const response = await instance.post("venta/recetas/actual/medicos", data);
-        console.log(response.data);
         return response.data;
     } catch (error) {
         throw error;
     }
 }
 
-export async  function optometraAnterior(data: ventaMedicoInterface): Promise<any>{
+export async  function optometraAnterior(data: ventaMedicoInterface): Promise<SucursalVenta[]>{
 
     
     const fechaInicio = new Date(data.fechaInicio || '');
@@ -34,8 +34,7 @@ export async  function optometraAnterior(data: ventaMedicoInterface): Promise<an
         return response.data
         
     } catch (error) {
-        console.log(error);
-        
+
         throw error
         
     }
@@ -95,7 +94,6 @@ export const listarRecetasMedicos = async(data: recetaMedicoInterface): Promise<
         })
         return response.data
     } catch (error) {
-        console.log(error);
         throw error
     }
 

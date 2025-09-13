@@ -5,6 +5,8 @@ import { HeardeTitulo } from "../../app/components/Header/HeardeTitulo";
 import { useEffect, useState } from "react";
 import { optometraActual, optometraAnterior } from "../services/apiMedicos";
 import type { ventaMedicoInterface } from "../interfaces/FiltroMedico";
+import type { SucursalVenta } from "../interfaces/Medicos";
+import sincronizarDatosMedicos from "../utils/sincronizarDatosMedicos";
 
 export default function Medicos() {
   const [filtersActual, setFiltersActual] = useState<ventaMedicoInterface>(
@@ -19,8 +21,8 @@ export default function Medicos() {
       especialidad: "",
     }
   );
-  const [dataActual, setDataAtual] = useState([]);
-  const [dataAnterior, setDataAnterior] = useState([]);
+  const [dataActual, setDataAtual] = useState<SucursalVenta[]>([]);
+  const [dataAnterior, setDataAnterior] = useState<SucursalVenta[]>([]);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     handleSearch()
@@ -32,15 +34,16 @@ export default function Medicos() {
         optometraActual(filtersActual),
         optometraAnterior(filtersActual),
       ]);
-      setDataAtual(responseActual);
-      setDataAnterior(responseAnterior);
+      const { datosActuales, datosAnteriores } = sincronizarDatosMedicos(responseActual, responseAnterior);
+      setDataAnterior(datosAnteriores);
+      setDataAtual(datosActuales);
       setLoading(false);
-      console.table(responseActual);
     } catch (error) {
       setLoading(false);
-      console.log(error);
     }
   };
+
+
   return (
     <div className="p-4">
       {loading && <span>Cargando...</span> }

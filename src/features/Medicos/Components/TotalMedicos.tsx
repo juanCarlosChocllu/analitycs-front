@@ -4,6 +4,7 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { calcularVariacionPorcentual } from "../../app/utils/variacion";
+import { formatearImporte } from "../utils/funcionesDeCalculo";
 
 interface TotalMedicosProps {
     dataActual: any;
@@ -11,6 +12,7 @@ interface TotalMedicosProps {
 }
 
 export const TotalMedicos = ({ dataActual, dataAnterior }: TotalMedicosProps) => {
+
     const recetasActual = dataActual.reduce(
         (acc: number, item: any) => item.totalRecetas + acc,
         0
@@ -67,7 +69,7 @@ export const TotalMedicos = ({ dataActual, dataAnterior }: TotalMedicosProps) =>
                         <TableRow className="bg-gray-100">
                             <TableCell className="px-4 py-2 text-left text-sm font-medium text-gray-700">{ventasLenteLcActual}</TableCell>
                             <TableCell className="px-4 py-2 text-left text-sm font-medium text-gray-700">{recetasActual}</TableCell>
-                            <TableCell className="px-4 py-2 text-left text-sm font-medium text-gray-700">{parseFloat(importeActual).toLocaleString("en-US")} Bs</TableCell>
+                            <TableCell className="px-4 py-2 text-left text-sm font-medium text-gray-700"> {formatearImporte(importeActual, "OPTICENTRO PARAGUAY")} </TableCell>
                             <TableCell className={`px-4 py-2 text-sm text-gray-600 ${
                                 parseFloat(
                                   calcularVariacionPorcentual(recetasActual, recetasAnterior)
@@ -123,7 +125,7 @@ export const TotalMedicos = ({ dataActual, dataAnterior }: TotalMedicosProps) =>
                                 {recetasAnterior}
                             </TableCell>
                             <TableCell>
-                                {parseFloat(importeAnterior).toLocaleString("en-US")} Bs
+                              {formatearImporte(importeAnterior, "OPTICENTRO PARAGUAY")}
                             </TableCell>
                         </TableRow>
                     </TableBody>
