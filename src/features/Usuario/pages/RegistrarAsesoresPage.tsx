@@ -25,7 +25,11 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { ListarAsesor } from "../components/ListarAsesor";
-import type { AsesorSeleccionadoI, ErrorUser, UsuarioAsesor } from "../interfaces/usuario.interface";
+import type {
+  AsesorSeleccionadoI,
+  ErrorUser,
+  UsuarioAsesor,
+} from "../interfaces/usuario.interface";
 
 export const RegistrarAsesoresPage = () => {
   const navigate = useNavigate();
@@ -45,7 +49,7 @@ export const RegistrarAsesoresPage = () => {
     nombres: "",
     usuario: "",
   });
-  const [asesores, setAsesores] = useState<string[]>([]);
+  const [asesores, setAsesores] = useState<string>("");
   const rolSeleccionado = watch("rol");
 
   useEffect(() => {
@@ -55,8 +59,10 @@ export const RegistrarAsesoresPage = () => {
   }, [asesorSelect]);
 
   const onSubmit = async (data: UsuarioAsesor) => {
-    data.asesorUsuario = asesores;
+    data.asesor = asesores;
     try {
+      console.log(data);
+      
       const response = await crearUsuario(data);
       if (response?.status === 201) {
         setError([]);
@@ -68,6 +74,8 @@ export const RegistrarAsesoresPage = () => {
         toast.error("Error: " + response?.status);
       }
     } catch (error) {
+      console.log(error);
+      
       setError([]);
       const e = error as AxiosError<ErrorUser>;
       if (e.status === 400) {
@@ -91,7 +99,6 @@ export const RegistrarAsesoresPage = () => {
             Registrar Usuario
           </Typography>
           <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
-        
             <TextField
               fullWidth
               margin="normal"
@@ -100,11 +107,12 @@ export const RegistrarAsesoresPage = () => {
               helperText={errors.nombre?.message}
             />
 
-      
             <TextField
               fullWidth
               margin="normal"
-              {...register("apellidos", { required: "El apellido es requerido" })}
+              {...register("apellidos", {
+                required: "El apellido es requerido",
+              })}
               error={!!errors.apellidos}
               helperText={errors.apellidos?.message}
             />
@@ -112,13 +120,11 @@ export const RegistrarAsesoresPage = () => {
             {/* Nombre de usuario */}
             <TextField
               fullWidth
-              
               margin="normal"
               {...register("username", { required: "El usuario es requerido" })}
               error={!!errors.username || !!errorUser}
               helperText={errors.username?.message || errorUser}
             />
-
 
             <FormControl fullWidth variant="outlined" margin="normal">
               <InputLabel htmlFor="password">Contraseña</InputLabel>
@@ -126,7 +132,9 @@ export const RegistrarAsesoresPage = () => {
                 id="password"
                 type={showPassword ? "text" : "password"}
                 label="Contraseña"
-                {...register("password", { required: "La contraseña es requerida" })}
+                {...register("password", {
+                  required: "La contraseña es requerida",
+                })}
                 error={!!errors.password}
                 endAdornment={
                   <InputAdornment position="end">
@@ -158,11 +166,7 @@ export const RegistrarAsesoresPage = () => {
             </FormControl>
 
             {/* Rol */}
-            <FormControl
-              fullWidth
-              margin="normal"
-              error={!!errors.rol}
-            >
+            <FormControl fullWidth margin="normal" error={!!errors.rol}>
               <InputLabel id="rol-label">Rol</InputLabel>
               <Select
                 labelId="rol-label"
@@ -172,8 +176,9 @@ export const RegistrarAsesoresPage = () => {
                 {...register("rol", { required: "El rol es requerido" })}
               >
                 <MenuItem value="">Selecciona un rol</MenuItem>
-                
-                <MenuItem value="ASESOR">Asesor</MenuItem>
+                <MenuItem value="ADMINISTRADOR">ADMINISTRADOR</MenuItem>
+                <MenuItem value="GESTOR">GESTOR</MenuItem>
+                <MenuItem value="ASESOR">ASESOR</MenuItem>
               </Select>
               {errors.rol && (
                 <FormHelperText>{errors.rol.message}</FormHelperText>
@@ -194,7 +199,6 @@ export const RegistrarAsesoresPage = () => {
         </CardContent>
       </Card>
 
-     
       {(rolSeleccionado === "GESTOR" || rolSeleccionado === "ASESOR") && (
         <Box mt={4}>
           <ListarAsesor

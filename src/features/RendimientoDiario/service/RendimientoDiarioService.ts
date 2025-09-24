@@ -1,6 +1,6 @@
 import type { AxiosResponse } from "axios"
 import type { filtroBuscadorI } from "../../app/interfaces/BuscadorI"
-import { comisionesInstance } from "../../app/service/comisionesInstance"
+import { analitycsV2 } from "../../app/service/analitycsV2"
 
 import type {  registrarRendimientoDiarioI, RendimientoDiarioI, responseRendimiento, SucursalData, Venta, VentaMestaAsesor } from "../interface/RendimientoDiario"
 import type { AvanceVentas } from "../interface/avanceVentas";
@@ -9,7 +9,7 @@ import type { AvanceVentas } from "../interface/avanceVentas";
 
 export async function listarRendimientoDiarioAsesor(pagina:number):Promise<responseRendimiento<RendimientoDiarioI>> {
     try {
-        const response = await comisionesInstance.get('rendimiento/diario/listar/asesor',{
+        const response = await analitycsV2.get('rendimiento/diario/listar/asesor',{
             params:{
                 pagina:pagina
             }
@@ -25,7 +25,7 @@ export async function ListarAvanceMetasAsesor(filtro: filtroBuscadorI):Promise<V
     try {
         
         
-        const response = await comisionesInstance.post('venta/metas/porAsesor', filtro)
+        const response = await analitycsV2.post('venta/metas/porAsesor', filtro)
         return response.data
     } catch (error) {
         throw error
@@ -38,7 +38,7 @@ export async function registrarRendimientoDiarioAsesor(data: registrarRendimient
     try {
         
         
-        const response = await comisionesInstance.post('rendimiento/diario', data)
+        const response = await analitycsV2.post('rendimiento/diario', data)
         return response.data
     } catch (error) {
         throw error
@@ -50,7 +50,7 @@ export async function editarRendimientoDiarioAsesor(data: registrarRendimientoDi
     try {
         
         
-        const response = await comisionesInstance.patch(`rendimiento/diario/${id}`, data)
+        const response = await analitycsV2.patch(`rendimiento/diario/${id}`, data)
         return response.data
     } catch (error) {
         throw error
@@ -61,7 +61,7 @@ export async function editarRendimientoDiarioAsesor(data: registrarRendimientoDi
 
 export async function listarRendimientoAsesor(filtro: filtroBuscadorI):Promise<SucursalData[]> {
     try {
-        const response = await comisionesInstance.post('rendimiento/diario/listar', filtro)
+        const response = await analitycsV2.post('rendimiento/diario/listar', filtro)
         console.log("response Asesor 12: ",response.data)
         return response.data
     } catch (error) {
@@ -74,7 +74,7 @@ export async function listarRendimientoPorAsesor():Promise<Venta[]> {
     try {
         
         
-        const response = await comisionesInstance.post('rendimiento/diario/asesor')
+        const response = await analitycsV2.post('rendimiento/diario/asesor')
         return response.data
     } catch (error) {
         throw error
@@ -85,7 +85,7 @@ export async function listarRendimientoPorAsesor():Promise<Venta[]> {
 export async function listarAvanceVentas(filtro: filtroBuscadorI):Promise<AvanceVentas[]> {
     try {
         console.log("filtro Asesor: ",filtro)
-        const response = await comisionesInstance.post('venta/avance/local', filtro)
+        const response = await analitycsV2.post('venta/avance/local', filtro)
         console.log("response Asesor: ",response.data)
         return response.data
     } catch (error) {

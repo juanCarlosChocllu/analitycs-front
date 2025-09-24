@@ -19,7 +19,7 @@ import {
 import type { asesorSucursalI } from "../interface/asesorSucursal";
 import toast from "react-hot-toast";
 
-export const AsignarSucursalModal = ({id,reload,setReload}:{id:string, reload:boolean, setReload:(value:boolean)=>void}) => {
+export const AsignarSucursalModal = ({usuario,asesorId,reload,setReload}:{usuario:string,asesorId:string, reload:boolean, setReload:(value:boolean)=>void}) => {
   const [open, setOpen] = useState(false);
   const [sucursales, setSucursales] = useState<asesorSucursalI[]>([]);
   const [asesor, setAsesor] = useState<string>("");
@@ -29,10 +29,9 @@ export const AsignarSucursalModal = ({id,reload,setReload}:{id:string, reload:bo
   };
 
   const btnIngresar = async () => {
-    console.log(id);
     
     try {
-      const response = await asignarSucursal(asesor, id);
+      const response = await asignarSucursal(asesor, usuario);
 
       if (response.status === 200) {
         setReload(!reload)
@@ -48,7 +47,7 @@ export const AsignarSucursalModal = ({id,reload,setReload}:{id:string, reload:bo
       // Solo carga cuando se abre el modal
       (async () => {
         try {
-          const response = await listarAsesorSucursal2(id);
+          const response = await listarAsesorSucursal2(asesorId);
           setSucursales(response);
         } catch (error) {
           console.error(error);

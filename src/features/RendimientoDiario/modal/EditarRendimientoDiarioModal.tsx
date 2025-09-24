@@ -65,8 +65,10 @@ export const EditarRendimientoDiarioModal = ({reload,setReload,antenciones,id,se
       setReload(!reload)
       handleClose();
     } catch (error) {
+      console.log(error);
+      
       const e = error as AxiosError
-      console.log(e.status);
+     
 
       if (e.response?.status === 409) {
         const mensaje = (e.response.data as { message: string }).message;
