@@ -84,9 +84,7 @@ export async function listarRendimientoPorAsesor():Promise<Venta[]> {
 
 export async function listarAvanceVentas(filtro: filtroBuscadorI):Promise<AvanceVentas[]> {
     try {
-        console.log("filtro Asesor: ",filtro)
         const response = await comisionesInstance.post('venta/avance/local', filtro)
-        console.log("response Asesor: ",response.data)
         return response.data
     } catch (error) {
         throw error

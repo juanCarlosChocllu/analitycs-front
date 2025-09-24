@@ -1,5 +1,5 @@
-import { Box, Chip, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Box, Chip, Table, TableBody, TableCell, TableHead, TableRow, Typography, CircularProgress } from "@mui/material";
+import { useEffect, useState, useRef, useCallback } from "react";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
@@ -8,40 +8,116 @@ import type { filtroBuscadorI } from "../../app/interfaces/BuscadorI";
 import { listarAvanceVentas } from "../service/RendimientoDiarioService";
 import { BuscadorBase } from "../../app/components/Buscador/BuscadorBase";
 import dayjs from "dayjs";
-import { ordenarPorFecha, transformarDatos } from "../utils/trans";
-import type { AvanceVentas, SucursalTransformada } from "../interface/avanceVentas";
+import type { SucursalTransformada } from "../interface/avanceVentas";
 
 
 
 export const AvanceVentasPage = () => {
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
   const [filtro, setFiltro] = useState<filtroBuscadorI>({});
-  const [data, setData] = useState<AvanceVentas[]>([]);
+  const [allData, setAllData] = useState<SucursalTransformada[]>([]);
   const [tableData, setTableData] = useState<SucursalTransformada[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [loadingMore, setLoadingMore] = useState<boolean>(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const workerRef = useRef<Worker | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const CHUNK_SIZE = 50;
+
+  const getChunkedData = useCallback((sourceData: SucursalTransformada[], pageNum: number) => {
+    let hasMoreData = false;
+    const newChunk = sourceData.map(suc => {
+      const endIndex = pageNum * CHUNK_SIZE;
+      if (suc.data.length > endIndex) {
+        hasMoreData = true;
+      }
+      return {
+        ...suc,
+        data: suc.data.slice(0, endIndex)
+      };
+    });
+    return { chunk: newChunk, hasMore: hasMoreData };
+  }, [CHUNK_SIZE]);
+
+  useEffect(() => {
+    // Initialize the worker
+    workerRef.current = new Worker(new URL('../utils/avanceVentas.worker.ts', import.meta.url), { type: 'module' });
+
+    workerRef.current.onmessage = (e: MessageEvent<SucursalTransformada[]>) => {
+      const fullData = e.data;
+      setAllData(fullData);
+      
+      const initialData = getChunkedData(fullData, 1);
+      setTableData(initialData.chunk);
+      setHasMore(initialData.hasMore);
+      setPage(1);
+
+      setLoading(false);
+    };
+
+    return () => {
+      workerRef.current?.terminate();
+    };
+  }, [getChunkedData]);
 
   useEffect(() => {
     obtenerAvanceVentas();
   }, [filtro]);
 
+  const loadMoreData = useCallback(() => {
+    if (!hasMore || loading || loadingMore) return;
+  
+    setLoadingMore(true);
+    setTimeout(() => {
+      const nextPage = page + 1;
+      const nextData = getChunkedData(allData, nextPage);
+      setTableData(nextData.chunk);
+      setHasMore(nextData.hasMore);
+      setPage(nextPage);
+      setLoadingMore(false);
+    }, 500);
+  }, [allData, getChunkedData, hasMore, loading, loadingMore, page]);
+
   const obtenerAvanceVentas = async () => {
     try {
+      setLoading(true);
+      setTableData([]);
+      setAllData([]);
+      setPage(1);
+      setHasMore(true);
       const response = await listarAvanceVentas(filtro);
-      setData(ordenarPorFecha(response));
-      setTableData(transformarDatos(data));
+      workerRef.current?.postMessage(response);
 
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
   console.log("tableData - AvanceVentasPage: ",tableData)
+
+  const handleScroll = useCallback(() => {
+    const container = containerRef.current;
+    if (container) {
+      if (container.scrollTop + container.clientHeight >= container.scrollHeight - 200) {
+        loadMoreData();
+      }
+    }
+  }, [loadMoreData]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    container?.addEventListener('scroll', handleScroll);
+    return () => container?.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
 
 
 
   // ---------- Transform API -> Local structure (robust date parsing) ----------
   
   return (
-    <Box sx={{ width: "95%", borderRadius: "5px", m: "0 auto", p: "10px" }}>
+    <Box ref={containerRef} sx={{ width: "95%", borderRadius: "5px", m: "0 auto", p: "10px", height: 'calc(100vh - 120px)', overflowY: 'auto' }}>
       <BuscadorBase filtro={filtro} setFiltro={setFiltro} />
  {/* Header */}
  <Box>
@@ -73,10 +149,16 @@ export const AvanceVentasPage = () => {
 
       {/* Tables by branch */}
       <Box>
-        {tableData.map((suc, sucIndex) => (
-          <Box key={suc.sucursal + sucIndex} sx={{ mt: 3 }}>
-            <Typography
-              variant="h6"
+        {loading ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+            <CircularProgress />
+          </Box>
+        ) : tableData && tableData.length > 0 ? (
+          <>
+          {tableData.map((suc, sucIndex) => (
+            <Box key={suc.sucursal + sucIndex} sx={{ mt: 3 }}>
+              <Typography
+                variant="h6"
               gutterBottom
               sx={{
                 textAlign: "center",
@@ -179,7 +261,18 @@ export const AvanceVentasPage = () => {
               </Table>
             </Box>
           </Box>
-        ))}
+          ))}
+          {loadingMore && (
+            <Box sx={{ display: 'flex', justifyContent: 'center', py: 2 }}>
+              <CircularProgress size={24} />
+            </Box>
+          )}
+          </>
+        ) : (
+          <Typography sx={{ textAlign: 'center', mt: 4 }}>
+            No hay datos para mostrar
+          </Typography>
+        )}
       </Box>
   
     </Box>
