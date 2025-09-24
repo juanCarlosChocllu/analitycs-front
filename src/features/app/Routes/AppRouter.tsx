@@ -32,6 +32,8 @@ import { ListarAsesorPage } from "../../Usuario/pages/ListarAsesorPage";
 import { RendimientoDiarioAsesorPage } from "../../RendimientoDiario/page/RendimientoDiarioAsesorPage";
 import { AvanceMetasAsesorPage } from "../../RendimientoDiario/page/AvanceMetasAsesorPage";
 import { AvanceVentasPage } from "../../RendimientoDiario/page/AvanceVentasPage";
+import { ListarMarcaPage } from "../../marca/page/ListarMarcaPage";
+import { ProductoPage } from "../../Productos/page/ProductoPage";
 
 
 
@@ -75,7 +77,8 @@ export const AppRouter = () => {
                 <Route path="/rendimiento/diario/asesor" element={<RendimientoDiarioAsesorPage />} />
                {/*si*/}    <Route path="/avance/metas/asesor" element={<AvanceMetasAsesorPage />} />
                  <Route path="/avance/ventas/asesor" element={<AvanceVentasPage />} />
-
+                <Route path="/listar/marca" element={<ListarMarcaPage />} />
+                <Route path="/producto/reporte" element={<ProductoPage />} />
               </>
             )
           }

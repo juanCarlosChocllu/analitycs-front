@@ -56,6 +56,7 @@ export interface filtroBuscadorI {
   fechaFin?: string;
   comisiona?: boolean| null;
   flagVenta?: string;
+  rubro?:string[]
 
 }
 
