@@ -8,8 +8,8 @@ export const ListarAsesor = ({
   setAsesoresSeleccionados,
   setAsesorData,
 }: {
-  asesoresSeleccionados: string[];
-  setAsesoresSeleccionados: (asesor: string[]) => void;
+  asesoresSeleccionados: string;
+  setAsesoresSeleccionados: (asesor: string) => void;
   setAsesorData?: (data: AsesorSeleccionadoI) => void;
 }) => {
   const [asesores, setAsesores] = useState<AsesorSinUsuario[]>([]);
@@ -25,6 +25,8 @@ export const ListarAsesor = ({
   const listar = async () => {
     try {
       const response = await listarAsesorSinUsuario();
+      console.log(response);
+      
       setAsesores(response);
     } catch (error) {
       console.log(error);
@@ -61,13 +63,9 @@ export const ListarAsesor = ({
       usuario:usuario
     });
     }
-    if (asesoresSeleccionados.includes(id)) {
-      setAsesoresSeleccionados(
-        asesoresSeleccionados.filter((item: string) => item !== id)
-      );
-    } else {
-      setAsesoresSeleccionados([...asesoresSeleccionados, id]);
-    }
+   
+      setAsesoresSeleccionados(id);
+   
   };
 
   return (
@@ -101,12 +99,12 @@ export const ListarAsesor = ({
         </thead>
         <tbody>
           {asesoresPaginados.map((asesor) => (
-            <tr key={asesor.id} className="hover:bg-blue-50">
+            <tr key={asesor._id} className="hover:bg-blue-50">
               <td className="py-2 px-4 border-b text-center">
                 <input
                   type="checkbox"
-                  checked={asesoresSeleccionados.includes(asesor.id)}
-                  onChange={() => toggleSeleccion(asesor.id, asesor.nombre)}
+                  checked={asesoresSeleccionados.includes(asesor._id)}
+                  onChange={() => toggleSeleccion(asesor._id, asesor.nombre)}
                 />
               </td>
               <td className="py-2 px-4 border-b">{asesor.nombre}</td>

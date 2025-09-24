@@ -91,8 +91,8 @@ export const ListarAsesorPage = () => {
                   <TableCell><Typography fontWeight="bold">Apellidos</Typography></TableCell>
                   <TableCell><Typography fontWeight="bold">Usuario</Typography></TableCell>
                   <TableCell><Typography fontWeight="bold">Rol</Typography></TableCell>
-                  <TableCell><Typography fontWeight="bold">Sucursales</Typography></TableCell>
-                  <TableCell><Typography fontWeight="bold">Sucursal asignada</Typography></TableCell>
+                  <TableCell><Typography fontWeight="bold">Sucursal</Typography></TableCell>
+                  
                   <TableCell align="center"><Typography fontWeight="bold">Acciones</Typography></TableCell>
                 </TableRow>
               </TableHead>
@@ -118,14 +118,10 @@ export const ListarAsesorPage = () => {
                         ))}
                       </List>
                     </TableCell>
-                    <TableCell>
-                      {usuario.sucursales && usuario.sucursales.filter((item)=> item.asesor === usuario.asesor).map((item, index)=>(   <ListItem key={index} sx={{ py: 0, px: 1 }}>
-                            {item.sucursal}
-                          </ListItem>))}
-                    </TableCell>
+                    
                     <TableCell align="center">
                       <Box display="flex" justifyContent="center" gap={1} flexWrap="wrap">
-                        <AsignarSucursalModal id={usuario._id} reload={reload} setReload={sertReload}/>
+                        <AsignarSucursalModal asesorId={usuario.asesor} usuario={usuario._id} reload={reload} setReload={sertReload}/>
 
                         <IconButton
                           color="primary"

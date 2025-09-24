@@ -1,9 +1,9 @@
 import type { EmpresasI, SucursalI, TipoVentaI } from "../interfaces/BuscadorI";
-import { comisionesInstance } from "./comisionesInstance";
+import { analitycsV2 } from "./analitycsV2";
 
 export async function  getEmpresas():Promise<EmpresasI[]>{
   try {
-    const response = await comisionesInstance.get('empresa')
+    const response = await analitycsV2.get('empresa')
     return response.data
   } catch (error) {
       throw error    
@@ -12,7 +12,7 @@ export async function  getEmpresas():Promise<EmpresasI[]>{
 
 export async function  getSucursalesPorEmpresa(empresa:string):Promise<SucursalI[]>{
     try {
-      const response = await comisionesInstance.get(`sucursal/empresa/${empresa}`)
+      const response = await analitycsV2.get(`sucursal/${empresa}`)
       console.log(response.data);
       return response.data
     } catch (error) {
@@ -26,7 +26,7 @@ export async function  getSucursalesPorEmpresa(empresa:string):Promise<SucursalI
 
   export async function  listarTodasLasScursales():Promise<SucursalI[]>{
     try {
-      const response = await comisionesInstance.get(`sucursal`)
+      const response = await analitycsV2.get(`sucursales`)
       return response.data
     } catch (error) {
       throw error
@@ -40,7 +40,7 @@ export async function  getSucursalesPorEmpresa(empresa:string):Promise<SucursalI
   
   export async function  getTipoVenta():Promise<TipoVentaI[]>{
     try {
-      const response = await comisionesInstance.get(`tipo/venta`)
+      const response = await analitycsV2.get(`tipo/venta/listar`)
       return response.data
     } catch (error) {
       throw error
@@ -53,7 +53,7 @@ export async function  getSucursalesPorEmpresa(empresa:string):Promise<SucursalI
 
     export async function  verificarRol():Promise<{rol:string,_id:string}>{
     try {
-      const response = await comisionesInstance.get(`usuario/verificar/rol`)
+      const response = await analitycsV2.get(`usuario/verificar/rol`)
       console.log(response);
       
       return response.data

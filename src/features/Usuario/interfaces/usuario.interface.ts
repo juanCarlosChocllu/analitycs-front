@@ -19,7 +19,7 @@ export interface UsuarioAsesor {
     asesor:string
     rol: string;
     flag?: string;
-    asesorUsuario?:string[]
+    
 }
 
 
@@ -51,7 +51,7 @@ export interface Asesor {
 }
 
 export interface AsesorSinUsuario {
-    id:string,
+    _id:string,
     nombre:string,
     sucursal:string,
   

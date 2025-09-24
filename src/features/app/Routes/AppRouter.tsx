@@ -64,16 +64,16 @@ export const AppRouter = () => {
 
                 {/*<Route path="/asesor/inicio" element={<InicioAsesorPage />} />*/}
                 <Route path="/rendimiento/diario" element={<RendimientoDiarioPage />} />
-                <Route path="/listar/rendimiento/asesor" element={<ListarRendimientoAsesorPage />} />
-                <Route path="/rendimiento/semanal/asesor" element={<RendimientoSemanal />} />
+             {/*falat*/}   <Route path="/listar/rendimiento/asesor" element={<ListarRendimientoAsesorPage />} />
+             {/*si*/}    <Route path="/rendimiento/semanal/asesor" element={<RendimientoSemanal />} />
                 <Route path="/kpi/asesores" element={<AsesorLente />} />
                 <Route path="/metas/dia" element={<FormDia />} />
                 <Route path="/dias/listar" element={<DiasPage />} />
                 <Route path="/usuarios" element={<UsuarioPage />} />
                 <Route path="/asesor/usuarios" element={<ListarAsesorPage />} />
-                <Route path="/asesor/registrar" element={<RegistrarAsesoresPage />} />
+               {/*si*/}  <Route path="/asesor/registrar" element={<RegistrarAsesoresPage />} />
                 <Route path="/rendimiento/diario/asesor" element={<RendimientoDiarioAsesorPage />} />
-                 <Route path="/avance/metas/asesor" element={<AvanceMetasAsesorPage />} />
+               {/*si*/}    <Route path="/avance/metas/asesor" element={<AvanceMetasAsesorPage />} />
                  <Route path="/avance/ventas/asesor" element={<AvanceVentasPage />} />
 
               </>
