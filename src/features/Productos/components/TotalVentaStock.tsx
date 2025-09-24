@@ -8,19 +8,29 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import type { VentaStockI } from "../interface/productos";
+import type { ProductosStockI, VentaStockI } from "../interface/productos";
 import { cantidadDiasRangoFecha } from "../../app/util/fechasUtils";
+import { useEffect, useState } from "react";
+import { agruparVentaProductosPorRubroYCategoria } from "../utils/productosAgrupacion";
+import { useEstadoReload } from "../../app/zustand/estadosZustand";
 
 export const TotalVentaStock = ({
-  ventaTotalStock,
+  dataActual,dataAnterior,
   fechaInicio,
   fechaFin,
 }: {
-  ventaTotalStock: VentaStockI[];
+  dataActual: ProductosStockI[], dataAnterior: ProductosStockI[]
   fechaInicio: string;
   fechaFin: string;
 }) => {
+    const { isReloading } = useEstadoReload();
+  const [ventaTotalStock, setventaTotalStock] = useState<VentaStockI[]>([])
   const dias = cantidadDiasRangoFecha(fechaInicio, fechaFin);
+ useEffect(() => { 
+    console.log("cargado venta stock", isReloading);
+    
+    setventaTotalStock(agruparVentaProductosPorRubroYCategoria(dataActual, dataAnterior))
+  }, [isReloading])
 
   return (
     <TableContainer component={Paper}>

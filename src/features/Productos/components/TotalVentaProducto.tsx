@@ -8,15 +8,31 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import type { VentaStockI } from "../interface/productos";
+import type { ProductosStockI, VentaStockI } from "../interface/productos";
 import { porcentaje } from "../../app/util/porcentaje";
 import { variacion } from "../../Comparativos/utils/calcularVaricacion";
+import { useEffect, useState } from "react";
+import { agruparVentaProductosPorRubroYCategoria } from "../utils/productosAgrupacion";
+import { useEstadoReload } from "../../app/zustand/estadosZustand";
+import { GraficoProducto } from "./GraficoProducto";
 
 export const TotalVentaProducto = ({
-  ventaTotalStock,
+  dataActual,
+  dataAnterior,
 }: {
-  ventaTotalStock: VentaStockI[];
+  dataActual: ProductosStockI[];
+  dataAnterior: ProductosStockI[];
 }) => {
+  const [ventaTotalStock, setVentaTotalStock] = useState<VentaStockI[]>([]);
+  const { isReloading } = useEstadoReload();
+  useEffect(() => {
+    console.log("total venta producto", isReloading);
+
+    setVentaTotalStock(
+      agruparVentaProductosPorRubroYCategoria(dataActual, dataAnterior)
+    );
+  }, [isReloading]);
+
   return (
     <TableContainer component={Paper}>
       <Typography variant="h6" align="center" sx={{ my: 2 }}>
@@ -38,7 +54,7 @@ export const TotalVentaProducto = ({
         );
 
         return (
-          <div key={rubroItem.rubro}>
+          <div key={rubroItem.rubro} className="mt-20">
             <Typography variant="subtitle1" sx={{ mt: 2, mb: 1 }}>
               <strong>{rubroItem.rubro}</strong>
             </Typography>
@@ -81,11 +97,24 @@ export const TotalVentaProducto = ({
                     <TableCell>{item.categoria || "Sin categoría"}</TableCell>
                     <TableCell align="right">{item.ventaActual}</TableCell>
                     <TableCell align="right">
-                      {porcentaje(item.ventaActual, totalActual).toLocaleString()} %
+                      {porcentaje(
+                        item.ventaActual,
+                        totalActual
+                      ).toLocaleString()}{" "}
+                      %
                     </TableCell>
                     <TableCell align="right">{item.presupuesto}</TableCell>
-                    <TableCell align="right">{porcentaje(item.presupuesto,totalPresupuesto)} %</TableCell>
-                    <TableCell align="right">{item.presupuesto > 0 ? variacion(item.ventaActual, item.presupuesto).toFixed(2):0}  %</TableCell>
+                    <TableCell align="right">
+                      {porcentaje(item.presupuesto, totalPresupuesto)} %
+                    </TableCell>
+                    <TableCell align="right">
+                      {item.presupuesto > 0
+                        ? variacion(item.ventaActual, item.presupuesto).toFixed(
+                            2
+                          )
+                        : 0}{" "}
+                      %
+                    </TableCell>
                     <TableCell align="right">{item.ventasAnterior}</TableCell>
                     <TableCell align="right">
                       {porcentaje(item.ventasAnterior, totalAnterior)} %
@@ -120,7 +149,12 @@ export const TotalVentaProducto = ({
                     <strong>100 %</strong>
                   </TableCell>
                   <TableCell align="right">
-                    <strong>{totalPresupuesto > 0 ? variacion(totalActual, totalPresupuesto).toFixed(2):0} %</strong>
+                    <strong>
+                      {totalPresupuesto > 0
+                        ? variacion(totalActual, totalPresupuesto).toFixed(2)
+                        : 0}{" "}
+                      %
+                    </strong>
                   </TableCell>
                   <TableCell align="right">
                     <strong>{totalAnterior}</strong>
@@ -136,6 +170,9 @@ export const TotalVentaProducto = ({
                 </TableRow>
               </TableBody>
             </Table>
+            <div style={{ width: "100%", height: 300 }}>
+              <GraficoProducto  dataAgrupada={rubroItem.categorias}/>
+            </div>
           </div>
         );
       })}

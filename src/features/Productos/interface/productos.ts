@@ -53,3 +53,13 @@ export interface categoriaAgrupadaI{
    stockSucursal: number;
       stockDeposito:number;
 }
+
+export interface agrupadoPorRubroI {
+    rubro: string;
+    producto: {
+        marca: string;
+        categoria: string;
+        stockSucursal: number;
+        totalVentas: number;
+    }[];
+}

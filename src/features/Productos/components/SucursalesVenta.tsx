@@ -13,12 +13,35 @@ import {
   AccordionDetails,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import type { VentaStockSucursalI } from "../interface/productos";
+import type {
+  ProductosStockI,
+  VentaStockSucursalI,
+} from "../interface/productos";
 import { variacion } from "../../Comparativos/utils/calcularVaricacion";
 import { cantidadDiasRangoFecha } from "../../app/util/fechasUtils";
+import { useEffect, useState } from "react";
+import { useEstadoReload } from "../../app/zustand/estadosZustand";
 
-export const SucursalesVenta = ({ data ,fechaFin,fechaInicio}: { data: VentaStockSucursalI[] , fechaInicio:string, fechaFin:string}) => {
-const dias = cantidadDiasRangoFecha(fechaInicio, fechaFin)
+export const SucursalesVenta = ({
+  datatActual,
+  datatAnterior,
+  fechaFin,
+  fechaInicio,
+}: {
+  datatActual: ProductosStockI[];
+  datatAnterior: ProductosStockI[];
+  fechaInicio: string;
+  fechaFin: string;
+}) => {
+  const [data, setdata] = useState<VentaStockSucursalI[]>([]);
+  const dias = cantidadDiasRangoFecha(fechaInicio, fechaFin);
+    const { isReloading } = useEstadoReload();
+  useEffect(()=>{ 
+    console.log("sucursal venta", isReloading);
+    
+    setdata(agruparPorSucursal(datatActual, datatAnterior))
+  },[isReloading])
+
   return (
     <Box>
       {data.map((sucursalData) => (
@@ -37,12 +60,11 @@ const dias = cantidadDiasRangoFecha(fechaInicio, fechaFin)
                 (acc, item) => acc + item.ventasAnterior,
                 0
               );
-              
+
               const totalStockSucursal = rubroData.categorias.reduce(
                 (acc, item) => acc + item.stockSucursal,
                 0
               );
-             
 
               return (
                 <Box key={rubroData.rubro} mb={4}>
@@ -123,22 +145,24 @@ const dias = cantidadDiasRangoFecha(fechaInicio, fechaFin)
                                 {(shareAnterior * 100).toFixed(1)}%
                               </TableCell>
                               <TableCell align="right">
-                                { cat.ventasAnterior >0 ? variacion(
-                                  cat.ventaActual,
-                                  cat.ventasAnterior
-                                ).toFixed(2):0}
+                                {cat.ventasAnterior > 0
+                                  ? variacion(
+                                      cat.ventaActual,
+                                      cat.ventasAnterior
+                                    ).toFixed(2)
+                                  : 0}
                                 %
                               </TableCell>
-                              <TableCell align="right">{(cat.ventaActual / dias).toFixed(2)}</TableCell>
+                              <TableCell align="right">
+                                {(cat.ventaActual / dias).toFixed(2)}
+                              </TableCell>
                               <TableCell align="right">
                                 {cat.stockSucursal}
                               </TableCell>
                               <TableCell align="right">0</TableCell>
                               <TableCell align="right">0</TableCell>
                               <TableCell align="right">0</TableCell>
-                              <TableCell align="right">
-                               0
-                              </TableCell>
+                              <TableCell align="right">0</TableCell>
                             </TableRow>
                           );
                         })}
@@ -150,7 +174,9 @@ const dias = cantidadDiasRangoFecha(fechaInicio, fechaFin)
                             fontWeight: "bold",
                           }}
                         >
-                          <TableCell sx={{ fontWeight: "bold" }}>Total</TableCell>
+                          <TableCell sx={{ fontWeight: "bold" }}>
+                            Total
+                          </TableCell>
                           <TableCell align="right" sx={{ fontWeight: "bold" }}>
                             {totalVentaActual.toLocaleString()}
                           </TableCell>
@@ -186,7 +212,7 @@ const dias = cantidadDiasRangoFecha(fechaInicio, fechaFin)
                             0
                           </TableCell>
                           <TableCell align="right" sx={{ fontWeight: "bold" }}>
-                           0
+                            0
                           </TableCell>
                         </TableRow>
                       </TableBody>
@@ -201,3 +227,101 @@ const dias = cantidadDiasRangoFecha(fechaInicio, fechaFin)
     </Box>
   );
 };
+
+function agruparPorSucursal(
+  datatActual: ProductosStockI[],
+  datatAnterior: ProductosStockI[]
+): VentaStockSucursalI[] {
+  const agrupado: Record<
+    string,
+    Record<
+      string,
+      Record<
+        string,
+        {
+          ventaActual: number;
+          ventasAnterior: number;
+          presupuesto: number;
+          stockSucursal: number;
+          stockDeposito: number;
+        }
+      >
+    >
+  > = {};
+
+  for (const item of datatActual) {
+    const sucursal = item.sucursal;
+    for (const producto of item.productos) {
+      const rubro = producto.rubro;
+      const categoria = producto.categoria;
+
+      if (!agrupado[sucursal]) {
+        agrupado[sucursal] = {};
+      }
+      if (!agrupado[sucursal][rubro]) {
+        agrupado[sucursal][rubro] = {};
+      }
+      if (!agrupado[sucursal][rubro][categoria]) {
+        agrupado[sucursal][rubro][categoria] = {
+          ventaActual: 0,
+          ventasAnterior: 0,
+          presupuesto: 0,
+          stockSucursal: 0,
+          stockDeposito: 0,
+        };
+      }
+
+      agrupado[sucursal][rubro][categoria].ventaActual +=
+        producto.cantidadVentas;
+      if (producto && producto.stock.length > 0) {
+        for (const s of producto.stock) {
+          if (s.tipo === "ALMACEN") {
+            agrupado[sucursal][rubro][categoria].stockDeposito += s.cantidad;
+          } else if (s.tipo === "SUCURSAL") {
+            agrupado[sucursal][rubro][categoria].stockSucursal += s.cantidad;
+          }
+        }
+      }
+    }
+  }
+
+  for (const item of datatAnterior) {
+    const sucursal = item.sucursal;
+
+    for (const producto of item.productos) {
+      const rubro = producto.rubro;
+      const categoria = producto.categoria;
+
+      if (!agrupado[sucursal]) {
+        agrupado[sucursal] = {};
+      }
+      if (!agrupado[sucursal][rubro]) {
+        agrupado[sucursal][rubro] = {};
+      }
+      if (!agrupado[sucursal][rubro][categoria]) {
+        agrupado[sucursal][rubro][categoria] = {
+          ventaActual: 0,
+          ventasAnterior: 0,
+          presupuesto: 0,
+          stockSucursal: 0,
+          stockDeposito: 0,
+        };
+      }
+
+      agrupado[sucursal][rubro][categoria].ventasAnterior +=
+        producto.cantidadVentas;
+    }
+  }
+  const resultado = Object.entries(agrupado).map(([sucursal, rubros]) => ({
+    sucursal,
+    rubros: Object.entries(rubros).map(([rubro, categorias]) => ({
+      rubro,
+      categorias: Object.entries(categorias).map(([categoria, valores]) => ({
+        categoria,
+        ...valores,
+      })),
+    })),
+  }));
+
+  return resultado;
+}

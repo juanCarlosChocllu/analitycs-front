@@ -1,59 +1,60 @@
+import { useEffect, useState } from "react";
+import type {
+  agrupadoPorRubroI,
+  ProductosStockI,
+} from "../interface/productos";
+
+import { porcentaje2 } from "../../app/util/porcentaje";
 import {
+  Box,
+  Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
   Typography,
-  Box,
 } from "@mui/material";
-import type {
-  DataEmpresaI,
-  ProductoEmpresaI,
-  ProductosStockI,
-} from "../interface/productos";
-import { porcentaje2 } from "../../app/util/porcentaje";
 import { cantidadDiasRangoFecha } from "../../app/util/fechasUtils";
-import { useEffect, useState } from "react";
 import { useEstadoReload } from "../../app/zustand/estadosZustand";
+import { agruparPorRubro } from "../utils/productosAgrupacion";
 
-export const RankPorCadena = ({
-  datatActual,
+export const RankPorRubroVIP = ({
+  dataActual,
   fechaFin,
   fechaInicio,
 }: {
-  datatActual: ProductosStockI[];
-
+  dataActual: ProductosStockI[];
   fechaInicio: string;
   fechaFin: string;
 }) => {
-  const [data, setdata] = useState<DataEmpresaI[]>([]);
-  const dias = cantidadDiasRangoFecha(fechaInicio, fechaFin);
   const { isReloading } = useEstadoReload();
+  const dias = cantidadDiasRangoFecha(fechaInicio, fechaFin);
+  const [data, setdata] = useState<agrupadoPorRubroI[]>([]);
   useEffect(() => {
-    console.log("cargado rank producto", isReloading);
-    setdata(agruparPorEmpresa(datatActual));
+    console.log("rank vip");
+
+    setdata(agruparPorRubro(dataActual));
   }, [isReloading]);
   return (
     <Box>
-      {data.map((sucursalData, index) => {
-        const totalVenta = sucursalData.productos.reduce(
-          (acc, item) => item.cantidadVentas + acc,
-          0
-        );
-        const totalStockSucursal = sucursalData.productos.reduce(
-          (acc, item) => item.cantidaStockSucursal + acc,
-          0
-        );
-        const nuevaData = sucursalData.productos.sort(
-          (a, b) => b.cantidadVentas - a.cantidadVentas
-        );
+      {data.map((rubro, index) => {
+        const nuevaData = rubro.producto
+          .filter((i) => i.categoria == "VIP")
+          .sort((a, b) => b.totalVentas - a.totalVentas);
 
+        const totalVenta = nuevaData.reduce(
+          (acc, item) => item.totalVentas + acc,
+          0
+        );
+        const totalStockSucursal = nuevaData.reduce(
+          (acc, item) => item.stockSucursal + acc,
+          0
+        );
         function shareAcumulado(i: number) {
           let shareunitario = porcentaje2(
-            nuevaData[i]?.cantidadVentas,
+            nuevaData[i]?.totalVentas,
             totalVenta
           );
           if (i === 0) {
@@ -61,7 +62,7 @@ export const RankPorCadena = ({
           }
           let share = 0;
           for (let j = 0; j <= i; j++) {
-            const cantidad = nuevaData[j]?.cantidadVentas ?? 0;
+            const cantidad = nuevaData[j]?.totalVentas ?? 0;
             share += porcentaje2(cantidad, totalVenta);
           }
 
@@ -69,15 +70,12 @@ export const RankPorCadena = ({
         }
 
         return (
-          <Box key={index} mb={4}>
+          <Box key={index}>
             <Typography variant="h6" gutterBottom>
-              empresa: {sucursalData.empresa}
+              Rubro: {rubro.rubro}
             </Typography>
             <TableContainer component={Paper}>
-              <Table
-                size="small"
-                aria-label={`Tabla de ${sucursalData.empresa}`}
-              >
+              <Table size="small" aria-label={`Tabla de ${rubro.rubro}`}>
                 <TableHead>
                   <TableRow>
                     <TableCell>Marca</TableCell>
@@ -99,33 +97,33 @@ export const RankPorCadena = ({
                         <TableCell>{producto.marca}</TableCell>
                         <TableCell>{producto.categoria}</TableCell>
                         <TableCell align="right">
-                          {producto.cantidadVentas}
+                          {producto.totalVentas}
                         </TableCell>
                         <TableCell align="right">
-                          {producto.cantidaStockSucursal}
+                          {producto.stockSucursal}
                         </TableCell>
                         <TableCell align="right">
                           {porcentaje2(
-                            producto.cantidadVentas,
+                            producto.totalVentas,
                             totalVenta
                           ).toFixed(2)}{" "}
                           %
                         </TableCell>
                         <TableCell align="right">{share.toFixed(2)}%</TableCell>
                         <TableCell align="right">
-                          {(producto.cantidadVentas / dias).toFixed(2)}
+                          {(producto.totalVentas / dias).toFixed(2)}
                         </TableCell>
                         <TableCell align="right">
                           {(
-                            producto.cantidaStockSucursal /
-                            (producto.cantidadVentas / dias)
+                            producto.stockSucursal /
+                            (producto.totalVentas / dias)
                           ).toFixed(2)}
                         </TableCell>
                         <TableCell align="right">
-                          {producto.cantidaStockSucursal > 0
+                          {producto.stockSucursal > 0
                             ? (
-                                (producto.cantidadVentas /
-                                  producto.cantidaStockSucursal) *
+                                (producto.totalVentas /
+                                  producto.stockSucursal) *
                                 100
                               ).toFixed(2)
                             : 0}
@@ -133,6 +131,8 @@ export const RankPorCadena = ({
                       </TableRow>
                     );
                   })}
+
+                  {/* Fila de totales */}
                   <TableRow
                     sx={{ backgroundColor: "#f5f5f5", fontWeight: "bold" }}
                   >
@@ -140,6 +140,7 @@ export const RankPorCadena = ({
                     <TableCell align="right">{totalVenta}</TableCell>
                     <TableCell align="right">{totalStockSucursal}</TableCell>
                     <TableCell align="right">
+               
                       {porcentaje2(totalVenta, totalVenta).toFixed(2)} %
                     </TableCell>
                     <TableCell align="right">100.00%</TableCell>
@@ -147,6 +148,7 @@ export const RankPorCadena = ({
                       {(totalVenta / dias).toFixed(2)}
                     </TableCell>
                     <TableCell align="right">
+                   
                       {(totalStockSucursal / (totalVenta / dias)).toFixed(2)}
                     </TableCell>
                     <TableCell align="right">
@@ -162,46 +164,3 @@ export const RankPorCadena = ({
     </Box>
   );
 };
-
-function agruparPorEmpresa(dataActual: ProductosStockI[]): DataEmpresaI[] {
-  const agrupado: Record<string, Record<string, ProductoEmpresaI>> = {};
-
-  for (const item of dataActual) {
-    const empresa = item.empresa;
-
-    if (!agrupado[empresa]) {
-      agrupado[empresa] = {};
-    }
-
-    for (const producto of item.productos) {
-      const marca = producto.marca;
-
-      if (!agrupado[empresa][marca]) {
-        agrupado[empresa][marca] = {
-          cantidadVentas: 0,
-          categoria: producto.categoria,
-          marca: producto.marca,
-          rubro: producto.rubro,
-          cantidadCotizaciones: 0,
-          cantidadStockDeposito: 0,
-          cantidaStockSucursal: 0,
-        };
-      }
-      agrupado[empresa][marca].cantidadVentas += producto.cantidadVentas;
-      for (const stock of producto.stock) {
-        if (stock.tipo === "ALMACEN") {
-          agrupado[empresa][marca].cantidadStockDeposito += stock.cantidad;
-        } else if (stock.tipo === "SUCURSAL") {
-          agrupado[empresa][marca].cantidaStockSucursal += stock.cantidad;
-        }
-      }
-    }
-  }
-
-  const resultado = Object.entries(agrupado).map(([empresa, marcasObj]) => ({
-    empresa,
-    productos: Object.values(marcasObj),
-  }));
-
-  return resultado;
-}

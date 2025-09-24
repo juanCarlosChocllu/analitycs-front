@@ -8,14 +8,23 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import type { VentaStockI } from "../interface/productos";
+import type { ProductosStockI, VentaStockI } from "../interface/productos";
 import { porcentaje } from "../../app/util/porcentaje";
+import { useEffect, useState } from "react";
+import { agruparVentaProductosPorRubroYCategoria } from "../utils/productosAgrupacion";
+import { useEstadoReload } from "../../app/zustand/estadosZustand";
 
-export const RotacionInventario = ({
-  ventaTotalStock,
-}: {
-  ventaTotalStock: VentaStockI[];
-}) => {
+export const RotacionInventario = ({ dataActual, dataAnterior }: { dataActual: ProductosStockI[], dataAnterior: ProductosStockI[] } 
+  
+ ) => {
+  const { isReloading } = useEstadoReload();
+  const [ventaTotalStock, setventaTotalStock] = useState< VentaStockI[]>([])
+    useEffect(() => { 
+      console.log(" rotacion inventario", isReloading);
+      
+      setventaTotalStock(agruparVentaProductosPorRubroYCategoria(dataActual, dataAnterior))
+    }, [isReloading])
+  
   return (
     <TableContainer component={Paper}>
       <Typography variant="h6" align="center" sx={{ my: 2 }}>

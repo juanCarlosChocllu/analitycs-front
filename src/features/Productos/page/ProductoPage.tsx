@@ -5,14 +5,7 @@ import {
   reporteProductoActual,
   reporteProductoAnterior,
 } from "../service/productoService";
-import type {
-  DataEmpresaI,
-  ProductoEmpresaI,
-  ProductoI,
-  ProductosStockI,
-  VentaStockI,
-  VentaStockSucursalI,
-} from "../interface/productos";
+import type { ProductosStockI } from "../interface/productos";
 import { TotalVentaProducto } from "../components/TotalVentaProducto";
 
 import { RotacionInventario } from "../components/RotacionInventario";
@@ -25,20 +18,21 @@ import TabPanel from "@mui/lab/TabPanel";
 import { SucursalesVenta } from "../components/SucursalesVenta";
 import { RankPorCadena } from "../components/RankPorCadena";
 import { Loader } from "../../app/components/loader/Loader";
-import { consolidarMedicoData } from "../../Medicos/utils/funcionesDeCalculo";
+import { RankPorRubro } from "../components/RankPorRubro";
+import { useEstadoReload } from "../../app/zustand/estadosZustand";
+import { RankPorRubroVIP } from "../components/RankPorRubroVip";
 
 export const ProductoPage = () => {
   const [value, setValue] = useState("1");
   const handleChange = (newValue: string) => {
     setValue(newValue);
   };
-  const [totalVentaStock, setTotalVentaStock] = useState<VentaStockI[]>([]);
+  const { triggerReload } = useEstadoReload();
   const [dataActual, setDataActual] = useState<ProductosStockI[]>([]);
-  const [dataEmpresa, setDataEmpresa] = useState<DataEmpresaI[]>([]);
+  const [dataAnterior, setDataAnterior] = useState<ProductosStockI[]>([]);
+
   const [loader, setLoader] = useState<boolean>(false);
-  const [totalVentaStockSucursal, setTotalVentaStockSucursal] = useState<
-    VentaStockSucursalI[]
-  >([]);
+
   const [filtro, setFiltro] = useState<filtroBuscadorI>({});
   useEffect(() => {
     reporteActualResponse();
@@ -51,16 +45,15 @@ export const ProductoPage = () => {
         reporteProductoActual(filtro),
         reporteProductoAnterior(filtro),
       ]);
+
       setDataActual(Actual);
-      setTotalVentaStock(
-        agruparVentaProductosPorRubroYCategoria(Actual, Anterior)
-      );
-      setTotalVentaStockSucursal(agruparPorSucursal(Actual, Anterior));
-      setDataEmpresa(agruparPorEmpresa(Actual));
+      setDataAnterior(Anterior);
       setLoader(false);
     } catch (error) {
       setLoader(false);
       console.log(error);
+    } finally {
+      triggerReload();
     }
   };
 
@@ -111,9 +104,37 @@ export const ProductoPage = () => {
                   }}
                 />
                 <Tab
+                  icon={<ChartNoAxesColumnIncreasingIcon />}
+                  label="RANK POR RUBRO"
+                  value="2"
+                  sx={{
+                    width: "15%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    textAlign: "center",
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: 1,
+                  }}
+                />
+                 <Tab
+                  icon={<ChartNoAxesColumnIncreasingIcon />}
+                  label="RANK POR RUBRO VIP"
+                  value="3"
+                  sx={{
+                    width: "15%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    textAlign: "center",
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: 1,
+                  }}
+                />
+                <Tab
                   icon={<Building2 />}
                   label="REPORTE SUCURSALES"
-                  value="2"
+                  value="4"
                   sx={{
                     width: "15%",
                     justifyContent: "center",
@@ -127,7 +148,7 @@ export const ProductoPage = () => {
                 <Tab
                   icon={<Building2 />}
                   label="Rank por cadena"
-                  value="3"
+                  value="5"
                   sx={{
                     width: "15%",
                     justifyContent: "center",
@@ -142,29 +163,61 @@ export const ProductoPage = () => {
             </Box>
 
             <TabPanel value="1">
-              <TotalVentaProducto ventaTotalStock={totalVentaStock} />
+              <TotalVentaProducto
+                dataActual={dataActual}
+                dataAnterior={dataAnterior}
+              />
               {filtro.fechaFin && filtro.fechaInicio && (
                 <TotalVentaStock
-                  ventaTotalStock={totalVentaStock}
+                  dataActual={dataActual}
+                  dataAnterior={dataAnterior}
                   fechaFin={filtro.fechaFin}
                   fechaInicio={filtro.fechaInicio}
                 />
               )}
-              <RotacionInventario ventaTotalStock={totalVentaStock} />
+              <RotacionInventario
+                dataActual={dataActual}
+                dataAnterior={dataAnterior}
+              />
+            </TabPanel>
+            <TabPanel value="2">
+              {filtro.fechaFin && filtro.fechaInicio && (
+                <RankPorRubro
+                  dataActual={dataActual}
+                  fechaFin={filtro.fechaFin}
+                  fechaInicio={filtro.fechaInicio}
+                />
+              )}
+            </TabPanel>
+              <TabPanel value="3">
+              {filtro.fechaFin && filtro.fechaInicio && (
+                <RankPorRubroVIP
+                  dataActual={dataActual}
+                  fechaFin={filtro.fechaFin}
+                  fechaInicio={filtro.fechaInicio}
+                />
+              )}
             </TabPanel>
 
-            <TabPanel value="2">
+            <TabPanel value="4">
               {filtro.fechaInicio && filtro.fechaFin && (
                 <SucursalesVenta
-                  data={totalVentaStockSucursal}
+                  datatActual={dataActual}
+                  datatAnterior={dataAnterior}
                   fechaInicio={filtro.fechaInicio}
                   fechaFin={filtro.fechaFin}
                 />
               )}
             </TabPanel>
 
-            <TabPanel value="3">
-              { filtro.fechaFin && filtro.fechaInicio && <RankPorCadena  data={dataEmpresa}  fechaFin={filtro.fechaFin} fechaInicio={filtro.fechaInicio}/>}
+            <TabPanel value="5">
+              {filtro.fechaFin && filtro.fechaInicio && (
+                <RankPorCadena
+                  datatActual={dataActual}
+                  fechaFin={filtro.fechaFin}
+                  fechaInicio={filtro.fechaInicio}
+                />
+              )}
             </TabPanel>
           </TabContext>
         </Box>
@@ -173,223 +226,3 @@ export const ProductoPage = () => {
     </div>
   );
 };
-
-function agruparVentaProductosPorRubroYCategoria(
-  dataActual: ProductosStockI[],
-  dataAnterior: ProductosStockI[]
-): VentaStockI[] {
-  const agrupado: Record<
-    string,
-    Record<
-      string,
-      {
-        ventaActual: number;
-        ventasAnterior: number;
-        presupuesto: number;
-        stockSucursal: number;
-        stockDeposito: number;
-      }
-    >
-  > = {};
-
-  for (const item of dataAnterior) {
-    for (const producto of item.productos) {
-      const { rubro, categoria, cantidadVentas } = producto;
-      if (!agrupado[rubro]) {
-        agrupado[rubro] = {};
-      }
-      if (!agrupado[rubro][categoria]) {
-        agrupado[rubro][categoria] = {
-          ventaActual: 0,
-          ventasAnterior: 0,
-          presupuesto: 0,
-          stockDeposito: 0,
-          stockSucursal: 0,
-        };
-      }
-      agrupado[rubro][categoria].ventasAnterior += cantidadVentas;
-    }
-  }
-
-  for (const item of dataActual) {
-    for (const producto of item.productos) {
-      const { rubro, categoria, cantidadVentas, stock ,cantidadCotizaciones} = producto;
-      if (!agrupado[rubro]) {
-        agrupado[rubro] = {};
-      }
-      if (!agrupado[rubro][categoria]) {
-        agrupado[rubro][categoria] = {
-          ventaActual: 0,
-          ventasAnterior: 0,
-          presupuesto: 0,
-          stockDeposito: 0,
-          stockSucursal: 0,
-        };
-      }
-
-      agrupado[rubro][categoria].ventaActual += cantidadVentas;
-       agrupado[rubro][categoria].presupuesto += cantidadCotizaciones;
-      if (stock && stock.length > 0) {
-        for (const s of stock) {
-          if (s.tipo === "ALMACEN") {
-            agrupado[rubro][categoria].stockDeposito += s.cantidad;
-          } else if (s.tipo === "SUCURSAL") {
-            agrupado[rubro][categoria].stockSucursal += s.cantidad;
-          }
-        }
-      }
-    }
-  }
-
-  const resultado = Object.entries(agrupado).map(([rubro, categorias]) => ({
-    rubro,
-    categorias: Object.entries(categorias).map(([categoria, valores]) => ({
-      categoria,
-      ...valores,
-    })),
-  }));
-
-  return resultado;
-}
-
-function agruparPorSucursal(
-  datatActual: ProductosStockI[],
-  datatAnterior: ProductosStockI[]
-): VentaStockSucursalI[] {
-  const agrupado: Record<
-    string,
-    Record<
-      string,
-      Record<
-        string,
-        {
-          ventaActual: number;
-          ventasAnterior: number;
-          presupuesto: number;
-          stockSucursal: number;
-          stockDeposito: number;
-        }
-      >
-    >
-  > = {};
-
-  for (const item of datatActual) {
-    const sucursal = item.sucursal;
-    for (const producto of item.productos) {
-      const rubro = producto.rubro;
-      const categoria = producto.categoria;
-
-      if (!agrupado[sucursal]) {
-        agrupado[sucursal] = {};
-      }
-      if (!agrupado[sucursal][rubro]) {
-        agrupado[sucursal][rubro] = {};
-      }
-      if (!agrupado[sucursal][rubro][categoria]) {
-        agrupado[sucursal][rubro][categoria] = {
-          ventaActual: 0,
-          ventasAnterior: 0,
-          presupuesto: 0,
-          stockSucursal: 0,
-          stockDeposito: 0,
-        };
-      }
-
-      agrupado[sucursal][rubro][categoria].ventaActual +=
-        producto.cantidadVentas;
-      if (producto && producto.stock.length > 0) {
-        for (const s of producto.stock) {
-          if (s.tipo === "ALMACEN") {
-            agrupado[sucursal][rubro][categoria].stockDeposito += s.cantidad;
-          } else if (s.tipo === "SUCURSAL") {
-            agrupado[sucursal][rubro][categoria].stockSucursal += s.cantidad;
-          }
-        }
-      }
-    }
-  }
-
-  for (const item of datatAnterior) {
-    const sucursal = item.sucursal;
-
-    for (const producto of item.productos) {
-      const rubro = producto.rubro;
-      const categoria = producto.categoria;
-
-      if (!agrupado[sucursal]) {
-        agrupado[sucursal] = {};
-      }
-      if (!agrupado[sucursal][rubro]) {
-        agrupado[sucursal][rubro] = {};
-      }
-      if (!agrupado[sucursal][rubro][categoria]) {
-        agrupado[sucursal][rubro][categoria] = {
-          ventaActual: 0,
-          ventasAnterior: 0,
-          presupuesto: 0,
-          stockSucursal: 0,
-          stockDeposito: 0,
-        };
-      }
-
-      agrupado[sucursal][rubro][categoria].ventasAnterior +=
-        producto.cantidadVentas;
-    }
-  }
-  const resultado = Object.entries(agrupado).map(([sucursal, rubros]) => ({
-    sucursal,
-    rubros: Object.entries(rubros).map(([rubro, categorias]) => ({
-      rubro,
-      categorias: Object.entries(categorias).map(([categoria, valores]) => ({
-        categoria,
-        ...valores,
-      })),
-    })),
-  }));
-
-  return resultado;
-}
-
-function agruparPorEmpresa(dataActual: ProductosStockI[]): DataEmpresaI[] {
-  const agrupado: Record<string, Record<string, ProductoEmpresaI>> = {};
-
-  for (const item of dataActual) {
-    const empresa = item.empresa;
-
-    if (!agrupado[empresa]) {
-      agrupado[empresa] = {};
-    }
-
-    for (const producto of item.productos) {
-      const marca = producto.marca;
-
-      if (!agrupado[empresa][marca]) {
-        agrupado[empresa][marca] = {
-          cantidadVentas: 0,
-          categoria: producto.categoria,
-          marca: producto.marca,
-          rubro: producto.rubro,
-          cantidadCotizaciones:0,
-          cantidadStockDeposito:0,
-          cantidaStockSucursal:0
-        };
-      }
-      agrupado[empresa][marca].cantidadVentas += producto.cantidadVentas;
-        for (const stock of producto.stock) {
-          if (stock.tipo === "ALMACEN") {
-            agrupado[empresa][marca].cantidadStockDeposito  += stock.cantidad;
-          } else if (stock.tipo === "SUCURSAL") {
-             agrupado[empresa][marca].cantidaStockSucursal += stock.cantidad;
-          }
-          
-        }
-    }
-  }
-
-  const resultado = Object.entries(agrupado).map(([empresa, marcasObj]) => ({
-    empresa,
-    productos: Object.values(marcasObj),
-  }));
-
-  return resultado;
-}
