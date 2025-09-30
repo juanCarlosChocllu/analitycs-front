@@ -1,4 +1,4 @@
-import { instance } from "../../app/service/instaceAxios";
+import { instance } from "../../app/config/instaceAxios";
 import type { recetaMedicoInterface, ventaMedicoInterface } from "../interfaces/FiltroMedico";
 import type { SucursalVenta } from "../interfaces/Medicos";
 

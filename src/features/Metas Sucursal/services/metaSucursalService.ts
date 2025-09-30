@@ -1,12 +1,14 @@
 import type { filtroBuscadorI } from "../../app/interfaces/BuscadorI"
 import type { DataDetalle, DetalleVenta } from "../../app/interfaces/DetalleVenta.interface"
-import { instance } from "../../app/service/instaceAxios"
+
+import { instance } from "../../app/config/instaceAxios"
 import type { DataMeta, MetaSucursalI } from "../interfaces/metaSucursal.interfaces"
+import { analitycsV2 } from "../../app/config/analitycsV2"
 
 
 export const crearMetaSucursal= async(data: DataMeta)=>{
 try {
-    const response = await instance.post('metas/sucursal',data)
+    const response = await analitycsV2.post('metas/sucursal',data)
     return response
 } catch (error) {
     throw error
@@ -19,7 +21,8 @@ export const listarMetasScursal= async(parametros: any, limite: number, pagina: 
         limite,
         pagina
      }
-
+     console.log(parmas);
+     
     if (parametros.sucursal) {
         parmas.sucursal = parametros.sucursal;
       }
@@ -41,7 +44,7 @@ export const listarMetasScursal= async(parametros: any, limite: number, pagina: 
       }
     
     try {
-        const response = await instance.get('metas/sucursal', {
+        const response = await analitycsV2.get('metas/sucursal', {
             params:{
                 ...parmas
             }
@@ -60,7 +63,7 @@ export const listarMetasScursal= async(parametros: any, limite: number, pagina: 
 
 export const borrarMetas= async(meta: string)=>{
     try {
-        const response = await instance.delete(`metas/sucursal/${meta}`)
+        const response = await analitycsV2.delete(`metas/sucursal/${meta}`)
         return response.data
     } catch (error) {
         throw error
@@ -71,7 +74,7 @@ export const borrarMetas= async(meta: string)=>{
 export const  metasSucursalActual= async(data: filtroBuscadorI): Promise<MetaSucursalI[]>=>{
     console.log('Actual',data)
     try {
-        const response = await instance.post('venta/meta/sucursal/actual', data)
+        const response = await analitycsV2.post('venta/meta/sucursal/actual', data)
         return response.data
     } catch (error) {
         console.log(error)
@@ -101,7 +104,7 @@ export const  metasSucursalAnterior= async(data: filtroBuscadorI): Promise<MetaS
 
     
     try {
-        const response = await instance.post('venta/meta/sucursal/anterior', updatedData)
+        const response = await analitycsV2.post('venta/meta/sucursal/anterior', updatedData)
         return response.data
     } catch (error) {
         console.log(error)
@@ -145,9 +148,10 @@ export const listarMetasScursales = async (
       limit,
       page,
     });
+console.log(queryParams);
 
   try {
-    const response = await instance.get('metas/sucursal', {
+    const response = await analitycsV2.get('metas/sucursal', {
       params: queryParams,
     });
     return response.data;

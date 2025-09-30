@@ -1,5 +1,5 @@
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
-import { calcularVariacionPorcentual } from "../../app/utils/variacion";
+import { calcularVariacionPorcentual } from "../../app/util/variacion";
 import type { SucursalVenta } from "../interfaces/Medicos";
 import { filtroMedicoEspecialidad } from "../utils/filtroMedicoEspecialidad";
 import { formatearImporte } from "../utils/funcionesDeCalculo";

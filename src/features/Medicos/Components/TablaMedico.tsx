@@ -3,7 +3,7 @@ import { TotalMedicos } from "./TotalMedicos";
 import { TotalOftalmologos } from "./TotalOftalmologos";
 import { Box, Chip, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { calcularTotalesSucursal, formatearImporte, obtenerColorChip, obtenerColorEspecialidad, porcentaje, procesarMedicosData } from "../utils/funcionesDeCalculo";
-import { calcularVariacionPorcentual } from "../../app/utils/variacion";
+import { calcularVariacionPorcentual } from "../../app/util/variacion";
 import { BlueCell, GreenCell, HeaderCell, StyledTableContainer, VariationCell } from "../utils/ColoresStyled";
 import type { SucursalVenta } from "../interfaces/Medicos";
 import { TotalOftometras } from "./TotalOftometras";

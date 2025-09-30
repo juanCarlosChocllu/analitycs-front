@@ -1,10 +1,10 @@
 import type { AxiosResponse } from "axios";
 import type { MarcaI } from "../interface/marcaInterface";
-import { instanceAnalitycs } from "../../app/service/instanecAnalitycs";
+import { analitycsV2 } from "../../app/config/analitycsV2";
 
 export async function listarMarca(): Promise<MarcaI[]> {
   try {
-    const response = await instanceAnalitycs.get("marca");
+    const response = await analitycsV2.get("marca");
     return response.data;
   } catch (error) {
     throw error;
@@ -12,7 +12,7 @@ export async function listarMarca(): Promise<MarcaI[]> {
 }
 export async function asignarCategoria (categoria:string, marca:string):Promise<AxiosResponse>{
   try {
-    const response = await instanceAnalitycs.post("marca/categoria",{
+    const response = await analitycsV2.post("marca/categoria",{
       categoria,
       marca
     });

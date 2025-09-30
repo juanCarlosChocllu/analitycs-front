@@ -1,13 +1,14 @@
+import { analitycsV2 } from "../../app/config/analitycsV2";
 import type { filtroBuscadorI } from "../../app/interfaces/BuscadorI";
 
-import { instanceAnalitycs } from "../../app/service/instanecAnalitycs";
+
 import type { ProductosStockI } from "../interface/productos";
 
 export async function reporteProductoActual(
   filtro: filtroBuscadorI
 ): Promise<ProductosStockI[]> {
   try {
-    const response = await instanceAnalitycs.post(
+    const response = await analitycsV2.post(
       "venta/producto/reporte/actual",
       filtro
     );
@@ -39,7 +40,7 @@ export async function reporteProductoAnterior(
         tipoVenta:filtro.tipoVenta
  
       };      
-      const response = await instanceAnalitycs.post(
+      const response = await analitycsV2.post(
         "venta/producto/reporte/anterior",
         filtroAnterior
       );

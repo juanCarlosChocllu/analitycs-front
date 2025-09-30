@@ -1,4 +1,5 @@
-import { instance } from "../../app/service/instaceAxios"
+
+import { analitycsV2 } from "../../app/config/analitycsV2"
 import type { Usuario } from "../interfaces/usuario.interface"
 
 
@@ -6,7 +7,7 @@ import type { Usuario } from "../interfaces/usuario.interface"
 export async function  listarUsuarios():Promise<Usuario[]>{
 
     try {
-        const response = await instance.get('usuarios/listar')
+        const response = await analitycsV2.get('usuarios/listar')
         return response.data
     } catch (error) {
         throw error
@@ -21,7 +22,7 @@ export async function  listarUsuarios():Promise<Usuario[]>{
 export async function  crearUsuarios(formData:any){
 
     try {
-        const response = await instance.post('usuarios/create',
+        const response = await analitycsV2.post('usuarios/create',
             formData,
            )
         return response.data
@@ -37,7 +38,7 @@ export async function  crearUsuarios(formData:any){
 export async function  eliminarUsuarios(id:string){
 
     try {
-        const response = await instance.delete(`usuarios/${id}`)
+        const response = await analitycsV2.delete(`usuarios/${id}`)
         return response.data
     } catch (error) {
         throw error
@@ -48,7 +49,7 @@ export async function  eliminarUsuarios(id:string){
 
 export async function perfil():Promise<Usuario>{    
     try {
-        const response = await instance.get(`usuarios/perfil`)
+        const response = await analitycsV2.get(`usuarios/perfil`)
         console.log(response.data)
         return response.data
     } catch (error) {
@@ -61,7 +62,7 @@ export async function perfil():Promise<Usuario>{
 
 export async function cambiarPassword(password:string, id:string){    
     try {
-        const response = await instance.post(`usuarios/resetear/contrasena/${id}`,{password})
+        const response = await analitycsV2.post(`usuarios/resetear/contrasena/${id}`,{password})
         return response.data
     } catch (error) {
         throw error

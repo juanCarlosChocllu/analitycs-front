@@ -11,7 +11,7 @@ import type {
 import { getEmpresas, getSucursalesPorEmpresa, getTipoVenta } from "../../service/appService";
 import MultiSelect from "./components/MultiSelect";
 import type { FiltroMedicoInterface, ventaMedicoInterface } from "../../../Medicos/interfaces/FiltroMedico";
-import { seleccionarFecha } from "../../utils/seleccionarFecha";
+import { seleccionarFecha } from "../../util/seleccionarFecha";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";

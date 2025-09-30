@@ -1,5 +1,5 @@
+import { analitycsV2 } from "../config/analitycsV2";
 import type { EmpresasI, SucursalI, TipoVentaI } from "../interfaces/BuscadorI";
-import { analitycsV2 } from "./analitycsV2";
 
 export async function  getEmpresas():Promise<EmpresasI[]>{
   try {
@@ -53,7 +53,7 @@ export async function  getSucursalesPorEmpresa(empresa:string):Promise<SucursalI
 
     export async function  verificarRol():Promise<{rol:string,_id:string}>{
     try {
-      const response = await analitycsV2.get(`usuario/verificar/rol`)
+      const response = await analitycsV2.get(`usuarios/verificar/rol`)
       console.log(response);
       
       return response.data
