@@ -142,7 +142,7 @@ export const menuItems: MenuItem[] = [
   {
     id: 8,
     roles: ["ADMINISTRADOR", "GESTOR", "ASESOR"],
-    text: "Rendimiento asesor",
+    text: "Planilla de rendimiento",
     icon: <Target className="text-white" />,
     items: [
 
@@ -192,11 +192,11 @@ export const menuItems: MenuItem[] = [
         icon: <Circle className="text-white w-3 h-3" />,
         link: "/usuarios",
       },
-      /*{
+      {
         text: "Asesores",
         icon: <Circle className="text-white w-3 h-3" />,
         link: "/asesor/usuarios",
-      },*/
+      },
     ],
   },
 /*  {
