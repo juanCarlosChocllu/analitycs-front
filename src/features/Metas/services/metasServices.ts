@@ -1,10 +1,11 @@
-import { instance } from "../../app/service/instaceAxios";
+
+import { analitycsV2 } from "../../app/config/analitycsV2";
 import type { Data, DiaModal, NombreDia } from "../interfaces/DiaData.interface";
 
 export async function crearDias(dataSend: Data) {
   const { nombre, tipo, data } = dataSend;
   try {
-    const response = await instance.post("dias", {
+    const response = await analitycsV2.post("dias", {
       nombre,
       tipo,
       data,
@@ -18,7 +19,7 @@ export async function crearDias(dataSend: Data) {
 
 export const listarNombreDias = async (): Promise<NombreDia[]> => {
   try {
-    const response = await instance.get("nombre/dia");
+    const response = await analitycsV2.get("nombre/dia");
     console.log("listar nombre dias", response.data);
     return response.data;
   } catch (error) {
@@ -28,7 +29,7 @@ export const listarNombreDias = async (): Promise<NombreDia[]> => {
 
 export const listarDias = async (diaNombre: string): Promise<DiaModal[]> => {
   try {
-    const response = await instance.get(`dias/${diaNombre}`);
+    const response = await analitycsV2.get(`dias/${diaNombre}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -38,7 +39,7 @@ export const listarDias = async (diaNombre: string): Promise<DiaModal[]> => {
 export const borrarDia = async (dia: string) => {
   try {
     console.log("borrar dia", dia);
-    const response = await instance.delete(`dias/${dia}`);
+    const response = await analitycsV2.delete(`dias/${dia}`);
     return response.data;
   } catch (error) {
     console.log("borrar dia", error);
@@ -49,7 +50,7 @@ export const borrarDia = async (dia: string) => {
 
 export const borrarDiaNombre =async(id:string)=>{
     try {
-            const response = await  instance.delete(`nombre/dia/${id}`)
+            const response = await  analitycsV2.delete(`nombre/dia/${id}`)
             return response.data
     } catch (error) {
         throw error

@@ -1,7 +1,8 @@
-import { analitycsV2 } from "../../app/service/analitycsV2";
+
 import type { autenticacion } from "../interface/autenticaicon";
 import type { ResponseAutenticacion } from "../../app/interfaces/autenticacion";
-import { instance } from "../../app/service/instaceAxios";
+import { instance } from "../../app/config/instaceAxios";
+import { analitycsV2 } from "../../app/config/analitycsV2";
 
 
 export async  function  autenticacionAsesorService(data:autenticacion):Promise<ResponseAutenticacion>{

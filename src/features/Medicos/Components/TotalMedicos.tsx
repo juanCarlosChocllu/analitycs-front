@@ -3,7 +3,7 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { calcularVariacionPorcentual } from "../../app/utils/variacion";
+import { calcularVariacionPorcentual } from "../../app/util/variacion";
 import { formatearImporte } from "../utils/funcionesDeCalculo";
 
 interface TotalMedicosProps {

@@ -1,4 +1,5 @@
-import { analitycsV2 } from "../../app/service/analitycsV2";
+
+import { analitycsV2 } from "../../app/config/analitycsV2";
 import type {
   AsesorSinUsuario,
   UsuarioAsesor,

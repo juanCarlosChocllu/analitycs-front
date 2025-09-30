@@ -113,8 +113,7 @@ export const ModalUsuario: React.FC<Props> = ({ onClose, setIsRegister }) => {
               <MenuItem value="">
                 <em>Seleccione el rol</em>
               </MenuItem>
-              <MenuItem value="admin">Administrador</MenuItem>
-              <MenuItem value="user">Usuario</MenuItem>
+              <MenuItem value="ADMINISTRADOR">Administrador</MenuItem>
             </Select>
           </FormControl>
         </Grid>       

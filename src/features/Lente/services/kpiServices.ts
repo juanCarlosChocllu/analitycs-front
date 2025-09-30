@@ -1,4 +1,4 @@
-import { instance } from "../../app/service/instaceAxios";
+import { instance } from "../../app/config/instaceAxios";
 
 import type { filtroBuscadorI } from "../../app/interfaces/BuscadorI";
 import type { InformacionAsesor } from "../interface/asesor.interface";

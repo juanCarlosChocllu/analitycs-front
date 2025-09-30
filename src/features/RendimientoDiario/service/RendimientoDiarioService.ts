@@ -1,9 +1,10 @@
 import type { AxiosResponse } from "axios"
 import type { filtroBuscadorI } from "../../app/interfaces/BuscadorI"
-import { analitycsV2 } from "../../app/service/analitycsV2"
+
 
 import type {  registrarRendimientoDiarioI, RendimientoDiarioI, responseRendimiento, SucursalData, Venta, VentaMestaAsesor } from "../interface/RendimientoDiario"
 import type { AvanceVentas } from "../interface/avanceVentas";
+import { analitycsV2 } from "../../app/config/analitycsV2";
 
 
 

@@ -68,6 +68,8 @@ export const TablaMeta: React.FC<TablaMetaProps> = ({ filtro, isRefresh }) => {
     try {
       setLoading(true);
       const response = await listarMetasScursales(filtro, rowsPerPage, currentPage);
+      console.log(response);
+      
       setMetas(response.data);
       setTotalPages(response.paginas);
     } catch (error) {

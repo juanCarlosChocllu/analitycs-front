@@ -1,7 +1,7 @@
 
 import type { EmpresasI, SucursalI, TipoVentaI } from "../interfaces/BuscadorI";
 import type { UltimaDescarga } from "../interfaces/UltimaDescarga";
-import { instance } from "./instaceAxios";
+import { instance } from "../config/instaceAxios";
 
 export const ultimaDescarga = async (): Promise<UltimaDescarga[]> => {
     try {
@@ -26,7 +26,7 @@ export async function  getEmpresas():Promise<EmpresasI[]>{
 
 export async function  getSucursalesPorEmpresa(empresa:string):Promise<SucursalI[]>{
     try {
-      const response = await instance.get(`sucursalExcel/${empresa}`)
+      const response = await instance.get(`sucursal/${empresa}`)
       console.log(response.data);
       return response.data
     } catch (error) {

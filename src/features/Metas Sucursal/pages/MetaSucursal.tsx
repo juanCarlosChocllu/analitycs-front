@@ -8,6 +8,7 @@ import type { MetaSucursalFormateada } from "../interfaces/metaSucursal.interfac
 import { TablaMetaSucursal } from "../components/TablaMetaSucursal";
 import { Goal, Target } from "lucide-react";
 import type { filtroDetalle } from "../interfaces/filtroDetalle";
+import { BuscadorBase } from "../../app/components/Buscador/BuscadorBase";
 
 
 
@@ -55,7 +56,7 @@ export const MetaSucursal = () => {
     return (
         <div>
             <h1 className="text-2xl font-bold text-center uppercase text-blue-950 mb-6 mt-4">Meta Sucursal</h1>
-            <Buscador setFiltro={setBuscador} filtro={buscador} />
+            <BuscadorBase setFiltro={setBuscador} filtro={buscador} />
             {loading ? (
                 <CircularProgress sx={{ display: 'block', margin: '20px auto' }} />
             ) : (
