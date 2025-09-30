@@ -142,7 +142,7 @@ export const menuItems: MenuItem[] = [
   {
     id: 8,
     roles: ["ADMINISTRADOR", "GESTOR", "ASESOR"],
-    text: "Rendimiento asesor",
+    text: "Planilla de rendimiento",
     icon: <Target className="text-white" />,
     items: [
 
