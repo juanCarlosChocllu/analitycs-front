@@ -33,7 +33,7 @@ export const EditarUsuarioPage = ({
   } = useForm<UsuarioAsesor>();
 
 
-  const [asesores, setAsesores] = useState<string[]>([])
+  const [asesores, setAsesores] = useState<string>("")
   const rolSeleccionado = watch("rol")
   useEffect(() => {
     setValue("rol", usuario.rol)
@@ -51,11 +51,11 @@ export const EditarUsuarioPage = ({
     }
 ;
     
-    setAsesores(data)
+    //setAsesores(data)
   }, [usuario])
 
   const onSubmit = async (data: UsuarioAsesor) => {
-    data.asesorUsuario = asesores
+    data.asesor = asesores
     data._id = usuario._id
     console.log('a', data);
     

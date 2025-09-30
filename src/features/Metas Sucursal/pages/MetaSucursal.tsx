@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Buscador } from "../../app/components/Buscador/Buscador";
 import type { filtroBuscadorI } from "../../app/interfaces/BuscadorI";
 import { CircularProgress } from "@mui/material";
 import { formatearMetas } from "../utils/fomatearMetas";
