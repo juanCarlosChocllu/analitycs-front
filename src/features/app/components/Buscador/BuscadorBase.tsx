@@ -5,7 +5,7 @@ import {
   getSucursalesPorEmpresa,
   getTipoVenta,
   listarTodasLasScursales,
-} from "../../service/baseService";
+} from "../../service/appService";
 import type {
   EmpresasI,
   FiltroBuscadorI,

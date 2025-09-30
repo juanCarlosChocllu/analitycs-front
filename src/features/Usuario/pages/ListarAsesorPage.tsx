@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { UsuarioAsesor } from "../interfaces/usuario.interface";
-import { eliminarUsuario, obtenerUsuario } from "../services/comisionesService";
+
 import toast, { Toaster } from "react-hot-toast";
 
 import {
@@ -24,6 +24,7 @@ import {
 import {  Pencil, PlusCircle, Trash2 } from "lucide-react";
 import { EditarUsuarioPage } from "./EditarUsuarioPage";
 import { AsignarSucursalModal } from "../../Asesor/modal/AsignarSucursalModal";
+import { eliminarUsuarios, listarAsesores, listarUsuarios } from "../services/serviceUsuario";
 
 export const ListarAsesorPage = () => {
    const [reload, sertReload] = useState<boolean>(false);
@@ -43,7 +44,7 @@ export const ListarAsesorPage = () => {
   const [usuarios, setUsuarios] = useState<UsuarioAsesor[]>([]);
 
   const handleDelete = async (id: string) => {
-    const response = await eliminarUsuario(id);
+    const response = await eliminarUsuarios(id);
     if (response?.status === 200) {
       toast.success("Usuario eliminado exitosamente");
       listar();
@@ -58,8 +59,8 @@ export const ListarAsesorPage = () => {
 
   const listar = async () => {
     try {
-      const response = await obtenerUsuario();
-      console.log(response);
+      const response = await listarAsesores();
+
       
       setUsuarios(response);
     } catch (error) {

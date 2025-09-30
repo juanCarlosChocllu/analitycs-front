@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { AsesorSeleccionadoI, AsesorSinUsuario } from "../interfaces/usuario.interface";
 import { extraerApellido, extraerNombre, generarUsuaurio } from "../utils/usuarioUtil";
-import { listarAsesorSinUsuario } from "../services/comisionesService";
+import { listarAsesorVentas } from "../services/serviceUsuario";
 
 export const ListarAsesor = ({
   asesoresSeleccionados,
@@ -24,7 +24,7 @@ export const ListarAsesor = ({
 
   const listar = async () => {
     try {
-      const response = await listarAsesorSinUsuario();
+      const response = await listarAsesorVentas();
       console.log(response);
       
       setAsesores(response);

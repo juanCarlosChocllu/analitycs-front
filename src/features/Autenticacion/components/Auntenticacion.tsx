@@ -16,14 +16,12 @@ export const Autenticacion = () => {
     formState: { errors },
   } = useForm<autenticacion>();
   const { guardarToken } = useContext(AutenticacionContext);
-  const navigate = useNavigate();
-
   const onSubmit = async (data: autenticacion) => {
     try {
       const response = await autenticacion2(data);
       if (response.status === 200) {
         guardarToken(response.token);
-        navigate('/inicio');
+        window.location.href = '/inicio'
       }
     } catch (error) {
       console.error(error);

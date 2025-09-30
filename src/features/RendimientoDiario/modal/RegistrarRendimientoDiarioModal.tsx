@@ -81,9 +81,9 @@ export const RegistrarRendimientoDiarioModal = ({reload,setReload}:{reload:boole
       setReload(!reload)
       handleClose();
     } catch (error) {
-      const e = error as AxiosError
-      console.log(e.status);
-
+      
+      const e = error as AxiosError<any>
+ 
       if (e.response?.status === 409) {
         const mensaje = (e.response.data as { message: string }).message;
         toast.error(mensaje)
@@ -92,6 +92,7 @@ export const RegistrarRendimientoDiarioModal = ({reload,setReload}:{reload:boole
         const mensaje = (e.response.data as { message: string }).message;
         toast.error(mensaje)
       }
+      
 
     }
   };
@@ -158,7 +159,7 @@ export const RegistrarRendimientoDiarioModal = ({reload,setReload}:{reload:boole
                 />
               )}
             />
-
+ 
             <Box mt={3} display="flex" justifyContent="flex-end" gap={1}>
               <Button variant="outlined" onClick={handleClose}>
                 Cancelar

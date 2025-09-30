@@ -1,7 +1,7 @@
 import type { filtroBuscadorI } from "../../app/interfaces/BuscadorI"
 import type { DataDetalle, DetalleVenta } from "../../app/interfaces/DetalleVenta.interface"
 
-import { instance } from "../../app/config/instaceAxios"
+
 import type { DataMeta, MetaSucursalI } from "../interfaces/metaSucursal.interfaces"
 import { analitycsV2 } from "../../app/config/analitycsV2"
 
@@ -116,7 +116,7 @@ export const  metasSucursalAnterior= async(data: filtroBuscadorI): Promise<MetaS
 
 export const detalleVenta = async(data: DataDetalle): Promise<DetalleVenta[]>=>{
     try {
-        const response = await instance.post(`venta/meta/sucursal/detalle/${data.sucursal}`, {
+        const response = await analitycsV2.post(`venta/meta/sucursal/detalle/${data.sucursal}`, {
                 fechaInicio: data.fechaInicio,
                 fechaFin: data.fechaFin,
                 flagVenta: data.flagVenta,

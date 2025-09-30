@@ -15,7 +15,7 @@ import {
   DialogContent,
 } from '@mui/material';
 import CloseIcon from "@mui/icons-material/Close";
-import { getEmpresas,getSucursalesPorEmpresa } from '../../app/service/baseService';
+import { getEmpresas,getSucursalesPorEmpresa } from '../../app/service/appService';
 import type { EmpresasI, SucursalI } from '../../app/interfaces/BuscadorI';
 import MultiSelectBuscador from '../../app/components/Buscador/SeleccionMultiple';
 import type { DataMeta } from '../interfaces/metaSucursal.interfaces';

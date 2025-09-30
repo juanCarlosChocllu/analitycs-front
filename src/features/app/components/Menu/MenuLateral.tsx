@@ -17,7 +17,10 @@ export const MenuLateral = ({ open, setOpen }: { open: boolean; setOpen: (open: 
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [itemSelected, setItemSelected] = useState<number | null>(null);
-  const { rol } = useContext(AutenticacionContext)
+    const { rol } = useContext(AutenticacionContext)
+  console.log(rol);
+  
+
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };

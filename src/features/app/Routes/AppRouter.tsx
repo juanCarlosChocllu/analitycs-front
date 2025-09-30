@@ -9,7 +9,6 @@ import { MetaSucursal } from "../../Metas Sucursal/pages/MetaSucursal";
 import { RendimientoAsesoresPage } from "../../Sucursal/pages/RendimientoAsesoresPage";
 import { LentePage } from "../../Lente/pages/LentePage";
 import { AsesorLente } from "../../Lente/pages/AsesorLente";
-import { AutenticacionAsesoresPage } from "../../Autenticacion/page/AutenticacionAsesoresPage";
 
 import { RendimientoDiarioPage } from "../../RendimientoDiario/page/RendimientoDiarioPage";
 
@@ -45,9 +44,7 @@ export const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
-
         <Route path="/" element={<AutenticacionPage />} />
-        <Route path="/asesor" element={<AutenticacionAsesoresPage />} />
         <Route element={<Layout />}>
 
           {

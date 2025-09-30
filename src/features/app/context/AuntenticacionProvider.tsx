@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState, type ReactNode } from "react";
 import type { AutenticacionContextI } from "../interfaces/autenticacion";
-import { verificarRol } from "../service/baseService";
+import { verificarRol } from "../service/appService";
 
 export const AutenticacionContext = createContext<AutenticacionContextI>({
     isAuntenticacion:false,
@@ -11,7 +11,7 @@ export const AutenticacionContext = createContext<AutenticacionContextI>({
 
 export const AutenticacionProvider  = ({children}:{children:ReactNode}) => {
   const [isAuntenticacion, setIsAuntenticacion] = useState(false)
-    const [rol, setRol] = useState<string>('ADMINISTRADOR')
+    const [rol, setRol] = useState<string>('')
   const guardarToken=(token:string)=>{
     setIsAuntenticacion(true)
     localStorage.setItem('ctx', token)
@@ -31,13 +31,9 @@ export const AutenticacionProvider  = ({children}:{children:ReactNode}) => {
   const role = async()=>{
     try {
         const reponse= await verificarRol()  
-        if(!reponse){
-           setRol('ADMINISTRADOR')
-        }else{
-          
-        setRol("ADMINISTRADOR")
-        }
-        
+          if(reponse){
+            setRol(reponse.rol)
+          }
     } catch (error) {
       console.log(error);
       
