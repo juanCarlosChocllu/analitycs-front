@@ -139,7 +139,7 @@ export const menuItems: MenuItem[] = [
     ],
   },
 
-  /*{
+  {
     id: 8,
     roles: ["ADMINISTRADOR", "GESTOR", "ASESOR"],
     text: "Rendimiento asesor",
@@ -165,13 +165,13 @@ export const menuItems: MenuItem[] = [
         icon: <Circle className="text-white w-3 h-3" />,
         link: "/listar/rendimiento/asesor",
       },
-     /* {
+     {
         text: "Resumen semanal",
         roles: ["ASESOR", "GESTOR"],
         icon: <Circle className="text-white w-3 h-3" />,
         link: "/rendimiento/diario/asesor",
-      },*/
-     /* {
+      },
+      {
         text: "Avance de metas",
         roles: ["ADMINISTRADOR"],
         icon: <Circle className="text-white w-3 h-3" />,
@@ -185,7 +185,7 @@ export const menuItems: MenuItem[] = [
       }
     ],
 
-  },*/
+  },
 
   {
     id: 9,
