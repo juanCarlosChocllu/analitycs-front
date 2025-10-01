@@ -1,15 +1,20 @@
 export interface DetalleVenta {
-    detalle:  Detalle[];
+    detalleVenta:  Detalle[];
     id_venta: string;
+    fechaVenta:string
+    fechaFinalizacion?:string
+                   estadoTracking:         string;
+        
+    flagVenta:         string;
+
 }
 
 export interface Detalle {
-    producto:          string;
+    rubro:          string;
     importe:           number;
-    tracking:          string;
-    fechaVenta:        Date;
-    flagVenta:         string;
-    fechaFinalizacion?: Date;
+
+
+
 }
 
 export interface Producto {

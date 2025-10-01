@@ -25,7 +25,7 @@ export async function listarAsesorSucursal2(usuario:string):Promise<asesorSucurs
 
 export async function asignarSucursal(asesor:string, usuario:string):Promise<{status:number}>{
     try {
-        const response = await analitycsV2.get(`usuario/asignar/sucursal/${asesor}/${usuario}`)
+        const response = await analitycsV2.get(`usuarios/asignar/sucursal/${asesor}/${usuario}`)
         return response.data
     } catch (error) {
         throw error

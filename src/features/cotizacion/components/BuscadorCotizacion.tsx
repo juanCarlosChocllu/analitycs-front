@@ -1,59 +1,38 @@
 import { useEffect, useState } from "react";
-import { Filter } from "lucide-react";
-import {
-  getEmpresas,
-  getSucursalesPorEmpresa,
-  getTipoVenta,
-  listarTodasLasScursales,
-} from "../../service/appService";
-import type {
-  EmpresasI,
-  FiltroBuscadorI,
-  filtroBuscadorI,
-  SucursalI,
-  TipoVentaI,
-} from "../../interfaces/BuscadorI";
+
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
-import { formatFecha } from "../../util/formatFecha";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import MultiSelectBuscador from "./SeleccionMultiple";
+import type { EmpresasI, filtroBuscadorI, FiltroBuscadorI, SucursalI } from "../../app/interfaces/BuscadorI";
+import { formatFecha } from "../../app/util/formatFecha";
+import { getEmpresas, getSucursalesPorEmpresa, listarTodasLasScursales } from "../../app/service/appService";
+import MultiSelectBuscador from "../../app/components/Buscador/SeleccionMultiple";
+import { RangoFecha } from "../../app/components/Buscador/RangoFecha";
+import { FiltroFecha } from "../../app/components/FiltroFecha/FiltroFecha";
 import { Box } from "@mui/material";
-import { FiltroFecha } from "../FiltroFecha/FiltroFecha";
-import { RangoFecha } from "./RangoFecha";
+import { Filter } from "lucide-react";
 
 
-export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
+export function BuscadorCotizacion({ setFiltro }: FiltroBuscadorI) {
   const date = new Date();
   const [region, setRegion] = useState<string>("BOLIVIA");
   const [empresas, setEmpresas] = useState<EmpresasI[]>([]);
-  const [tipoVenta, setTipoVentas] = useState<TipoVentaI[]>([]);
   const [empresa, setEmpresa] = useState<string>("");
   const [sucursales, setSucursales] = useState<SucursalI[]>([]);
   const [todasSucursales, setTodasScursales] = useState<SucursalI[]>([]);
   const [fechaInicio, setFechaInicio] = useState<string>(formatFecha(date));
   const [fechaFin, setFechaFin] = useState<string>(formatFecha(date));
-  const [comisiona, setComisiona] = useState<boolean>(false);
-  const [noComisiona, setNoComisiona] = useState<boolean>(false);
-  const [realizadas, setRealizadas] = useState<boolean>(false);
-  const [finalizadas, setFinalizadas] = useState<boolean>(false);
+
+;
+
   const [sucursalesSeleccionados, setSucursalesSeleccionados] = useState<
     string[]
   >([]);
-  const [tipoVentaSelecionado, setTipoVentaSeleccionado] = useState<string[]>(
-    []
-  );
-  console.log(sucursalesSeleccionados);
 
-  const [flagVenta, setFlagVenta] = useState<string>("");
 
   useEffect(() => {
     listarEmpresas();
-    listarTipoVenta();
     localStorage.setItem("region", region);
     if (empresa && empresa !== "TODAS") {
       listarSucursal();
@@ -76,14 +55,7 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
     }
   };
 
-  const listarTipoVenta = async () => {
-    try {
-      const response = await getTipoVenta();
-      setTipoVentas(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  
 
   const listarSucursal = async () => {
     try {
@@ -104,7 +76,7 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
     try {
       if (empresa) {
         const response = await listarTodasLasScursales();
-        console.log("Sucursales: ", response);
+     
         setTodasScursales(response);
       }
     } catch (error) {
@@ -115,14 +87,13 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
 
   const onClickFiltro = () => {
     let sucursalesFiltradas: string[] = [];
-    console.log(empresa);
+    
     if (empresa === "TODAS") {
+      
       sucursalesFiltradas = obtenerSucursalesPorRegion(todasSucursales);
     } else if (empresa != 'TODAS' && sucursalesSeleccionados.length <= 0) {
       sucursalesFiltradas = obtenerSucursalesPorRegion(sucursales);
     } else if (sucursalesSeleccionados.length > 0) {
-      console.log('s', sucursalesSeleccionados);
-
       sucursalesFiltradas = sucursalesSeleccionados
     }
 
@@ -130,12 +101,11 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
       sucursal: sucursalesFiltradas,
       fechaFin: fechaFin,
       fechaInicio: fechaInicio,
-      flagVenta: flagVenta,
-      tipoVenta: tipoVentaSelecionado,
-      comisiona: !comisiona && !noComisiona ? null : comisiona ? true : false,
+    
+    
     };
 
-    console.log("dataFilter", dataFilter);
+
 
     setFiltro(dataFilter);
   };
@@ -146,9 +116,7 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
     setSucursalesSeleccionados(nombre)
   };
 
-  const onChangeTipoVenta = (nombre: string[]) => {
-    setTipoVentaSeleccionado(nombre)
-  };
+ 
 
   const obtenerSucursalesPorRegion = (sucursales: SucursalI[]) => {
     if (region === "BOLIVIA") {
@@ -203,7 +171,7 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-4">
-            <Box mt={2.6}>
+            <Box>
               <FormControl fullWidth size="small">
                 <InputLabel id="empresa-label">Empresa</InputLabel>
                 <Select
@@ -235,14 +203,7 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
               options={sucursales}
             />
 
-            <MultiSelectBuscador
-              label="Tipo de venta:"
-              value={tipoVentaSelecionado}
-              onChange={(value: string[]) => onChangeTipoVenta(value)}
-              setValue={(value: string[]) => setTipoVentaSeleccionado(value)}
-              placeholder="Seleccione un tipo de venta"
-              options={tipoVenta}
-            />
+          
 
             <Box mt={2.8}>
               <RangoFecha
@@ -262,64 +223,9 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
               setFechaInicio={setFechaInicio as any}
             />
 
-            <FormGroup row>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={comisiona}
-                    onChange={(e) => {
-                      const checked = e.target.checked;
-                      setComisiona(checked);
-
-                      if (checked) setNoComisiona(false);
-                    }}
-                  />
-                }
-                label="Comisiona"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={noComisiona}
-                    onChange={(e) => {
-                      const checked = e.target.checked;
-                      setNoComisiona(checked);
-
-                      if (checked) setComisiona(false);
-                    }}
-                  />
-                }
-                label="No comisiona"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={realizadas}
-                    onChange={(e) => {
-                      const checked = e.target.checked;
-                      setRealizadas(checked);
-                      setFlagVenta("REALIZADAS");
-                      if (checked) setFinalizadas(false);
-                    }}
-                  />
-                }
-                label="Realizadas"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={finalizadas}
-                    onChange={(e) => {
-                      const checked = e.target.checked;
-                      setFinalizadas(checked);
-                      setFlagVenta("FINALIZADO");
-                      if (checked) setRealizadas(false);
-                    }}
-                  />
-                }
-                label="Finalizadas"
-              />
-            </FormGroup>
+           
+            
+              
           </div>
 
           <div className="flex justify-end space-x-4 mt-8 pt-6 ">

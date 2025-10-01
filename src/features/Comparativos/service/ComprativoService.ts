@@ -1,12 +1,13 @@
+import { analitycsV2 } from "../../app/config/analitycsV2";
 import type { filtroBuscadorI } from "../../app/interfaces/BuscadorI";
-import { instance } from "../../app/config/instaceAxios";
+
 import type { ComparativoData } from "../interface/compartivo";
 
 export async function getVentaActual(
   filter: filtroBuscadorI
 ): Promise<ComparativoData> {
   try {
-    const response = await instance.post("venta/actual", filter);
+    const response = await analitycsV2.post("venta/actual", filter);
     return response.data;
   } catch (error) {
     throw error;
@@ -35,7 +36,7 @@ export async function getVentaAnterior(
     };
    
     
-    const response = await instance.post(
+    const response = await analitycsV2.post(
       "venta/anterior",
       filtroAnterior
     );

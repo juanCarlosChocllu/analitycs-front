@@ -1,7 +1,6 @@
 
 export interface AutenticacionContextI {
     isAuntenticacion:boolean,
-    guardarToken :(token:string) => void
     rol:string
 }
 

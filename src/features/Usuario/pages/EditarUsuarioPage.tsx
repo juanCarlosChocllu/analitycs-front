@@ -4,9 +4,10 @@ import { ListarAsesor } from "../components/ListarAsesor";
 import type { ErrorUser,  UsuarioAsesor } from "../interfaces/usuario.interface";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { editarUsuario } from "../services/comisionesService";
+
 import toast, { Toaster } from "react-hot-toast";
 import { Card, CardContent,  Input } from "@mui/material";
+import { editarUsuario } from "../services/serviceUsuario";
 
 
 interface Props {

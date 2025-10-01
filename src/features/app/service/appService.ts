@@ -1,12 +1,11 @@
 
+import { analitycsV2 } from "../config/analitycsV2";
 import type { EmpresasI, SucursalI, TipoVentaI } from "../interfaces/BuscadorI";
 import type { UltimaDescarga } from "../interfaces/UltimaDescarga";
-import { instance } from "../config/instaceAxios";
 
 export const ultimaDescarga = async (): Promise<UltimaDescarga[]> => {
     try {
-        const response = await instance.get("log/venta/descarga");
-        console.log(response.data);
+        const response = await analitycsV2.get("log/venta/descarga");
         return response.data;
     } catch (error) {
         throw error;
@@ -17,7 +16,7 @@ export const ultimaDescarga = async (): Promise<UltimaDescarga[]> => {
 
 export async function  getEmpresas():Promise<EmpresasI[]>{
   try {
-    const response = await instance.get('empresa')
+    const response = await analitycsV2.get('empresa')
     return response.data
   } catch (error) {
       throw error    
@@ -26,7 +25,7 @@ export async function  getEmpresas():Promise<EmpresasI[]>{
 
 export async function  getSucursalesPorEmpresa(empresa:string):Promise<SucursalI[]>{
     try {
-      const response = await instance.get(`sucursal/${empresa}`)
+      const response = await analitycsV2.get(`sucursal/${empresa}`)
       console.log(response.data);
       return response.data
     } catch (error) {
@@ -40,7 +39,7 @@ export async function  getSucursalesPorEmpresa(empresa:string):Promise<SucursalI
 
   export async function  listarTodasLasScursales():Promise<SucursalI[]>{
     try {
-      const response = await instance.get(`sucursales`)
+      const response = await analitycsV2.get(`sucursales`)
       return response.data
     } catch (error) {
       throw error
@@ -54,7 +53,22 @@ export async function  getSucursalesPorEmpresa(empresa:string):Promise<SucursalI
   
   export async function  getTipoVenta():Promise<TipoVentaI[]>{
     try {
-      const response = await instance.get(`tipo/venta/listar`)
+      const response = await analitycsV2.get(`tipo/venta/listar`)
+      return response.data
+    } catch (error) {
+      throw error
+      
+      
+    }
+  
+  
+  }
+
+     export async function  verificarRol():Promise<{rol:string,_id:string}>{
+    try {
+      const response = await analitycsV2.get(`usuarios/verificar/rol`)
+      console.log(response);
+      
       return response.data
     } catch (error) {
       throw error

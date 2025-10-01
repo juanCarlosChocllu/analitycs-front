@@ -9,7 +9,8 @@ import { useState } from "react"
 import { detalleVenta } from "../services/metaSucursalService"
 import type { filtroDetalle } from "../interfaces/filtroDetalle"
 import DetalleVentaTable from "./DetalleVenta"
-import type { DataDetalle, DetalleVenta } from "../../app/interfaces/DetalleVenta.interface"
+import type { DataDetalle, DetalleVenta } from "../interfaces/DetalleVenta.interface"
+
 
 interface Props {
     metas: MetaSucursalFormateada[];
@@ -23,8 +24,7 @@ export const TablaMetaSucursal = ({ metas, filtro }: Props) => {
 
     const handleExpandirFila = async(index: number, idSucursal: string) => {
         setExpandirFila(index === expandirFila ? null : index);
-        console.log("idSucursal", idSucursal);
-        console.log("filtro", filtro);
+     
         try {
             const data: DataDetalle = {
                 sucursal: idSucursal,
@@ -34,9 +34,9 @@ export const TablaMetaSucursal = ({ metas, filtro }: Props) => {
                 tipoVenta: filtro.tipoVenta,
                 comisiona: filtro.comisiona,
             }
-            console.log("data detalle", data);
+        
             const response = await detalleVenta(data);
-            console.log("response detalle", response.length);
+         
             setDetallesVenta(response);
         } catch (error) {
             console.log(error);

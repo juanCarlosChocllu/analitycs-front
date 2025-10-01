@@ -24,7 +24,7 @@ import {
   getSucursalesPorEmpresa,
   getTipoVenta,
   listarTodasLasScursales,
-} from "../../app/service/analitycs";
+} from "../../app/service/appService";
 import MultiSelectBuscador, {
 } from "../../app/components/Buscador/SeleccionMultiple";
 import { RangoFecha } from "../../app/components/Buscador/RangoFecha";

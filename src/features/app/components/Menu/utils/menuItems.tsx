@@ -54,6 +54,11 @@ export const menuItems: MenuItem[] = [
         icon: <Circle className="text-white w-3 h-3" />,
         link: "/rendimiento",
       },
+       {
+        text: "Reporte de cotizaciones",
+        icon: <Circle className="text-white w-3 h-3" />,
+        link: "/reporte/cotizacion",
+      },
     ],
   },
   {
@@ -85,7 +90,7 @@ export const menuItems: MenuItem[] = [
         icon: <Circle className="text-white w-3 h-3" />,
         link: "/kpi/asesores",
       },
-     /* {
+      /* {
         text: "Kpi material",
         icon: <Circle className="text-white w-3 h-3" />,
         link: "https://analitycs-frontend.vercel.app/kpi/material",
@@ -138,33 +143,52 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
-
   {
     id: 8,
+    roles: ["ADMINISTRADOR"],
+    text: "Productos",
+    icon: <Target className="text-white" />,
+
+    items: [
+      {
+        text: "Reporte de productos",
+        icon: <Circle className="text-white w-3 h-3" />,
+        link: "/producto/reporte",
+      },
+      {
+        text: "Marcas",
+        icon: <Circle className="text-white w-3 h-3" />,
+        link: "/listar/marca",
+      },
+      
+    ],
+  },
+  {
+    id: 9,
     roles: ["ADMINISTRADOR", "GESTOR", "ASESOR"],
     text: "Planilla de rendimiento",
     icon: <Target className="text-white" />,
     items: [
+      {
+        text: "Rendimiento por sucursal",
+        roles: ["ADMINISTRADOR"],
+        icon: <Circle className="text-white w-3 h-3" />,
+        link: "/listar/rendimiento/asesor",
+      },
+      {
+        text: "Resumen de Desempeño Semanal",
+        roles: ["ADMINISTRADOR"],
+        icon: <Circle className="text-white w-3 h-3" />,
+        link: "/rendimiento/semanal/asesor",
+      },
 
-      { text: 'Inicio', roles: ['ASESOR', 'GESTOR'], icon: <Circle className="text-white w-3 h-3" />, link: '/asesor/inicio' },
-      { text: 'Listar', roles: ['ASESOR', 'GESTOR'], icon: <Circle className="text-white w-3 h-3" />, link: '/rendimiento/diario' },
-      { text: 'Rendimiento por sucursal', roles: ['ADMINISTRADOR'], icon: <Circle className="text-white w-3 h-3" />, link: '/listar/rendimiento/asesor' },
-      { text: 'Resumen semanal', roles: ['ASESOR', 'GESTOR'], icon: <Circle className="text-white w-3 h-3" />, link: '/rendimiento/diario/asesor' },
-      { text: 'Resumen de Desempeño Semanal', roles: ['ADMINISTRADOR', "GESTOR", "ASESOR"], icon: <Circle className="text-white w-3 h-3" />, link: '/rendimiento/semanal/asesor' },
-
-      
       {
         text: "Rendimiento diario",
         roles: ["ASESOR", "GESTOR"],
         icon: <Circle className="text-white w-3 h-3" />,
         link: "/rendimiento/diario",
       },
-     {
-        text: "Resumen semanal",
-        roles: ["ASESOR", "GESTOR"],
-        icon: <Circle className="text-white w-3 h-3" />,
-        link: "/rendimiento/diario/asesor",
-      },
+    
       {
         text: "Avance de metas",
         roles: ["ADMINISTRADOR"],
@@ -176,13 +200,12 @@ export const menuItems: MenuItem[] = [
         roles: ["ADMINISTRADOR"],
         icon: <Circle className="text-white w-3 h-3" />,
         link: "/avance/ventas/asesor",
-      }
+      },
     ],
-
   },
 
   {
-    id: 9,
+    id: 10,
     roles: ["ADMINISTRADOR"],
     text: "Usuarios",
     icon: <Users className="text-white" />,
@@ -199,7 +222,7 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
-/*  {
+  /*  {
     id: 10,
     roles: ["ADMINISTRADOR"],
     text: "Logs del sistema",
