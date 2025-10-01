@@ -10,8 +10,9 @@ import { useForm, Controller } from 'react-hook-form';
 import type { registrarRendimientoDiarioI } from '../interface/RendimientoDiario';
 import { registrarRendimientoDiarioAsesor } from '../service/RendimientoDiarioService';
 import type { AxiosError } from 'axios';
-import toast from 'react-hot-toast';
+
 import AddIcon from '@mui/icons-material/Add';
+import toast from 'react-hot-toast';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -86,11 +87,15 @@ export const RegistrarRendimientoDiarioModal = ({reload,setReload}:{reload:boole
  
       if (e.response?.status === 409) {
         const mensaje = (e.response.data as { message: string }).message;
+      
+        
         toast.error(mensaje)
+        return
       }
        if (e.response?.status === 400) {
         const mensaje = (e.response.data as { message: string }).message;
         toast.error(mensaje)
+        return
       }
       
 

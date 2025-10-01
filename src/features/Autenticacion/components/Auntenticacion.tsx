@@ -3,8 +3,6 @@ import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";
 import { useForm } from "react-hook-form";
 import { autenticacion2 } from "../service/autenticacionService";
-import { useContext } from "react";
-import { AutenticacionContext } from "../../app/context/AuntenticacionProvider";
 import type { autenticacion } from "../interface/autenticaicon";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -14,12 +12,11 @@ export const Autenticacion = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<autenticacion>();
-  const { guardarToken } = useContext(AutenticacionContext);
+  
   const onSubmit = async (data: autenticacion) => {
     try {
       const response = await autenticacion2(data);
       if (response.status === 200) {
-        guardarToken(response.token);
         window.location.href = '/inicio'
       }
     } catch (error) {

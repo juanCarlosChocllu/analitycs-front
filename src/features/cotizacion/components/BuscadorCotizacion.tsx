@@ -94,8 +94,6 @@ export function BuscadorCotizacion({ setFiltro }: FiltroBuscadorI) {
     } else if (empresa != 'TODAS' && sucursalesSeleccionados.length <= 0) {
       sucursalesFiltradas = obtenerSucursalesPorRegion(sucursales);
     } else if (sucursalesSeleccionados.length > 0) {
-      
-
       sucursalesFiltradas = sucursalesSeleccionados
     }
 
