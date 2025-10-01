@@ -1,8 +1,9 @@
 // Interfaces basadas en tu código
 
 import dayjs from "dayjs"
-import type { Detalle, DetalleVenta} from "../../app/interfaces/DetalleVenta.interface"
+
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material"
+import type { Detalle, DetalleVenta } from "../interfaces/DetalleVenta.interface"
 
 
 const obtenerColorEstado = (estado: string): string => {
@@ -50,35 +51,35 @@ const obtenerColorEstado = (estado: string): string => {
               </TableRow>
             </TableHead>
             <TableBody className="divide-y divide-gray-200">
-              {detalleVenta?.detalle.map((detalle: Detalle, index: number) => (
+              {detalleVenta?.detalleVenta.map((detalle: Detalle, index: number) => (
                 <TableRow key={index} className="hover:bg-gray-50 transition-colors duration-200">
                   <TableCell className="px-6 py-4 border-b">
                     <div className="space-y-1">
-                      <p className="font-semibold text-gray-900">{detalle.producto}</p>
+                      <p className="font-semibold text-gray-900">{detalle.rubro}</p>
                     </div>
                   </TableCell>
                   <TableCell className="px-6 py-4 border-b">
                     <span className="text-lg font-semibold text-green-600">{moneda}{detalle.importe.toLocaleString('en-US')}</span>
                   </TableCell>
                   <TableCell className="px-6 py-4 border-b">
-                    <span className="font-mono text-sm bg-gray-100 px-2 py-1 rounded">{detalle.tracking}</span>
+                    <span className="font-mono text-sm bg-gray-100 px-2 py-1 rounded">{detalleVenta.estadoTracking}</span>
                   </TableCell>
                   <TableCell className="px-6 py-4 border-b">
                     <span className="text-gray-900">
-                      {dayjs(detalle.fechaVenta).format('DD/MM/YYYY')}
+                      {dayjs(detalleVenta.fechaVenta).format('DD/MM/YYYY')}
                     </span>
                   </TableCell>
                   <TableCell className="px-6 py-4 border-b">
                     <span
-                      className={`inline-flex px-3 py-1 rounded-full text-xs font-medium border ${obtenerColorEstado(detalle.flagVenta)}`}
+                      className={`inline-flex px-3 py-1 rounded-full text-xs font-medium border ${obtenerColorEstado(detalleVenta.flagVenta)}`}
                     >
-                      {detalle.flagVenta}
+                      {detalleVenta.flagVenta}
                     </span>
                   </TableCell>
                   <TableCell className="px-6 py-4 border-b">
-                    {detalle.fechaFinalizacion ? (
+                    {detalleVenta.fechaFinalizacion ? (
                       <span className="text-gray-900">
-                        {dayjs(detalle.fechaFinalizacion).format('DD/MM/YYYY')}
+                        {dayjs(detalleVenta.fechaFinalizacion).format('DD/MM/YYYY')}
                       </span>
                     ) : (
                       <span className="text-gray-400 italic">Pendiente</span>
@@ -90,15 +91,7 @@ const obtenerColorEstado = (estado: string): string => {
           </Table>
         </div>
   
-        {/* Resumen */}
-        <div className="mt-6 bg-gray-50 rounded-lg p-4">
-          <div className="flex justify-between items-center">
-            <span className="text-lg font-semibold text-gray-700">Total de productos: {detalleVenta?.detalle.length}</span>
-            <span className="text-xl font-bold text-green-600">
-              Total: {moneda}{detalleVenta?.detalle.reduce((sum: number, item: Detalle) => sum + item.importe, 0).toLocaleString('en-US')}
-            </span>
-          </div>
-        </div>
+      
       </div>
     )
   }

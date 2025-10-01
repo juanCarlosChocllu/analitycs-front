@@ -24,7 +24,7 @@ import {
 import {  Pencil, PlusCircle, Trash2 } from "lucide-react";
 import { EditarUsuarioPage } from "./EditarUsuarioPage";
 import { AsignarSucursalModal } from "../../Asesor/modal/AsignarSucursalModal";
-import { eliminarUsuarios, listarAsesores, listarUsuarios } from "../services/serviceUsuario";
+import { eliminarUsuarios, listarAsesores } from "../services/serviceUsuario";
 
 export const ListarAsesorPage = () => {
    const [reload, sertReload] = useState<boolean>(false);

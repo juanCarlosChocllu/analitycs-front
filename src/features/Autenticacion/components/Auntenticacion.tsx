@@ -6,7 +6,6 @@ import { autenticacion2 } from "../service/autenticacionService";
 import { useContext } from "react";
 import { AutenticacionContext } from "../../app/context/AuntenticacionProvider";
 import type { autenticacion } from "../interface/autenticaicon";
-import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 
 export const Autenticacion = () => {

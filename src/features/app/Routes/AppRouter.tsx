@@ -1,4 +1,3 @@
-
 import { ComparativoPage } from "../../Comparativos/page/ComparativoPage";
 import Medicos from "../../Medicos/pages/Medicos";
 import { RecetaMedico } from "../../Medicos/pages/RecetaMedico";
@@ -14,13 +13,12 @@ import { RendimientoDiarioPage } from "../../RendimientoDiario/page/RendimientoD
 
 import { ListarRendimientoAsesorPage } from "../../RendimientoDiario/page/ListarRendimientoAsesorPage";
 import { AutenticacionPage } from "../../Autenticacion/page/AutenticacionPage";
-import FormDia from "../../Metas/components/FormDia"
-import { DiasPage } from "../../Metas/pages/DiasPage"
-import { MetasSucursales } from "../../Metas Sucursal/pages/MetasSucursales"
-import { UsuarioPage } from "../../Usuario/pages/UsuarioPage"
+import FormDia from "../../Metas/components/FormDia";
+import { DiasPage } from "../../Metas/pages/DiasPage";
+import { MetasSucursales } from "../../Metas Sucursal/pages/MetasSucursales";
+import { UsuarioPage } from "../../Usuario/pages/UsuarioPage";
 import { useContext } from "react";
 import { AutenticacionContext } from "../context/AuntenticacionProvider";
-
 
 import { Home } from "../components/Home/Home";
 
@@ -33,52 +31,77 @@ import { AvanceMetasAsesorPage } from "../../RendimientoDiario/page/AvanceMetasA
 import { AvanceVentasPage } from "../../RendimientoDiario/page/AvanceVentasPage";
 import { ListarMarcaPage } from "../../marca/page/ListarMarcaPage";
 import { ProductoPage } from "../../Productos/page/ProductoPage";
-
-
-
+import { CotizacionPage } from "../../cotizacion/page/CotizacionPage";
 
 export const AppRouter = () => {
   const { isAuntenticacion } = useContext(AutenticacionContext);
 
-  
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<AutenticacionPage />} />
         <Route element={<Layout />}>
-
-          {
-            isAuntenticacion && (
-              <>
-                <Route path="/inicio" element={<Home />} />
-                <Route path="/kpi/asesores" element={<AsesorLente />} />
-                <Route path="/kpi/medicos" element={<Medicos />} />
-                <Route path="/kpi/receta/medico" element={<RecetaMedico />} />
-                <Route path="/indicadores/sucursal" element={<IndicadoresSucursalPage />} />
-                <Route path="/comparaciones" element={<ComparativoPage />} />
-                <Route path="/metas/sucursal" element={<MetaSucursal />} />
-                <Route path="/metas/listar" element={<MetasSucursales />} />
-                <Route path="/rendimiento" element={<RendimientoAsesoresPage />} />
-                <Route path="/kpi/lentes" element={<LentePage />} />
-
-                {/*<Route path="/asesor/inicio" element={<InicioAsesorPage />} />*/}
-                <Route path="/rendimiento/diario" element={<RendimientoDiarioPage />} />
-             {/*falat*/}   <Route path="/listar/rendimiento/asesor" element={<ListarRendimientoAsesorPage />} />
-             {/*si*/}    <Route path="/rendimiento/semanal/asesor" element={<RendimientoSemanal />} />
-                <Route path="/kpi/asesores" element={<AsesorLente />} />
-                <Route path="/metas/dia" element={<FormDia />} />
-                <Route path="/dias/listar" element={<DiasPage />} />
-                <Route path="/usuarios" element={<UsuarioPage />} />
-                <Route path="/asesor/usuarios" element={<ListarAsesorPage />} />
-               {/*si*/}  <Route path="/asesor/registrar" element={<RegistrarAsesoresPage />} />
-                <Route path="/rendimiento/diario/asesor" element={<RendimientoDiarioAsesorPage />} />
-               {/*si*/}    <Route path="/avance/metas/asesor" element={<AvanceMetasAsesorPage />} />
-                 <Route path="/avance/ventas/asesor" element={<AvanceVentasPage />} />
-                <Route path="/listar/marca" element={<ListarMarcaPage />} />
-                <Route path="/producto/reporte" element={<ProductoPage />} />
-              </>
-            )
-          }
+          {isAuntenticacion && (
+            <>
+              <Route path="/inicio" element={<Home />} />
+              <Route path="/kpi/asesores" element={<AsesorLente />} />
+              <Route path="/kpi/medicos" element={<Medicos />} />
+              <Route path="/kpi/receta/medico" element={<RecetaMedico />} />
+              <Route
+                path="/indicadores/sucursal"
+                element={<IndicadoresSucursalPage />}
+              />
+              <Route path="/comparaciones" element={<ComparativoPage />} />
+              <Route path="/metas/sucursal" element={<MetaSucursal />} />
+              <Route path="/metas/listar" element={<MetasSucursales />} />
+              <Route
+                path="/rendimiento"
+                element={<RendimientoAsesoresPage />}
+              />
+              <Route path="/kpi/lentes" element={<LentePage />} />
+              {/*<Route path="/asesor/inicio" element={<InicioAsesorPage />} />*/}
+              <Route
+                path="/rendimiento/diario"
+                element={<RendimientoDiarioPage />}
+              />
+              {/*falat*/}{" "}
+              <Route
+                path="/listar/rendimiento/asesor"
+                element={<ListarRendimientoAsesorPage />}
+              />
+              {/*si*/}{" "}
+              <Route
+                path="/rendimiento/semanal/asesor"
+                element={<RendimientoSemanal />}
+              />
+              <Route path="/kpi/asesores" element={<AsesorLente />} />
+              <Route path="/metas/dia" element={<FormDia />} />
+              <Route path="/dias/listar" element={<DiasPage />} />
+              <Route path="/usuarios" element={<UsuarioPage />} />
+              <Route path="/asesor/usuarios" element={<ListarAsesorPage />} />
+              {/*si*/}{" "}
+              <Route
+                path="/asesor/registrar"
+                element={<RegistrarAsesoresPage />}
+              />
+              <Route
+                path="/rendimiento/diario/asesor"
+                element={<RendimientoDiarioAsesorPage />}
+              />
+              {/*si*/}{" "}
+              <Route
+                path="/avance/metas/asesor"
+                element={<AvanceMetasAsesorPage />}
+              />
+              <Route
+                path="/avance/ventas/asesor"
+                element={<AvanceVentasPage />}
+              />
+              <Route path="/listar/marca" element={<ListarMarcaPage />} />
+              <Route path="/producto/reporte" element={<ProductoPage />} />
+              <Route path="/reporte/cotizacion" element={<CotizacionPage />} />
+            </>
+          )}
         </Route>
       </Routes>
     </BrowserRouter>

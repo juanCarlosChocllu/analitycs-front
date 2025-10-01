@@ -1,9 +1,9 @@
 import type { filtroBuscadorI } from "../../app/interfaces/BuscadorI"
-import type { DataDetalle, DetalleVenta } from "../../app/interfaces/DetalleVenta.interface"
 
 
 import type { DataMeta, MetaSucursalI } from "../interfaces/metaSucursal.interfaces"
 import { analitycsV2 } from "../../app/config/analitycsV2"
+import type { DataDetalle, DetalleVenta } from "../interfaces/DetalleVenta.interface"
 
 
 export const crearMetaSucursal= async(data: DataMeta)=>{

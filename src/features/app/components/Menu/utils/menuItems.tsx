@@ -54,6 +54,11 @@ export const menuItems: MenuItem[] = [
         icon: <Circle className="text-white w-3 h-3" />,
         link: "/rendimiento",
       },
+       {
+        text: "Reporte de cotizaciones",
+        icon: <Circle className="text-white w-3 h-3" />,
+        link: "/reporte/cotizacion",
+      },
     ],
   },
   {
