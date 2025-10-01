@@ -4,14 +4,13 @@ import { BuscadorCotizacion } from "../components/BuscadorCotizacion";
 import { reporteCotizacion } from "../service/cotizacionService";
 import { ListarCotizacion } from "../components/ListarCotizacion";
 import type { CotizacionI } from "../interface/Cotizacion";
-import { Loader } from "../../app/components/loader/Loader";
-import { LoaderCircle } from "lucide-react";
+
 import { GraficoCotizacionBarraVertical } from "../components/GraficoCotizacionBarraVertical";
 
 export const CotizacionPage = () => {
   const [cotizacion, setCotizacion] = useState<CotizacionI[]>([])
   const [buscador, setBuscador] = useState<filtroBuscadorI>({});
-  const [loader, setLoader] = useState<boolean>(false)
+  const [_, setLoader] = useState<boolean>(false)
   useEffect(() => {
     reporte()
     
