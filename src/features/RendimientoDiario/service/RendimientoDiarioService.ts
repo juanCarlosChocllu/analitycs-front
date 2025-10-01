@@ -62,10 +62,14 @@ export async function editarRendimientoDiarioAsesor(data: registrarRendimientoDi
 
 export async function listarRendimientoAsesor(filtro: filtroBuscadorI):Promise<SucursalData[]> {
     try {
+        console.log('sss',filtro);
+        
         const response = await analitycsV2.post('rendimiento/diario/listar', filtro)
-        console.log("response Asesor 12: ",response.data)
+
         return response.data
     } catch (error) {
+        console.log(error);
+        
         throw error
     }
     

@@ -127,7 +127,7 @@ export const ListarMarcaPage = () => {
                     >
                       <MenuItem value="VIP">VIP</MenuItem>
                       <MenuItem value="INTERMEDIA">INTERMEDIA</MenuItem>
-                      <MenuItem value="ECONOMICA">ECONOMIA</MenuItem>
+                      <MenuItem value="ECONOMICA">ECONOMICA</MenuItem>
                       <MenuItem value="REPLICA">REPLICA</MenuItem>
                     </Select>
                   </FormControl>
