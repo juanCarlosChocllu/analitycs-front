@@ -11,10 +11,12 @@ export const analitycsV2 = axios.create({
 analitycsV2.interceptors.response.use((config) => {
     return config;
 }, (error) => {
+  console.log(error);
+  
   if(window.location.pathname != '/'){
      const e = error as AxiosError
   if(e.status == 403 || e.status == 401){
-    return window.location.href = '/'
+   // return window.location.href = '/'
   }
   }  
 });
