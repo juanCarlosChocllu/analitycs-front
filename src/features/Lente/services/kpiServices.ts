@@ -62,7 +62,7 @@ export async function ventaKpiInformacion(
 
     return kpiInformacion;
   } catch (error) {
-    console.log(error);
+    console.log("error ventaKpiInformacion", error);
   }
 }
 
