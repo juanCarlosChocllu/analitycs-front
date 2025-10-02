@@ -16,7 +16,7 @@ export const menuItems: MenuItem[] = [
     id: 1,
     text: "Mi cuenta",
     icon: <House className="text-white" />,
-    roles: ["ADMINISTRADOR"],
+    roles: ["ADMINISTRADOR", "GESTOR", "ASESOR"],
     items: [
       {
         text: "Perfil",
