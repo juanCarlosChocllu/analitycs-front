@@ -1,7 +1,7 @@
 import type { MedicoVenta, SucursalVenta } from "../interfaces/Medicos";
 import { filtroMedicoEspecialidad } from "../utils/filtroMedicoEspecialidad";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
-import { formatearImporte } from "../utils/funcionesDeCalculo";
+import { formatearImporte, getSucursalRegion } from "../utils/funcionesDeCalculo";
 
 interface TablaMedicoProps {
   dataActual: SucursalVenta[];
@@ -9,6 +9,7 @@ interface TablaMedicoProps {
 }
 
 export const TotalOftalmologos = ({ dataActual, dataAnterior }: TablaMedicoProps) => {
+  const sucursalRegion = getSucursalRegion();
   const [dataActualOftalmologo, dataAnteriorOftalmologo] =
     filtroMedicoEspecialidad({ dataActual, dataAnterior }, "OFTALMOLOGO");
 
@@ -108,7 +109,7 @@ export const TotalOftalmologos = ({ dataActual, dataAnterior }: TablaMedicoProps
                 {recetasActual}
               </TableCell>
               <TableCell className="px-4 py-2 text-left text-sm font-medium text-gray-700">
-                {formatearImporte(importeActual, "OPTICENTRO PARAGUAY")}
+                {formatearImporte(importeActual, sucursalRegion)}
               </TableCell>
 
               <TableCell
@@ -183,7 +184,7 @@ export const TotalOftalmologos = ({ dataActual, dataAnterior }: TablaMedicoProps
                 {recetasAnterior}
               </TableCell>
               <TableCell className="px-4 py-2 text-left text-sm font-medium text-gray-700">
-                {formatearImporte(importeAnterior, "OPTICENTRO PARAGUAY")}
+                {formatearImporte(importeAnterior, sucursalRegion)}
               </TableCell>
             </TableRow>
           </TableBody>
