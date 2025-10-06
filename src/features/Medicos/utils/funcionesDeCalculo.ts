@@ -153,3 +153,10 @@ export function porcentaje(cantidad:number, total:number):number{
     return Math.round(porce)
 }
 
+export const getSucursalRegion = (): string => {
+    const region = localStorage.getItem("region");
+    if (region === "PARAGUAY") {
+        return "OPTICENTRO PARAGUAY";
+    }
+    return "OPTICENTRO";
+};
