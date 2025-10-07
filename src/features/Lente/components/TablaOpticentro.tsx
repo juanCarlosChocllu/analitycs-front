@@ -3,7 +3,7 @@ import type { filtroBuscadorI } from "../../app/interfaces/BuscadorI"
 import { useState } from "react";
 import TablaOrdenada from "../../app/components/Tabla/TablaOrdenada";
 import { ModalInformacion } from "./Modal/ModalInformacion";
-import { ventaKpiInformacion } from "../services/kpiServices";
+import { ventaKpiInformacion } from "../services/lenteServices";
 import Loading from "../../app/components/Loading/Loading";
 
 // Extendemos SucursalTableData para incluir el id

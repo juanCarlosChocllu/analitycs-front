@@ -1,7 +1,7 @@
 import type { filtroBuscadorI } from "../../app/interfaces/BuscadorI"
 import { useState } from "react";
 import TablaOrdenada from "../../app/components/Tabla/TablaOrdenada";
-import { informacionLenteAsesor } from "../services/kpiServices";
+import { informacionLenteAsesor } from "../services/lenteServices";
 import Loading from "../../app/components/Loading/Loading";
 
 import {TableCell, TableRow } from "@mui/material";

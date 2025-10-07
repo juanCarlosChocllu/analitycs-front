@@ -2,7 +2,7 @@ import { analitycsV2 } from "../../app/config/analitycsV2";
 import type { filtroBuscadorI } from "../../app/interfaces/BuscadorI";
 
 
-import type { ProductosStockI } from "../interface/productos";
+import type { detalleProductoKpiI, kpiProductosI, ProductosStockI } from "../interface/productos";
 
 export async function reporteProductoActual(
   filtro: filtroBuscadorI
@@ -51,3 +51,26 @@ export async function reporteProductoAnterior(
     throw error;
   }
 }
+
+export async function kpiProductos( filtro: filtroBuscadorI):Promise<kpiProductosI[]> {
+  try {
+    const response = await analitycsV2.post('venta/producto/kpi', filtro)
+    
+    
+    return response.data
+  } catch (error) {
+     throw error
+  }
+}
+
+export async function detalleProductoKpi( filtro: filtroBuscadorI, sucursal:string, rubro:string):Promise<detalleProductoKpiI[]> {
+  try {
+    const response = await analitycsV2.post(`venta/producto/kpi/detalle/${sucursal}/${rubro}`, filtro)
+    
+    
+    return response.data
+  } catch (error) {
+     throw error
+  }
+}
+

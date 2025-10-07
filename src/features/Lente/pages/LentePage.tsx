@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { filtroBuscadorI } from "../../app/interfaces/BuscadorI";
 import { BuscadorKPI } from "../../app/components/Buscador/BuscadorKPI";
 import { useEffect } from "react";
-import { kpiEmpresasLentes } from "../services/kpiServices";
+import { kpiEmpresasLentes } from "../services/lenteServices";
 import { TablaTotalEmpresa } from "../components/TablaTotalEmpresa";
 import { TablaEmpresas } from "../components/TablaEmpresas";
 

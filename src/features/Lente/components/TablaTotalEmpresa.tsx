@@ -1,7 +1,7 @@
 import { Button, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import type { Kpisucursal } from "../interface/sucursal.interface";
 import type { filtroBuscadorI } from "../../app/interfaces/BuscadorI";
-import { ventaKpiInformacionTodasEmpresas } from "../services/kpiServices";
+import { ventaKpiInformacionTodasEmpresas } from "../services/lenteServices";
 
 interface TablaTotalEmpresaProps {
     data: Kpisucursal[];

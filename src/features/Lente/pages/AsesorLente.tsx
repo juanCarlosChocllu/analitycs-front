@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { BuscadorKPI } from "../../app/components/Buscador/BuscadorKPI";
 import type { filtroBuscadorI } from "../../app/interfaces/BuscadorI";
-import { ventasLentesAsesores } from "../services/kpiServices";
+import { ventasLentesAsesores } from "../services/lenteServices";
 import { TablaAsesorLentes } from "../components/TablaAsesorLente";
 
 export function AsesorLente() {

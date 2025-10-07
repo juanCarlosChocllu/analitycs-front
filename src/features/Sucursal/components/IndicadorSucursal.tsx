@@ -33,7 +33,7 @@ export const IndicadorSucursal = () => {
       setLoader(true);
       const response = await getIndicadoresPorSucursal(filtro);
       setData(response);
-      setDataSucursal(response.dataSucursal);
+      setDataSucursal(response.dataSucursal.filter((item)=> item.totalTicket > 0));
       setLoader(false);
     } catch (error) {
       console.error("Error al obtener indicadores:", error);
@@ -88,7 +88,6 @@ export const IndicadorSucursal = () => {
       <Box sx={{ mt: 4 }}>
         <TablaIndicadores data={dataSucursal} />
       </Box>
-   
       {loader && <Loader />}
     </Box>
   );

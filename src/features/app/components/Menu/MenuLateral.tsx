@@ -9,9 +9,10 @@ import ListItemText from "@mui/material/ListItemText";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { X, LogOut } from "lucide-react";
-import { menuItems } from "./utils/menuItems";
+
 import { AutenticacionContext } from "../../context/AuntenticacionProvider";
 import type { MenuItem } from "../../interfaces/menu";
+import { menuItems } from "./menuItems";
 
 export const MenuLateral = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean) => void }) => {
   const navigate = useNavigate();

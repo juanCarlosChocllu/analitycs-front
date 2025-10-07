@@ -2,6 +2,7 @@
 import { analitycsV2 } from "../../app/config/analitycsV2";
 import type { filtroBuscadorI } from "../../app/interfaces/BuscadorI";
 import type { InformacionAsesor } from "../interface/asesor.interface";
+import type { KpiMaterialI } from "../interface/material";
 
 export async function kpiEmpresasLentes(data: filtroBuscadorI) {
   console.log("data", data);
@@ -88,4 +89,14 @@ export async function informacionLenteAsesor(asesor: string, data: filtroBuscado
     throw error
   }
     
+}
+export async function kpiMaterial( filtro: filtroBuscadorI):Promise<KpiMaterialI[]> {
+  try {
+    const response = await analitycsV2.post("venta/kpi/material", filtro)
+    
+    
+    return response.data
+  } catch (error) {
+     throw error
+  }
 }

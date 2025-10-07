@@ -9,7 +9,7 @@ import {
   Users,
   Circle,
 } from "lucide-react";
-import type { MenuItem } from "../../../interfaces/menu";
+import type { MenuItem } from "../../interfaces/menu";
 
 export const menuItems: MenuItem[] = [
   {
@@ -90,15 +90,13 @@ export const menuItems: MenuItem[] = [
         icon: <Circle className="text-white w-3 h-3" />,
         link: "/kpi/asesores",
       },
-      /* {
+       {
         text: "Kpi material",
         icon: <Circle className="text-white w-3 h-3" />,
-        link: "https://analitycs-frontend.vercel.app/kpi/material",
-      },*/
-      // { text: 'Kpi monturas vip', icon: <Circle className="text-white w-3 h-3" />, link: 'https://analitycs-frontend.vercel.app/kpi/monturas/vip' },
-      // { text: 'Kpi monturas', icon: <Circle className="text-white w-3 h-3" />, link: '/kpi/monturas' },
-      // { text: 'Kpi lente de contacto', icon: <Circle className="text-white w-3 h-3" />, link: 'https://analitycs-frontend.vercel.app/kpi/lentes/contactos' },
-      // { text: 'Kpi gafa', icon: <Circle className="text-white w-3 h-3" />, link: 'https://analitycs-frontend.vercel.app/kpi/gafa' },
+        link: "/kpi/material",
+      },
+      { text: 'Kpi Productos', icon: <Circle className="text-white w-3 h-3" />, link: '/kpi/producto' },
+      
     ],
   },
   {

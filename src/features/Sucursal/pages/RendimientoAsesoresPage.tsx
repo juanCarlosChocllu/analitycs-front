@@ -32,7 +32,7 @@ export const RendimientoAsesoresPage = () => {
         try {
             setLoading(true);
             const response = await getIndicadoresPorAsesor(filtro);
-            setData(response);
+            setData(response.filter((item)=> item.totalTicket > 0 ));
             setLoading(false);
         } catch (error) {
             console.error("Error al obtener indicadores:", error);
