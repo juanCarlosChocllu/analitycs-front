@@ -25,10 +25,8 @@ export const TotalVentaStock = ({
 }) => {
     const { isReloading } = useEstadoReload();
   const [ventaTotalStock, setventaTotalStock] = useState<VentaStockI[]>([])
-  const dias = cantidadDiasRangoFecha(fechaInicio, fechaFin);
- useEffect(() => { 
-    console.log("cargado venta stock", isReloading);
-    
+  const dias = cantidadDiasRangoFecha(fechaInicio, fechaFin);  
+ useEffect(() => {     
     setventaTotalStock(agruparVentaProductosPorRubroYCategoria(dataActual, dataAnterior))
   }, [isReloading])
 

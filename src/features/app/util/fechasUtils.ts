@@ -5,6 +5,6 @@ export const cantidadDiasRangoFecha = (
 ) => {
   const f1 = dayjs(fechaInicio);
   const f2 = dayjs(fechaFin);
-  const diferenciaEnDias = f2.diff(f1, "day");
-  return diferenciaEnDias  > 0? diferenciaEnDias : 1;
+  const diferenciaEnDias = f2.diff(f1, "day") + 1;  
+  return diferenciaEnDias;
 };
