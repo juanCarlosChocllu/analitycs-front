@@ -12,6 +12,7 @@ interface TrabajadorProps {
   mesActual: number;
   asesor: string;
   jornada: JornadaI;
+  sucursal: string;
 }
 
 export const TrabajadorCard: React.FC<TrabajadorProps> = ({
@@ -21,6 +22,7 @@ export const TrabajadorCard: React.FC<TrabajadorProps> = ({
   mesActual,
   asesor,
   jornada,
+  sucursal,
 }) => {
   const [fechaInicio, setFechaInicio] = useState<Date | null>(null);
   const [fechaFin, setFechaFin] = useState<Date | null>(null);
@@ -120,13 +122,13 @@ export const TrabajadorCard: React.FC<TrabajadorProps> = ({
   return (
     <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 hover:shadow-2xl transition-all duration-300">
       <header className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-bold text-gray-800 flex items-center gap-2">
+        <p className="font-bold text-gray-800 flex items-center gap-2">
           <span
             className="inline-block w-3 h-3 rounded-full"
             style={{ backgroundColor: color }}
           ></span>
           {nombre}
-        </h3>
+        </p>
         <div className="text-right">
           <p className="text-xs text-gray-500">Días trabajados</p>
           <span className="text-2xl font-extrabold text-gray-800">
@@ -134,23 +136,11 @@ export const TrabajadorCard: React.FC<TrabajadorProps> = ({
           </span>
         </div>
       </header>
-
-      {/* Información del rango seleccionado */}
       <div className="mb-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
         <div className="text-xs text-gray-600 mb-2 flex justify-between items-center">
-          <span className="font-semibold">Período comercial:</span>
-          <span
-            className={`text-xs px-2 py-1 rounded-full ${
-              modoSeleccion === "inicio"
-                ? "bg-green-100 text-green-700"
-                : "bg-red-100 text-red-700"
-            }`}
-          >
-            {modoSeleccion === "inicio"
-              ? "📍 Selecciona inicio"
-              : "📍 Selecciona fin"}
-          </span>
+          {sucursal}
         </div>
+
         <div className="flex items-center justify-between gap-2">
           <div className="flex-1 text-center">
             <div className="text-xs text-gray-500">Inicio</div>

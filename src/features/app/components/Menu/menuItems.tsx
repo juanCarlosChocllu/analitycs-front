@@ -169,7 +169,7 @@ export const menuItems: MenuItem[] = [
     items: [
       {
         text: "Dias de trabajo",
-        roles: ["ADMINISTRADOR"],
+        roles: ["ADMINISTRADOR", "GESTOR"],
         icon: <Circle className="text-white w-3 h-3" />,
         link: "/crear/jornada",
       },

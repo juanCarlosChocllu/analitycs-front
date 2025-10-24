@@ -12,6 +12,14 @@ export const ultimaDescarga = async (): Promise<UltimaDescarga[]> => {
     }
 }
 
+export const mostrarSucursal = async (): Promise<{_id:string,sucursal:string}> => {
+    try {
+        const response = await analitycsV2.get("asesor/montrarScursalUsuario");
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
 
 
 export async function  getEmpresas():Promise<EmpresasI[]>{

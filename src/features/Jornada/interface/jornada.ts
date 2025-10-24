@@ -5,4 +5,5 @@ export interface JornadaI {
     fechaFin:Date,
     diasLaborales:number,
     detalleAsesor:string
+
 }

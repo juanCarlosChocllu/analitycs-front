@@ -9,4 +9,5 @@ export interface listarAsesorSucursal {
   _id: string;
   nombre: string;
   jornada:JornadaI
+      sucursal:string
 }
