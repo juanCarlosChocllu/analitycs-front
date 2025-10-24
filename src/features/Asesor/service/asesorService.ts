@@ -1,6 +1,6 @@
 
 import { analitycsV2 } from "../../app/config/analitycsV2"
-import type { asesorSucursalI } from "../interface/asesorSucursal"
+import type { asesorSucursalI, listarAsesorSucursal } from "../interface/asesorSucursal"
 
 
 export async function listarAsesorSucursal():Promise<asesorSucursalI[]>{
@@ -31,3 +31,21 @@ export async function asignarSucursal(asesor:string, usuario:string):Promise<{st
         throw error
     }
 }
+
+export async function listarAsessorPorSucursal(pagina:number, nombre:string):Promise<{data:listarAsesorSucursal[], pagina:number}> {
+    try {
+        const response = await analitycsV2.get('asesor/listarPorSucursal',{
+            params:{
+                nombre:nombre,
+                pagina:pagina,
+                limite:20
+            }
+        })
+        
+        return response.data
+    } catch (error) {
+        throw error
+    }
+    
+}
+

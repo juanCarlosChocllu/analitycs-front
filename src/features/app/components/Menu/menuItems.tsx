@@ -168,7 +168,13 @@ export const menuItems: MenuItem[] = [
     icon: <Target className="text-white" />,
     items: [
       {
-        text: "Rendimiento por sucursal",
+        text: "Dias de trabajo",
+        roles: ["ADMINISTRADOR"],
+        icon: <Circle className="text-white w-3 h-3" />,
+        link: "/crear/jornada",
+      },
+      {
+        text: "Resumen de Desempeño diario",
         roles: ["ADMINISTRADOR"],
         icon: <Circle className="text-white w-3 h-3" />,
         link: "/listar/rendimiento/asesor",
@@ -188,13 +194,13 @@ export const menuItems: MenuItem[] = [
       },
     
       {
-        text: "Avance de metas",
+        text: "Rendimiento de ventas por asesor",
         roles: ["ADMINISTRADOR"],
         icon: <Circle className="text-white w-3 h-3" />,
         link: "/avance/metas/asesor",
       },
       {
-        text: "Avance de ventas",
+        text: "Rendimiento de ventas por asesor",
         roles: ["ADMINISTRADOR"],
         icon: <Circle className="text-white w-3 h-3" />,
         link: "/avance/ventas/asesor",

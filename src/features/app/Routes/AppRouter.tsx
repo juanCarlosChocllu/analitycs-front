@@ -34,6 +34,8 @@ import { ProductoPage } from "../../Productos/page/ProductoPage";
 import { CotizacionPage } from "../../cotizacion/page/CotizacionPage";
 import { KpiProductoPage } from "../../Productos/page/KpiProductoPage";
 import { KpiMaterialPage } from "../../Lente/pages/KpiMaterialPage";
+import { JornadaPage } from "../../Jornada/page/JornadaPage";
+
 
 export const AppRouter = () => {
   const { isAuntenticacion } = useContext(AutenticacionContext);
@@ -104,6 +106,8 @@ export const AppRouter = () => {
               <Route path="/reporte/cotizacion" element={<CotizacionPage />} />
               <Route path="/kpi/producto" element={<KpiProductoPage />} />
               <Route path="/kpi/material" element={<KpiMaterialPage />} />
+              
+                <Route path="/crear/jornada" element={<JornadaPage />} />
             </>
           )}
         </Route>
