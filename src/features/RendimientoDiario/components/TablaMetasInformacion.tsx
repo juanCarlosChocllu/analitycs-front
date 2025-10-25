@@ -44,7 +44,7 @@ export const TablaMetasInformacion = ({diasComerciales,metaTicket,venta}:{metaTi
                     {totalTicket > 0 && metaTicket >0 ? (totalTicket / metaTicket ).toFixed(2):0}
               </TableCell>
                <TableCell>
-               {totalDias > 0 && metaTicket > 0 ? ( totalDias /metaTicket  ).toFixed(2):0}
+               {totalDias > 0 && metaTicket > 0 ? ( metaTicket /totalDias  ).toFixed(2):0}
               </TableCell>
             </TableRow>
           </>
