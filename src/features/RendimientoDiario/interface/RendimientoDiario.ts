@@ -125,8 +125,10 @@ export interface VentaDetalleI {
 }
 
 export interface ventaAsesorI{
-  asesor:string
+  asesor:string,
+  
   ventaAsesor:VentaDetalleI[]
+  diasLaborales:number
 }
 
 
@@ -156,6 +158,7 @@ export interface VentaAsesor {
 
 export interface VentasPorAsesor {
   asesor: string;
+  diasLaborales:number,
   ventaAsesor: VentaAsesor[];
 }
 

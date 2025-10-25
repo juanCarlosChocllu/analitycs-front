@@ -1,6 +1,4 @@
-export function mostrarEnDia(fecha:string){
-    console.log(fecha);
-    
+export function mostrarEnDia(fecha: string) {
   const dias: string[] = [
     "Domingo",
     "Lunes",
@@ -8,13 +6,9 @@ export function mostrarEnDia(fecha:string){
     "Miércoles",
     "Jueves",
     "Viernes",
-    "Sábado"
-];
-    const date = new Date(fecha)
-
+    "Sábado",
     
-
-    
-
-    return dias[date.getDay()]
+  ];
+  const date = new Date(fecha);
+  return dias[date.getUTCDay()];
 }
