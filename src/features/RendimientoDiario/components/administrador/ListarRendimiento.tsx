@@ -22,7 +22,6 @@ import type {
   ResultadoRendimientoDiarioI,
   VentaDetalleI,
 } from "../../interface/RendimientoDiario";
-import { ventasPordiaAsesor } from "../../utils/rendimientoUtil";
 
 export const ListarRendimiento = () => {
   const [filtro, setFiltro] = useState<filtroBuscadorI>({});
