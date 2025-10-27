@@ -185,7 +185,7 @@ export const AvanceVentasPage = () => {
                     <TableCell>
                       <Box display="flex" alignItems="center" gap={1}>
                         <CalendarMonthIcon />
-                        Días Comerciales
+                        Días Comerciales 
                       </Box>
                     </TableCell>
                     <TableCell>Fecha</TableCell>
