@@ -44,8 +44,16 @@ export const AvanceMetasAsesorPage = () => {
     try {
       setLoading(true);
       const response = await ListarAvanceMetasAsesor(filtro);
- 
-      setDatos(response);
+      const data: VentaMestaAsesor[] = response
+        .map((item) => {
+          const ventaFiltrada = item.ventaAsesor.filter((a) =>
+            a.ventas.some((v) => v.ticket > 0)
+          );
+          return { ...item, ventaAsesor: ventaFiltrada };
+        })
+        .filter((item) => item.ventaAsesor.length > 0);
+
+      setDatos(data);
     } catch (error) {
       console.log(error);
     } finally {
@@ -119,7 +127,7 @@ export const AvanceMetasAsesorPage = () => {
                             <TableCell>{item.asesor}</TableCell>
                             <TableCell>{item.dias}</TableCell>
                             <TableCell>
-                              { Math.round(
+                              {Math.round(
                                 item.dias *
                                   ventasPordiaAsesor(
                                     d.ventaAsesor,
@@ -236,8 +244,56 @@ export const AvanceMetasAsesorPage = () => {
                           0
                         )}
                       </TableCell>
-                      <TableCell>--</TableCell>
-                      <TableCell>--</TableCell>
+                      <TableCell>
+                        {cumplimientoMetaAsesor(
+                          Math.round(
+                            d.ventaAsesor.reduce(
+                              (acc, item) =>
+                                acc +
+                                item.dias *
+                                  ventasPordiaAsesor(
+                                    d.ventaAsesor,
+                                    d.metaTicket
+                                  ),
+                              0
+                            )
+                          ),
+                          d.ventaAsesor.reduce(
+                            (acc, item) =>
+                              acc +
+                              item.ventas.reduce(
+                                (a, venta) => a + venta.ticket,
+                                0
+                              ),
+                            0
+                          )
+                        )}
+                        %
+                      </TableCell>
+                      <TableCell>{metasFaltantes(
+                                 Math.round(
+                            d.ventaAsesor.reduce(
+                              (acc, item) =>
+                                acc +
+                                item.dias *
+                                  ventasPordiaAsesor(
+                                    d.ventaAsesor,
+                                    d.metaTicket
+                                  ),
+                              0
+                            )
+                          ),
+                                 d.ventaAsesor.reduce(
+                            (acc, item) =>
+                              acc +
+                              item.ventas.reduce(
+                                (a, venta) => a + venta.ticket,
+                                0
+                              ),
+                            0
+                          )
+                              )}
+                              </TableCell>
                       <TableCell />
                     </TableRow>
                   </TableBody>

@@ -34,7 +34,7 @@ export async function  getEmpresas():Promise<EmpresasI[]>{
 export async function  getSucursalesPorEmpresa(empresa:string):Promise<SucursalI[]>{
     try {
       const response = await analitycsV2.get(`sucursal/${empresa}`)
-      console.log(response.data);
+    
       return response.data
     } catch (error) {
       throw error
@@ -75,7 +75,7 @@ export async function  getSucursalesPorEmpresa(empresa:string):Promise<SucursalI
      export async function  verificarRol():Promise<{rol:string,_id:string}>{
     try {
       const response = await analitycsV2.get(`usuarios/verificar/rol`)
-      console.log(response);
+    
       
       return response.data
     } catch (error) {
