@@ -97,7 +97,7 @@ export const AvanceVentasPage = () => {
     }
   };
 
-  console.log("tableData - AvanceVentasPage: ",tableData)
+
 
   const handleScroll = useCallback(() => {
     const container = containerRef.current;

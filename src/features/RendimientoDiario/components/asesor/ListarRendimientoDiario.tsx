@@ -26,7 +26,7 @@ export const ListarRendimientoDiario = () => {
   const [paginaActual, setPaginaActual] = useState<number>(1);
   const [totalPaginas, setTotalPaginas] = useState<number>(1);
    const [reload, setReload] = useState<boolean>(false);
-  console.log(diaRegistro);
+
   
   useEffect(() => {
     listar(paginaActual);
@@ -41,7 +41,7 @@ export const ListarRendimientoDiario = () => {
       setTotalPaginas(response.paginas);
       setPaginaActual(response.paginaActual);
     } catch (error) {
-      console.error('Error al listar rendimiento diario', error);
+ 
     }
   };
 

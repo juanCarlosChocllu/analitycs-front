@@ -20,7 +20,7 @@ export const RotacionInventario = ({ dataActual, dataAnterior }: { dataActual: P
   const { isReloading } = useEstadoReload();
   const [ventaTotalStock, setventaTotalStock] = useState< VentaStockI[]>([])
     useEffect(() => { 
-      console.log(" rotacion inventario", isReloading);
+
       
       setventaTotalStock(agruparVentaProductosPorRubroYCategoria(dataActual, dataAnterior))
     }, [isReloading])

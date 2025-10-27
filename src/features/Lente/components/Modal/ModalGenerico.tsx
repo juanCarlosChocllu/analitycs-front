@@ -25,7 +25,7 @@ interface InformacionProps {
 }
 
 export const ModalGenerico = ({ data, onClose }: InformacionProps) => {
-    console.log("Data para modal asesor: ", data);
+  
     if (!data) return null;
   const totalLentes = data.antireflejo[0].lentes || 0;
   const {progresivos, ocupacional} = data;

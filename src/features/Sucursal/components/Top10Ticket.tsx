@@ -37,7 +37,7 @@ export const Top10Ticket = ({ data, atributo, title, tipo }: TablaTop10Props) =>
             allAsesores: allAsesores.slice(0, 10),
         } as ProcesedData;
     }, [data]);
-    console.log("ProcessedData", processedData)
+
 
     const formatName = (name: string) => {
         const words = name.split(' ');

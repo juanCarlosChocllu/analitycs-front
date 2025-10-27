@@ -62,7 +62,6 @@ export const FiltroMedico = ({onFilterChange}: FiltroMedicoProps) => {
 
   // Log filters after state update
   useEffect(() => {
-    console.log("Filters updated:", { ...filters, ...additionalFilters });
   }, [filters, additionalFilters]);
 
   useEffect(() => {
@@ -107,7 +106,6 @@ export const FiltroMedico = ({onFilterChange}: FiltroMedicoProps) => {
     const especialidad = "";
     const flagVenta = additionalFilters.realizadas ? "REALIZADAS" : "FINALIZADO";
     const allFilters: ventaMedicoInterface = {  empresa: idEmpresa, sucursal: idSucursal, tipoVenta: idTipoVenta, comisiona, especialidad, flagVenta, fechaInicio: filters.fechaInicio, fechaFin: filters.fechaFin };
-    console.log("Searching with filters:", allFilters);
     onFilterChange(allFilters);
   };
 

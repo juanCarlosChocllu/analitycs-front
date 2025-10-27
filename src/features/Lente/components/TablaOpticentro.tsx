@@ -37,19 +37,12 @@ export const TablaOpticentro = ({ data, filtro }: TablaOpticentroProps) => {
     ];
 
     const handleClikInformacionkpi = async (id: string) => {
-        const {fechaInicio, fechaFin, tipoVenta, comisiona, flagVenta } = filtro 
-        console.log("id de sucursal:", id);  
-        console.log("fechaInicio", fechaInicio);  
-        console.log("fechaFin", fechaFin);  
-        console.log("tipoVenta", tipoVenta);  
-        console.log("comisiona", comisiona);  
-        console.log("flagVenta", flagVenta);  
+       
         
         try {
             setLoading(true)
             const response = await ventaKpiInformacion(filtro, id)
-                
-            console.log("response", response?.data);
+           
             
             setKpiSucursal(response?.data)
             setLoading(false)
@@ -61,7 +54,7 @@ export const TablaOpticentro = ({ data, filtro }: TablaOpticentroProps) => {
         }
     }
 
-    const calcularTotales = (data: any) => {
+   /* const calcularTotales = (data: any) => {
         const totales = data.reduce((acc: any, item: any) => {
           acc.tickets += item.tickets;
           acc.lentes += item.lentes;
@@ -86,12 +79,9 @@ export const TablaOpticentro = ({ data, filtro }: TablaOpticentroProps) => {
         totales.progresivosOcupacionalesPercent = Math.round((totales.progresivosOcupacionales / totales.lentes) * 100);
       
         return totales;
-    };
+    };*/
       
-    // Ejemplo de uso
-    console.log("Datos por sucursal:", data);
-    console.log("Totales:", calcularTotales(data));
-      
+   
     // Función modificada para incluir el id en los datos transformados
     function transformToTableData(data: Datum[]): SucursalTableDataWithId[] {
         return data.map(sucursal => {

@@ -128,7 +128,7 @@ export interface ventaAsesorI{
   asesor:string,
   
   ventaAsesor:VentaDetalleI[]
-  diasLaborales:number
+  dias:number
 }
 
 
@@ -137,6 +137,7 @@ export interface ResultadoRendimientoDiarioI {
   metaMonto: number; 
   metaTicket: number; 
   sucursal: string; 
+  empresa:string
   ventas: ventaAsesorI[]; 
 }
 
@@ -158,7 +159,7 @@ export interface VentaAsesor {
 
 export interface VentasPorAsesor {
   asesor: string;
-  diasLaborales:number,
+  dias:number,
   ventaAsesor: VentaAsesor[];
 }
 
@@ -167,6 +168,7 @@ export interface SucursalData {
   metaTicket: number;
   diasComerciales: number;
   metaMonto: number;
+  empresa:string
   ventas: VentasPorAsesor[];
 }
 

@@ -37,7 +37,7 @@ export const SucursalesVenta = ({
   const dias = cantidadDiasRangoFecha(fechaInicio, fechaFin);
     const { isReloading } = useEstadoReload();
   useEffect(()=>{ 
-    console.log("sucursal venta", isReloading);
+ 
     
     setdata(agruparPorSucursal(datatActual, datatAnterior))
   },[isReloading])

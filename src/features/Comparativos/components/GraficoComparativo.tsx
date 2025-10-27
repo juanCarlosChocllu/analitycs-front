@@ -45,7 +45,7 @@ export const GraficoComparativo = ({ data, region }: Props) => {
     tickets: dia.totalTickets,
     IMPORTE: dia.totalImporte
   }));
-  console.log("datosGrafica",datosGrafica)
+ 
 const nomeda = abreviarMonedaRegion(region)
 
   return (

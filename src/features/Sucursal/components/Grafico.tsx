@@ -152,7 +152,7 @@ export function Grafico({ data }: { data: GraficoIndicadorSucursalI[] }) {
               iconType="circle"
               onClick={(e) => {
                 if (e.dataKey) {
-                  console.log(e.dataKey);
+            
 
                   if (e.dataKey === "precioPromedio") {
                     setEstadoPrecioPromedio((prev)=> !prev);

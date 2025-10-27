@@ -65,8 +65,8 @@ export async function listarRendimientoAsesor(filtro: filtroBuscadorI):Promise<S
         
     
         const response = await analitycsV2.post('rendimiento/diario/listar', filtro)
-
-        return response.data
+       
+     return response.data
     } catch (error) {
         
         throw error
@@ -89,9 +89,9 @@ export async function listarRendimientoPorAsesor():Promise<Venta[]> {
 export async function listarAvanceVentas(filtro: filtroBuscadorI):Promise<AvanceVentas[]> {
     try {
 
-        console.log("filtro Asesor: ",filtro)
+  
         const response = await analitycsV2.post('venta/avance/local', filtro)
-        console.log("response Asesor: ",response.data)
+  
 
         return response.data
     } catch (error) {

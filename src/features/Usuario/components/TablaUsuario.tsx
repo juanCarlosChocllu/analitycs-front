@@ -78,7 +78,7 @@ export const TablaUsuario: React.FC<TablaUsuarioProps> = ({ isRefresh }) => {
         throw new Error('Error al eliminar usuario');
       }
     } catch (err) {
-      console.error('Error eliminando usuario:', err);
+
       cambiarError('Error al eliminar el usuario');
     } finally {
       cambiarUsuarioEliminando(null);

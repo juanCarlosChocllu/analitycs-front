@@ -34,7 +34,7 @@ export const RankPorRubro = ({
 
   const [data, setdata] = useState<agrupadoPorRubroI[]>([]);
   useEffect(() => {
-    console.log("ranking rubro");
+
 
     setdata(agruparPorRubro(dataActual));
   }, [isReloading]);

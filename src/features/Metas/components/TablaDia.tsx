@@ -14,7 +14,7 @@ export const TablaDia = () => {
     const obtenerListaDias = async () => {
         try {
             const response = await listarNombreDias();
-            console.log("listar nombre dias", response);
+       
             const filtarDias = response.filter((dia) => dia.flag === 'nuevo');
             setDatas(filtarDias);
         } catch (error) {

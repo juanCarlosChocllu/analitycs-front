@@ -54,7 +54,6 @@ export const RendimientoSemanal = () => {
         return Number(numeros.reduce((acumulador, numero) => acumulador + numero, 0).toFixed(2));
     }
 
-    console.log("resultado: ", transformarDatosASucursalPorSemanas(datos));
 
 
 

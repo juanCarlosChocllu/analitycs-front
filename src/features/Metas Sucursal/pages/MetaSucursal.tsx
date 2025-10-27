@@ -41,7 +41,7 @@ export const MetaSucursal = () => {
                 comisiona: buscador.comisiona || null,
                 tipoVenta: buscador.tipoVenta || []
             })
-            console.log("buscador", buscador);
+         
             setLoading(false);
         } catch (error) {
           setLoading(false);

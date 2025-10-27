@@ -1,4 +1,7 @@
 export function ticketPromedio(ticket:number, montoTotal:number){
+    if(ticket <= 0){
+        return 0
+    }
     const resultado = montoTotal /ticket 
     return resultado.toFixed(2) 
 }
