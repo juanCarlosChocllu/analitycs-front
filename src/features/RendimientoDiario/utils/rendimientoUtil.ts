@@ -2,7 +2,7 @@
 import type { DatosVenta } from "../interface/avanceVentas";
 import type { PerformanceData, ventaAsesor } from "../interface/RendimientoDiario";
 
-import type { ventaAsesor, ventaAsesorI } from "../interface/RendimientoDiario";
+import type { ventaAsesorI } from "../interface/RendimientoDiario";
 
 
 export function ventasPordiaAsesor(venta:ventaAsesor[] | ventaAsesorI [] , metaTicket:number):number{
