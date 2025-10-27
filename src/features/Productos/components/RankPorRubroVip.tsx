@@ -33,7 +33,7 @@ export const RankPorRubroVIP = ({
   const dias = cantidadDiasRangoFecha(fechaInicio, fechaFin);
   const [data, setdata] = useState<agrupadoPorRubroI[]>([]);
   useEffect(() => {
-    console.log("rank vip");
+    
 
     setdata(agruparPorRubro(dataActual));
   }, [isReloading]);

@@ -10,7 +10,7 @@ export async function crearDias(dataSend: Data) {
       tipo,
       data,
     });
-    console.log("crear dias", response.data);
+ 
     return response.data;
   } catch (error) {
     throw error;
@@ -20,7 +20,6 @@ export async function crearDias(dataSend: Data) {
 export const listarNombreDias = async (): Promise<NombreDia[]> => {
   try {
     const response = await analitycsV2.get("nombre/dia");
-    console.log("listar nombre dias", response.data);
     return response.data;
   } catch (error) {
     throw error;
@@ -38,11 +37,11 @@ export const listarDias = async (diaNombre: string): Promise<DiaModal[]> => {
 
 export const borrarDia = async (dia: string) => {
   try {
-    console.log("borrar dia", dia);
+    
     const response = await analitycsV2.delete(`dias/${dia}`);
     return response.data;
   } catch (error) {
-    console.log("borrar dia", error);
+
     throw error;
   }
 };

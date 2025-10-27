@@ -137,6 +137,7 @@ export interface ResultadoRendimientoDiarioI {
   metaMonto: number; 
   metaTicket: number; 
   sucursal: string; 
+  empresa:string
   ventas: ventaAsesorI[]; 
 }
 
@@ -167,5 +168,6 @@ export interface SucursalData {
   metaTicket: number;
   diasComerciales: number;
   metaMonto: number;
+  empresa:string
   ventas: VentasPorAsesor[];
 }

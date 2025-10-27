@@ -25,7 +25,7 @@ export const ListarAsesor = ({
   const listar = async () => {
     try {
       const response = await listarAsesorVentas();
-      console.log(response);
+
       
       setAsesores(response);
     } catch (error) {

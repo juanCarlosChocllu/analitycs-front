@@ -58,13 +58,13 @@ export const EditarUsuarioPage = ({
   const onSubmit = async (data: UsuarioAsesor) => {
     data.asesor = asesores
     data._id = usuario._id
-    console.log('a', data);
+
     
     try {
     ;
       
         const response = await editarUsuario(data);
-        console.log(response);
+
         
         if (response?.status === 200) {
 
@@ -78,7 +78,7 @@ export const EditarUsuarioPage = ({
       
 
     } catch (error) {
- console.log(error);
+
       const e = error as AxiosError<ErrorUser>;
 
       if (e.status == 400) {

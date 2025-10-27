@@ -40,7 +40,7 @@ export const RendimientoAsesoresPage = () => {
             setLoading(false);
         }
     };
-    console.log("Data:", data)
+
     return (
         <div className="p-4 sm:p-6 lg:p-8 bg-gray-100 ">
 

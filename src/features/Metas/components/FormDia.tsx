@@ -113,7 +113,7 @@ export default function FormDia() {
     
     // Verificar que dias tenga elementos antes de acceder al índice 0
     if (dias.length === 0) {
-      console.error('No hay días para guardar');
+   
       return;
     }
     

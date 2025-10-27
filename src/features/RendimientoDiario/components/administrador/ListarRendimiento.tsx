@@ -17,7 +17,7 @@ import {
   ticketPromedio,
 } from "../../../app/util/ticketPromedio";
 import { Loader } from "../../../app/components/loader/Loader";
-import { porcentaje } from "../../../app/util/porcentaje";
+import { porcentaje, porcentaje2 } from "../../../app/util/porcentaje";
 import type {
   ResultadoRendimientoDiarioI,
   VentaDetalleI,
@@ -37,7 +37,7 @@ export const ListarRendimiento = () => {
     try {
       setLoading(true);
       const response = await listarRendimientoAsesor(filtro);
-      console.log(response);
+
       setDatos(response);
     } catch (error) {
       console.log(error);
@@ -97,7 +97,7 @@ export const ListarRendimiento = () => {
                           new Date(b.fecha).getTime()
                       );
                       const metaIndividual =
-                        (Math.round(
+                        ((Math.round(
                           asesorItem.dias *
                             ventasPordiaAsesor(
                               asesorData.ventas,
@@ -105,10 +105,11 @@ export const ListarRendimiento = () => {
                             )
                         ) /
                           asesorData.diasComerciales) *
-                        6;
+                          6) |
+                        0;
 
                       const metaMontoIndividual =
-                        asesorData.metaMonto / asesorData.metaTicket;
+                        (asesorData.metaMonto / asesorData.metaTicket) | 0;
 
                       const metaIndividualPrecioPromedio = ticketPromedio(
                         metaIndividual,
@@ -132,15 +133,23 @@ export const ListarRendimiento = () => {
                       );
 
                       const totalTicketPromedio = ticketPromedio(
-                                      ventasOrdenadas.reduce(
-                                        (acc, v) => acc + v.ticket,
-                                        0
-                                      ),
-                                      ventasOrdenadas.reduce(
-                                        (acc, v) => acc + v.montoTotalVentas,
-                                        0
-                                      )
-                                    )
+                        ventasOrdenadas.reduce((acc, v) => acc + v.ticket, 0),
+                        ventasOrdenadas.reduce(
+                          (acc, v) => acc + v.montoTotalVentas,
+                          0
+                        )
+                      );
+
+                      const totalSeguntoPar = ventasOrdenadas.reduce(
+                        (acc, v) => acc + v.segundoPar,
+                        0
+                      );
+
+                      const metaLentesDeContacto: number = 8;
+
+                      const metaProgresivos: number =
+                        asesorData.empresa == "OPTICENTRO" ? 25 : 15;
+                      const mentaAntireflejo = 95;
                       return (
                         <div
                           key={semanaIdx}
@@ -216,12 +225,14 @@ export const ListarRendimiento = () => {
                                     ),
                                     total: totalTicket,
                                     meta: metaIndividual.toFixed(2),
-                                    cumplimiento: `${metaIndividual > 0 ?
-                                      (
-                                      (totalTicket / metaIndividual) *
-                                      100
-                                    ).toFixed(2)
-                                      :0} %`,
+                                    cumplimiento: `${
+                                      metaIndividual > 0
+                                        ? (
+                                            (totalTicket / metaIndividual) *
+                                            100
+                                          ).toFixed(2)
+                                        : 0
+                                    } %`,
                                   },
                                   {
                                     label: "Lentes",
@@ -230,10 +241,14 @@ export const ListarRendimiento = () => {
                                     ),
                                     total: totalLente,
                                     meta: metaLentes,
-                                    cumplimiento: `${metaLentes > 0 ? (
-                                      (totalLente / metaLentes) *
-                                      100
-                                    ).toFixed(2) : 0} %`,
+                                    cumplimiento: `${
+                                      metaLentes > 0
+                                        ? (
+                                            (totalLente / metaLentes) *
+                                            100
+                                          ).toFixed(2)
+                                        : 0
+                                    } %`,
                                   },
                                   {
                                     label: "Entregas",
@@ -242,12 +257,14 @@ export const ListarRendimiento = () => {
                                     ),
                                     total: totalEntregadas,
                                     meta: metaIndividual.toFixed(2),
-                                    cumplimiento: `${metaIndividual > 0 ? 
-                                      (
-                                      (totalEntregadas / metaIndividual) *
-                                      100
-                                    ).toFixed(2)
-                                      :0} %`,
+                                    cumplimiento: `${
+                                      metaIndividual > 0
+                                        ? (
+                                            (totalEntregadas / metaIndividual) *
+                                            100
+                                          ).toFixed(2)
+                                        : 0
+                                    } %`,
                                   },
                                   {
                                     label: "Progresivos",
@@ -258,7 +275,7 @@ export const ListarRendimiento = () => {
                                       (acc, v) => acc + v.progresivos,
                                       0
                                     ),
-                                    meta: `25 %`,
+                                    meta: `${metaProgresivos} %`,
                                     cumplimiento: `${porcentaje(
                                       ventasOrdenadas.reduce(
                                         (acc, v) => acc + v.progresivos,
@@ -279,7 +296,7 @@ export const ListarRendimiento = () => {
                                       (acc, v) => acc + v.antireflejos,
                                       0
                                     ),
-                                    meta: `95 %`,
+                                    meta: `${mentaAntireflejo} %`,
                                     cumplimiento: `${porcentaje(
                                       ventasOrdenadas.reduce(
                                         (acc, v) => acc + v.antireflejos,
@@ -312,12 +329,13 @@ export const ListarRendimiento = () => {
                                     values: ventasOrdenadas.map(
                                       (v) => v.segundoPar
                                     ),
-                                    total: ventasOrdenadas.reduce(
-                                      (acc, v) => acc + v.segundoPar,
-                                      0
-                                    ),
+                                    total: totalSeguntoPar,
 
                                     meta: `${30} %`,
+                                    cumplimiento: porcentaje(
+                                      totalSeguntoPar,
+                                      30
+                                    ),
                                   },
                                   {
                                     label: "Lente de contacto",
@@ -326,16 +344,13 @@ export const ListarRendimiento = () => {
                                       (acc, v) => acc + v.lc,
                                       0
                                     ),
-                                    meta: `8 %`,
+                                    meta: `${metaLentesDeContacto}%`,
                                     cumplimiento: `${porcentaje(
                                       ventasOrdenadas.reduce(
                                         (acc, v) => acc + v.lc,
                                         0
                                       ),
-                                      ventasOrdenadas.reduce(
-                                        (acc, v) => acc + v.ticket,
-                                        0
-                                      )
+                                      metaLentesDeContacto
                                     )} %`,
                                   },
                                   {
@@ -358,8 +373,7 @@ export const ListarRendimiento = () => {
                                         )}`
                                     ),
                                     total: `Bs ${totalTicketPromedio}`,
-                                    meta: metaIndividualPrecioPromedio
-        
+                                    meta: metaIndividualPrecioPromedio,
                                   },
                                   {
                                     label: "Tasa de conversión",
@@ -384,7 +398,9 @@ export const ListarRendimiento = () => {
                                       <TableCell key={j}>{value}</TableCell>
                                     ))}
                                     <TableCell>{row.total}</TableCell>
-                                    <TableCell>{row.meta || 0}</TableCell>
+                                    <TableCell>
+                                      {row.meta ? row.meta : 0}
+                                    </TableCell>
                                     <TableCell>
                                       {row.cumplimiento || 0}
                                     </TableCell>

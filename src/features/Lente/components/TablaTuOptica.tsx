@@ -39,19 +39,13 @@ export const TablaTuOptica = ({ data, filtro }: TablaTuOpticaProps) => {
     ];
 
     const handleClikInformacionkpi = async (id: string) => {
-        const {fechaInicio, fechaFin, tipoVenta, comisiona, flagVenta } = filtro 
-        console.log("id de sucursal:", id);  
-        console.log("fechaInicio", fechaInicio);  
-        console.log("fechaFin", fechaFin);  
-        console.log("tipoVenta", tipoVenta);  
-        console.log("comisiona", comisiona);  
-        console.log("flagVenta", flagVenta);  
+       
         
         try {
             setLoading(true)
             const response = await ventaKpiInformacion(filtro, id)
                 
-            console.log("response", response?.data);
+    
             
             setKpiSucursal(response?.data)
             setLoading(false)
@@ -90,9 +84,7 @@ export const TablaTuOptica = ({ data, filtro }: TablaTuOpticaProps) => {
         return totales;
     };
       
-    // Ejemplo de uso
-    console.log("Datos por sucursal:", data);
-    console.log("Totales:", calcularTotales(data));
+    
       
     // Función modificada para incluir el id en los datos transformados
     function transformToTableData(data: Datum[]): SucursalTableDataWithId[] {

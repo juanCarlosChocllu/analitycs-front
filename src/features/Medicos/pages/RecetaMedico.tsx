@@ -61,9 +61,7 @@ export const RecetaMedico: React.FC = () => {
   const [campoOrdenadoPor, setCampoOrdenadoPor] = React.useState<CampoOrdenable>(CAMPOS_ORDENABLES.MEDICO);
  
   useEffect(() => {
-    console.log("useEffect ejecutándose");
-    console.log("fechaInicio:", fechaInicio.toISOString().split("T")[0]);
-    console.log("fechaFin:", fechaFin.toISOString().split("T")[0]);
+    
 
     setEstaCargando(true);
 
@@ -74,7 +72,7 @@ export const RecetaMedico: React.FC = () => {
       }
     )
       .then((datos: RecetaData[]) => {
-        console.log("Respuesta recibida:", datos);
+     
         setRecetas(datos);
         setEstaCargando(false);
       })

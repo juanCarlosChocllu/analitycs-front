@@ -24,7 +24,7 @@ export const ModalUsuario: React.FC<Props> = ({ onClose, setIsRegister }) => {
         password,
         rol
       });
-      console.log('response', response);
+     
       if (response.status === 201) {
         setIsRegister(true);
         onClose();

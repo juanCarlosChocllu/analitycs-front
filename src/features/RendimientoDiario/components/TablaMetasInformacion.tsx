@@ -12,7 +12,7 @@ export const TablaMetasInformacion = ({diasComerciales,metaTicket,venta}:{metaTi
         }
         totalDias += v.dias
    }
-    console.log(totalDias/metaTicket);
+    
     
   return (
 <TableContainer>

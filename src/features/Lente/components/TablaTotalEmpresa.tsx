@@ -12,7 +12,7 @@ export const TablaTotalEmpresa = ({ data, filtro }: TablaTotalEmpresaProps) => {
     const handleClikInformacionkpi = () => {
         try {
             const response = ventaKpiInformacionTodasEmpresas(filtro);
-            console.log("response", response);
+    
 
         } catch (error) {
             console.log(error);

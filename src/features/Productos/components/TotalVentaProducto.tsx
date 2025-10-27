@@ -26,7 +26,7 @@ export const TotalVentaProducto = ({
   const [ventaTotalStock, setVentaTotalStock] = useState<VentaStockI[]>([]);
   const { isReloading } = useEstadoReload();
   useEffect(() => {
-    console.log("total venta producto", isReloading);
+   
 
     setVentaTotalStock(
       agruparVentaProductosPorRubroYCategoria(dataActual, dataAnterior)

@@ -184,7 +184,7 @@ export const TablaAsesores = ({ data, filtro, tipoTabla, footerValues }: TablaCo
 
     const handleClikInformacionkpi = async (id: string) => {
 
-        console.log("id de asesor:", id);  
+      
         
         try {
             setLoading(true)
@@ -206,10 +206,7 @@ export const TablaAsesores = ({ data, filtro, tipoTabla, footerValues }: TablaCo
     const footerColumns = getFooterColumns(tipoTabla);
     const totals = useFooterTotals(data.venta, footerColumns);
     
-    // Para debugging - puedes mantener esto si quieres
-    console.log("Datos por sucursal:", data.venta);
-    console.log("Totales calculados:", totals);
-    
+ 
     const dataKpi = transformarData(data.venta);
     const columns = obtenerColumns();
 

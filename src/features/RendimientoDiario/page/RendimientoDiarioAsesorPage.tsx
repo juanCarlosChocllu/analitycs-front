@@ -32,7 +32,7 @@ export const RendimientoDiarioAsesorPage = () => {
       console.log(error);
     }
   };
-  console.log('s',ventas);
+
   
   const agruparPorSemana = (ventas: Venta[]) => {
   const semanas: Record<string, Venta[]> = {};

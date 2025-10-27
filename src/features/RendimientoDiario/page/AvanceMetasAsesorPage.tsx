@@ -44,7 +44,7 @@ export const AvanceMetasAsesorPage = () => {
     try {
       setLoading(true);
       const response = await ListarAvanceMetasAsesor(filtro);
-      console.log(response);
+ 
       setDatos(response);
     } catch (error) {
       console.log(error);

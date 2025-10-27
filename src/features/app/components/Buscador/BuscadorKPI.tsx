@@ -104,7 +104,6 @@ export function BuscadorKPI({ setFiltro }: FiltroBuscadorI) {
     try {
       if (empresa) {
         const response = await listarTodasLasScursales();
-        console.log("Sucursales: ", response);
         setTodasScursales(response);
       }
     } catch (error) {

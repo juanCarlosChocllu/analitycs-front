@@ -19,8 +19,6 @@ export const MenuLateral = ({ open, setOpen }: { open: boolean; setOpen: (open: 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [itemSelected, setItemSelected] = useState<number | null>(null);
     const { rol } = useContext(AutenticacionContext)
-  console.log(rol);
-  
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
@@ -30,8 +28,7 @@ export const MenuLateral = ({ open, setOpen }: { open: boolean; setOpen: (open: 
     setIsMenuOpen(!isMenuOpen);
   };
   const navigarPagina = (link: string) => {
-    console.log(link);
-
+  
     const isExternal = link.startsWith("https");
     if (isExternal) {
       window.location.href = link;

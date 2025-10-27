@@ -84,7 +84,7 @@ export async function  eliminarUsuarios(id:string){
 export async function perfil():Promise<Usuario>{    
     try {
         const response = await analitycsV2.get(`usuarios/perfil`)
-        console.log(response.data)
+       
         return response.data
     } catch (error) {
         console.log(error)
