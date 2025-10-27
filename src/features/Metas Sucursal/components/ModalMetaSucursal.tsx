@@ -81,7 +81,7 @@ export const ModalMetaSucursal = ({onClose, setIsRegister}: ModalMetaSucursalPro
     };
     try {
       const response = await crearMetaSucursal(data);
-      console.log('response', response);
+ 
       if (response.status === 201) {
         setIsRegister(true);
         onClose();

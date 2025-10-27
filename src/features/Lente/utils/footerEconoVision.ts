@@ -71,7 +71,7 @@ export const footerEconoVision = (data: Datum[]): TotalsData => {
 };
 
 export const calculateFooterEconoVision = (data: Datum[]) => {
-    console.log("dataKpi", data);
+
 
     const totals = footerEconoVision(data);
     const footerValues: FooterValues[] = [

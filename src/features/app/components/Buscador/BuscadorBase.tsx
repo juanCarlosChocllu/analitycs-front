@@ -47,7 +47,7 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
   const [tipoVentaSelecionado, setTipoVentaSeleccionado] = useState<string[]>(
     []
   );
-  console.log(sucursalesSeleccionados);
+
 
   const [flagVenta, setFlagVenta] = useState<string>("");
 
@@ -104,7 +104,7 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
     try {
       if (empresa) {
         const response = await listarTodasLasScursales();
-        console.log("Sucursales: ", response);
+
         setTodasScursales(response);
       }
     } catch (error) {
@@ -121,8 +121,6 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
     } else if (empresa != 'TODAS' && sucursalesSeleccionados.length <= 0) {
       sucursalesFiltradas = obtenerSucursalesPorRegion(sucursales);
     } else if (sucursalesSeleccionados.length > 0) {
-      console.log('s', sucursalesSeleccionados);
-
       sucursalesFiltradas = sucursalesSeleccionados
     }
 
@@ -134,8 +132,6 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
       tipoVenta: tipoVentaSelecionado,
       comisiona: !comisiona && !noComisiona ? null : comisiona ? true : false,
     };
-
-    console.log("dataFilter", dataFilter);
 
     setFiltro(dataFilter);
   };

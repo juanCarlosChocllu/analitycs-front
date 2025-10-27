@@ -56,13 +56,13 @@ export const footerOpticentro = (data: Datum[]): TotalsData => {
     totals.porcentajeMaterialUnitario = calculatePercentage(totals.materialUnitario, totals.lentes);
     totals.progresivosOcupacionalesPorcentaje = calculatePercentage(totals.progresivosOcupacionales, totals.lentes);
 
-    console.log("totals", totals);
+
     
     return totals;
 };
 
 export const calculateFooterOpticentro = (data: Datum[]) => {
-    console.log("dataKpi", data);
+
 
     const totals = footerOpticentro(data);
     const footerValues: FooterValues[] = [

@@ -83,7 +83,6 @@ export const footerTuOptica = (data: Datum[]): TotalsData => {
 };
 
 export const calculateFooterTuOptica = (data: Datum[]) => {
-  console.log("dataKpi", data);
 
   const totals = footerTuOptica(data);
   const footerValues: FooterValues[] = [

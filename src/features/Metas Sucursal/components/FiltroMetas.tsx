@@ -128,7 +128,7 @@ export default function FiltroMetas({ setFiltro }: FiltroMetasProps) {
         ? formatDateForInput(datosFormulario.fechaMetaFin)
         : '',
     };
-    console.log('Búsqueda realizada con:', filtro);
+
     setFiltro(filtro);
   };
 

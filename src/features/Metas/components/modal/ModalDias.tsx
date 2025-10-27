@@ -51,10 +51,10 @@ export const ModalDias = ({ isModalOpen, closeModal, dia }: ModalDiasProps) => {
   const handleDelete = async (dia: string) => {
     try {
       if (dia) {
-        const response = await borrarDia(dia);
+         await borrarDia(dia);
         setActualizar(!actulizar);
         refresh();
-        console.log(response);
+       
       }
     } catch (error) {
       console.log(error);

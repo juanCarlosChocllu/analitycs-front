@@ -33,7 +33,7 @@ export const RankPorCadena = ({
   const dias = cantidadDiasRangoFecha(fechaInicio, fechaFin);
   const { isReloading } = useEstadoReload();
   useEffect(() => {
-    console.log("cargado rank producto", isReloading);
+
     setdata(agruparPorEmpresa(datatActual));
   }, [isReloading]);
   return (

@@ -64,7 +64,7 @@ export const footerOferService = (data: Datum[]): TotalsData => {
 };
 
 export const calculateFooterOferService = (data: Datum[]) => {
-  console.log("dataKpi", data);
+  
 
   const totals = footerOferService(data);
   const footerValues: FooterValues[] = [
