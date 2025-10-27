@@ -9,11 +9,13 @@ import { listarAvanceVentas } from "../service/RendimientoDiarioService";
 import { BuscadorBase } from "../../app/components/Buscador/BuscadorBase";
 import dayjs from "dayjs";
 import type { SucursalTransformada } from "../interface/avanceVentas";
+import ResumenSeguimineto from "../components/resumen/ResumenSeguimiento";
+import { resumenTotales} from "../utils/rendimientoUtil";
 
 
 
 export const AvanceVentasPage = () => {
-  const [hoveredRow, setHoveredRow] = useState<number | null>(null);
+  // Eliminado estado de hover para evitar re-render por movimiento del mouse
   const [filtro, setFiltro] = useState<filtroBuscadorI>({});
   const [allData, setAllData] = useState<SucursalTransformada[]>([]);
   const [tableData, setTableData] = useState<SucursalTransformada[]>([]);
@@ -176,6 +178,7 @@ export const AvanceVentasPage = () => {
             </Typography>
 
             <Box sx={{ overflowX: "auto" }}>
+              <ResumenSeguimineto data={resumenTotales(suc.data)} />
               <Table size="small">
                 <TableHead>
                   <TableRow sx={{ "& th": { backgroundColor: "#001638", color: "white" } }}>
@@ -209,16 +212,13 @@ export const AvanceVentasPage = () => {
 
                 <TableBody>
                   {suc.data.map((row, rowIndex) => {
-                    const isHovered = hoveredRow === rowIndex;
                     const isEven = rowIndex % 2 === 0;
 
                     return (
                       <TableRow
                         key={`${suc.sucursal}-${row.fecha}-${rowIndex}`}
-                        onMouseEnter={() => setHoveredRow(rowIndex)}
-                        onMouseLeave={() => setHoveredRow(null)}
                         sx={{
-                          backgroundColor: isHovered ? "#f5f5f5" : isEven ? "#fafafa" : "transparent",
+                          backgroundColor: isEven ? "#fafafa" : "transparent",
                           "&:hover": { backgroundColor: "#f5f5f5" },
                         }}
                       >

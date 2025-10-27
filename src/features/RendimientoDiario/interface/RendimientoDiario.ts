@@ -169,3 +169,13 @@ export interface SucursalData {
   metaMonto: number;
   ventas: VentasPorAsesor[];
 }
+
+export interface PerformanceData {
+  meta: number;
+  totalVendidos: number;
+  totalEntregados: number;
+  faltaVentas: number;
+  faltaEntregas: number;
+  avanceVentas: string;
+  avanceEntregas: string;
+}
