@@ -75,7 +75,7 @@ export const TablaSucursales = ({ data, filtro, tipoTabla, footerValues }: Tabla
         }
     }
 
-    const calcularTotales = (data: any) => {
+   /* const calcularTotales = (data: any) => {
         const totales = data.reduce((acc: any, item: any) => {
           acc.tickets += item.tickets;
           acc.lentes += item.lentes;
@@ -100,7 +100,7 @@ export const TablaSucursales = ({ data, filtro, tipoTabla, footerValues }: Tabla
         totales.progresivosOcupacionalesPercent = Math.round((totales.progresivosOcupacionales / totales.lentes) * 100);
       
         return totales;
-    };
+    };*/
       
 
     

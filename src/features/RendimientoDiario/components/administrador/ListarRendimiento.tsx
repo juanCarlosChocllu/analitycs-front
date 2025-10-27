@@ -17,7 +17,7 @@ import {
   ticketPromedio,
 } from "../../../app/util/ticketPromedio";
 import { Loader } from "../../../app/components/loader/Loader";
-import { porcentaje, porcentaje2 } from "../../../app/util/porcentaje";
+import { porcentaje } from "../../../app/util/porcentaje";
 import type {
   ResultadoRendimientoDiarioI,
   VentaDetalleI,

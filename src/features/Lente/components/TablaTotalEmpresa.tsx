@@ -9,10 +9,11 @@ interface TablaTotalEmpresaProps {
 }
 
 export const TablaTotalEmpresa = ({ data, filtro }: TablaTotalEmpresaProps) => {
-    const handleClikInformacionkpi = () => {
+    const handleClikInformacionkpi =async () => {
         try {
-            const response = ventaKpiInformacionTodasEmpresas(filtro);
-    
+            const response = await ventaKpiInformacionTodasEmpresas(filtro);
+            console.log('falta', response);
+            
 
         } catch (error) {
             console.log(error);
