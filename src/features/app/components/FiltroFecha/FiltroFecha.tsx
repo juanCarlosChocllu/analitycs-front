@@ -86,6 +86,8 @@ export const FiltroFecha = ({
             const e = error as AxiosError<any>;
             if (e.status == 404) {
               toast.error(e.response?.data.message);
+            }else {
+               toast.error(e.response?.data.message);
             }
             setFechaInicio(dayjs().startOf("day"));
             setFechaFin(dayjs().endOf("day"));
