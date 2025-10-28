@@ -200,7 +200,7 @@ export const menuItems: MenuItem[] = [
         link: "/avance/metas/asesor",
       },
       {
-        text: "Rendimiento de ventas por asesor",
+        text: "Seguimiento diario",
         roles: ["ADMINISTRADOR"],
         icon: <Circle className="text-white w-3 h-3" />,
         link: "/avance/ventas/asesor",
