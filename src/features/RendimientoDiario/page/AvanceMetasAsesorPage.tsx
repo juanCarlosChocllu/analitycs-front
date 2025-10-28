@@ -1,4 +1,4 @@
-import { useEffect, useState, Fragment } from "react";
+import { useEffect, useState, Fragment, useContext } from "react";
 import type { filtroBuscadorI } from "../../app/interfaces/BuscadorI";
 import { BuscadorBase } from "../../app/components/Buscador/BuscadorBase";
 import type { VentaMestaAsesor } from "../interface/RendimientoDiario";
@@ -26,8 +26,10 @@ import {
   metasFaltantes,
   ventasPordiaAsesor,
 } from "../utils/rendimientoUtil";
+import { AutenticacionContext } from "../../app/context/AuntenticacionProvider";
 
 export const AvanceMetasAsesorPage = () => {
+  const { nombreAsesor, rol } = useContext(AutenticacionContext);
   const [filtro, setFiltro] = useState<filtroBuscadorI>({});
   const [datos, setDatos] = useState<VentaMestaAsesor[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -88,18 +90,18 @@ export const AvanceMetasAsesorPage = () => {
               <Typography variant="h6" align="center" sx={{ mt: 4 }}>
                 {d.sucursal}
               </Typography>
-              {datos.length > 0 && (
-                <TablaMetaHeader
-                  diasComerciales={d.diasComerciales}
-                  metaTicket={d.metaTicket}
-                />
-              )}
-              {datos.length > 0 && (
-                <TablaMetasInformacion
-                  diasComerciales={d.diasComerciales}
-                  metaTicket={d.metaTicket}
-                  venta={d.ventaAsesor}
-                />
+              {rol == "ADMINISTARDIOR" && datos.length > 0 && (
+                <>
+                  <TablaMetaHeader
+                    diasComerciales={d.diasComerciales}
+                    metaTicket={d.metaTicket}
+                  />
+                  <TablaMetasInformacion
+                    diasComerciales={d.diasComerciales}
+                    metaTicket={d.metaTicket}
+                    venta={d.ventaAsesor}
+                  />
+                </>
               )}
 
               <TableContainer component={Paper} sx={{ marginTop: 2 }}>
@@ -116,187 +118,202 @@ export const AvanceMetasAsesorPage = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {d.ventaAsesor.map((item, asesorIndex) => {
-                      const isExpanded =
-                        asesorExpandidoIndex?.sucursalIndex === sucursalIndex &&
-                        asesorExpandidoIndex?.asesorIndex === asesorIndex;
+                    {d.ventaAsesor
+                      .filter((item) => {
+                        if (rol != "ADMINISTRADOR") {
+                          return item.asesor === nombreAsesor;
+                        }
+                        return true;
+                      })
+                      .map((item, asesorIndex) => {
+                        const isExpanded =
+                          asesorExpandidoIndex?.sucursalIndex ===
+                            sucursalIndex &&
+                          asesorExpandidoIndex?.asesorIndex === asesorIndex;
 
-                      return (
-                        <Fragment key={asesorIndex}>
-                          <TableRow>
-                            <TableCell>{item.asesor}</TableCell>
-                            <TableCell>{item.dias}</TableCell>
-                            <TableCell>
-                              {Math.round(
-                                item.dias *
-                                  ventasPordiaAsesor(
-                                    d.ventaAsesor,
-                                    d.metaTicket
-                                  )
-                              )}
-                            </TableCell>
-                            <TableCell>
-                              {item.ventas.reduce(
-                                (acc, venta) => acc + venta.ticket,
-                                0
-                              )}
-                            </TableCell>
-                            <TableCell>
-                              {cumplimientoMetaAsesor(
-                                item.ventas.reduce(
-                                  (acc, venta) => acc + venta.ticket,
-                                  0
-                                ),
-                                Math.round(
+                        return (
+                          <Fragment key={asesorIndex}>
+                            <TableRow>
+                              <TableCell>{item.asesor}</TableCell>
+                              <TableCell>{item.dias}</TableCell>
+                              <TableCell>
+                                {Math.round(
                                   item.dias *
                                     ventasPordiaAsesor(
                                       d.ventaAsesor,
                                       d.metaTicket
                                     )
-                                )
-                              )}{" "}
-                              %
-                            </TableCell>
-                            <TableCell>
-                              {metasFaltantes(
-                                Math.round(
-                                  item.dias *
-                                    ventasPordiaAsesor(
-                                      d.ventaAsesor,
-                                      d.metaTicket
-                                    )
-                                ),
-                                item.ventas.reduce(
-                                  (acc, venta) => acc + venta.ticket,
-                                  0
-                                )
-                              )}
-                            </TableCell>
-                            <TableCell>
-                              <Button
-                                size="small"
-                                variant="outlined"
-                                onClick={() =>
-                                  toggleDetalle(sucursalIndex, asesorIndex)
-                                }
-                              >
-                                {isExpanded ? "Cerrar" : "Detalle"}
-                              </Button>
-                            </TableCell>
-                          </TableRow>
-
-                          <TableRow>
-                            <TableCell colSpan={7} sx={{ padding: 0 }}>
-                              <Collapse
-                                in={isExpanded}
-                                timeout="auto"
-                                unmountOnExit
-                              >
-                                <Box
-                                  sx={{
-                                    padding: 2,
-                                    backgroundColor: "#fafafa",
-                                  }}
-                                >
-                                  <DetalleAvanceMetaAsesor
-                                    detalle={item.ventas}
-                                  />
-                                </Box>
-                              </Collapse>
-                            </TableCell>
-                          </TableRow>
-                        </Fragment>
-                      );
-                    })}
-                  </TableBody>
-                  <TableBody>
-                    <TableRow
-                      sx={{ backgroundColor: "#f5f5f5", fontWeight: "bold" }}
-                    >
-                      <TableCell>
-                        <strong>Total</strong>
-                      </TableCell>
-                      <TableCell>
-                        {d.ventaAsesor.reduce(
-                          (acc, item) => acc + item.dias,
-                          0
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        {Math.round(
-                          d.ventaAsesor.reduce(
-                            (acc, item) =>
-                              acc +
-                              item.dias *
-                                ventasPordiaAsesor(d.ventaAsesor, d.metaTicket),
-                            0
-                          )
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        {d.ventaAsesor.reduce(
-                          (acc, item) =>
-                            acc +
-                            item.ventas.reduce(
-                              (a, venta) => a + venta.ticket,
-                              0
-                            ),
-                          0
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        {cumplimientoMetaAsesor(
-                          Math.round(
-                            d.ventaAsesor.reduce(
-                              (acc, item) =>
-                                acc +
-                                item.dias *
-                                  ventasPordiaAsesor(
-                                    d.ventaAsesor,
-                                    d.metaTicket
-                                  ),
-                              0
-                            )
-                          ),
-                          d.ventaAsesor.reduce(
-                            (acc, item) =>
-                              acc +
-                              item.ventas.reduce(
-                                (a, venta) => a + venta.ticket,
-                                0
-                              ),
-                            0
-                          )
-                        )}
-                        %
-                      </TableCell>
-                      <TableCell>{metasFaltantes(
-                                 Math.round(
-                            d.ventaAsesor.reduce(
-                              (acc, item) =>
-                                acc +
-                                item.dias *
-                                  ventasPordiaAsesor(
-                                    d.ventaAsesor,
-                                    d.metaTicket
-                                  ),
-                              0
-                            )
-                          ),
-                                 d.ventaAsesor.reduce(
-                            (acc, item) =>
-                              acc +
-                              item.ventas.reduce(
-                                (a, venta) => a + venta.ticket,
-                                0
-                              ),
-                            0
-                          )
-                              )}
+                                )}
                               </TableCell>
-                      <TableCell />
-                    </TableRow>
+                              <TableCell>
+                                {item.ventas.reduce(
+                                  (acc, venta) => acc + venta.ticket,
+                                  0
+                                )}
+                              </TableCell>
+                              <TableCell>
+                                {cumplimientoMetaAsesor(
+                                  item.ventas.reduce(
+                                    (acc, venta) => acc + venta.ticket,
+                                    0
+                                  ),
+                                  Math.round(
+                                    item.dias *
+                                      ventasPordiaAsesor(
+                                        d.ventaAsesor,
+                                        d.metaTicket
+                                      )
+                                  )
+                                )}{" "}
+                                %
+                              </TableCell>
+                              <TableCell>
+                            
+                                {metasFaltantes(
+                                  Math.round(
+                                    item.dias *
+                                      ventasPordiaAsesor(
+                                        d.ventaAsesor,
+                                        d.metaTicket
+                                      )
+                                  ),
+                                  item.ventas.reduce(
+                                    (acc, venta) => acc + venta.ticket,
+                                    0
+                                  )
+                                )}
+                              </TableCell>
+                              <TableCell>
+                                <Button
+                                  size="small"
+                                  variant="outlined"
+                                  onClick={() =>
+                                    toggleDetalle(sucursalIndex, asesorIndex)
+                                  }
+                                >
+                                  {isExpanded ? "Cerrar" : "Detalle"}
+                                </Button>
+                              </TableCell>
+                            </TableRow>
+
+                            <TableRow>
+                              <TableCell colSpan={7} sx={{ padding: 0 }}>
+                                <Collapse
+                                  in={isExpanded}
+                                  timeout="auto"
+                                  unmountOnExit
+                                >
+                                  <Box
+                                    sx={{
+                                      padding: 2,
+                                      backgroundColor: "#fafafa",
+                                    }}
+                                  >
+                                    <DetalleAvanceMetaAsesor
+                                      detalle={item.ventas}
+                                    />
+                                  </Box>
+                                </Collapse>
+                              </TableCell>
+                            </TableRow>
+                          </Fragment>
+                        );
+                      })}
                   </TableBody>
+                  {rol == "ADMINISTRADOR" && (
+                    <TableBody>
+                      <TableRow
+                        sx={{ backgroundColor: "#f5f5f5", fontWeight: "bold" }}
+                      >
+                        <TableCell>
+                          <strong>Total</strong>
+                        </TableCell>
+                        <TableCell>
+                          {d.ventaAsesor.reduce(
+                            (acc, item) => acc + item.dias,
+                            0
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {Math.round(
+                            d.ventaAsesor.reduce(
+                              (acc, item) =>
+                                acc +
+                                item.dias *
+                                  ventasPordiaAsesor(
+                                    d.ventaAsesor,
+                                    d.metaTicket
+                                  ),
+                              0
+                            )
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {d.ventaAsesor.reduce(
+                            (acc, item) =>
+                              acc +
+                              item.ventas.reduce(
+                                (a, venta) => a + venta.ticket,
+                                0
+                              ),
+                            0
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {cumplimientoMetaAsesor(
+                            Math.round(
+                              d.ventaAsesor.reduce(
+                                (acc, item) =>
+                                  acc +
+                                  item.dias *
+                                    ventasPordiaAsesor(
+                                      d.ventaAsesor,
+                                      d.metaTicket
+                                    ),
+                                0
+                              )
+                            ),
+                            d.ventaAsesor.reduce(
+                              (acc, item) =>
+                                acc +
+                                item.ventas.reduce(
+                                  (a, venta) => a + venta.ticket,
+                                  0
+                                ),
+                              0
+                            )
+                          )}
+                          %
+                        </TableCell>
+                        <TableCell>
+                          {metasFaltantes(
+                            Math.round(
+                              d.ventaAsesor.reduce(
+                                (acc, item) =>
+                                  acc +
+                                  item.dias *
+                                    ventasPordiaAsesor(
+                                      d.ventaAsesor,
+                                      d.metaTicket
+                                    ),
+                                0
+                              )
+                            ),
+                            d.ventaAsesor.reduce(
+                              (acc, item) =>
+                                acc +
+                                item.ventas.reduce(
+                                  (a, venta) => a + venta.ticket,
+                                  0
+                                ),
+                              0
+                            )
+                          )}
+                        </TableCell>
+                        <TableCell />
+                      </TableRow>
+                    </TableBody>
+                  )}
                 </Table>
               </TableContainer>
             </Fragment>

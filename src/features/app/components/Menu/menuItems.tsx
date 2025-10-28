@@ -175,7 +175,7 @@ export const menuItems: MenuItem[] = [
       },
       {
         text: "Resumen de Desempeño diario",
-        roles: ["ADMINISTRADOR"],
+        roles: ["ADMINISTRADOR", "GESTOR", "ASESOR"],
         icon: <Circle className="text-white w-3 h-3" />,
         link: "/listar/rendimiento/asesor",
       },
@@ -195,7 +195,7 @@ export const menuItems: MenuItem[] = [
     
       {
         text: "Rendimiento de ventas por asesor",
-        roles: ["ADMINISTRADOR"],
+        roles: ["ADMINISTRADOR", "GESTOR", "ASESOR"],
         icon: <Circle className="text-white w-3 h-3" />,
         link: "/avance/metas/asesor",
       },

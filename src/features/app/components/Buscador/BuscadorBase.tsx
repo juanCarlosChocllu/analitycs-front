@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Filter } from "lucide-react";
 import {
   getEmpresas,
@@ -25,10 +25,12 @@ import MultiSelectBuscador from "./SeleccionMultiple";
 import { Box } from "@mui/material";
 import { FiltroFecha } from "../FiltroFecha/FiltroFecha";
 import { RangoFecha } from "./RangoFecha";
-
+import { AutenticacionContext } from "../../context/AuntenticacionProvider";
 
 export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
   const date = new Date();
+  const { idEmpresa, rol, idSucursal } = useContext(AutenticacionContext);
+
   const [region, setRegion] = useState<string>("BOLIVIA");
   const [empresas, setEmpresas] = useState<EmpresasI[]>([]);
   const [tipoVenta, setTipoVentas] = useState<TipoVentaI[]>([]);
@@ -41,6 +43,9 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
   const [noComisiona, setNoComisiona] = useState<boolean>(false);
   const [realizadas, setRealizadas] = useState<boolean>(false);
   const [finalizadas, setFinalizadas] = useState<boolean>(false);
+  const [disableEmpresa, setDisableEmpresa] = useState<boolean>(false);
+  const [disableSucursal, setDisableSucursal] = useState<boolean>(false);
+  const [disableTipoVenta, setDisableTipoVenta] = useState<boolean>(false);
   const [sucursalesSeleccionados, setSucursalesSeleccionados] = useState<
     string[]
   >([]);
@@ -48,8 +53,44 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
     []
   );
 
-
   const [flagVenta, setFlagVenta] = useState<string>("");
+
+  // funciones de auto seleccion
+  useEffect(() => {
+    if (rol != "ADMINISTRADOR") {
+      if (idEmpresa) {
+        setEmpresa(idEmpresa);
+        setComisiona(true);
+        setRealizadas(true);
+        setFlagVenta("REALIZADAS");
+        setDisableEmpresa(true);
+        setDisableSucursal(true);
+        setDisableTipoVenta(true);
+      }
+    }
+  }, [idEmpresa]);
+
+  useEffect(() => {
+    if (rol != "ADMINISTRADOR") {
+      if (idSucursal && sucursales.length > 0) {
+        const existe = sucursales.find((s) => s._id === idSucursal);
+        if (existe) {
+          setSucursalesSeleccionados([idSucursal]);
+          findSucursalByNombre([idSucursal]);
+        }
+      }
+    }
+  }, [idSucursal, sucursales]);
+
+  useEffect(() => {
+    setTipoVentaSeleccionado([
+      "68d6ec1640097b172ba86eb0",
+      "68d6eca140097b172ba8b893",
+    ]);
+    onChangeTipoVenta(["68d6ec1640097b172ba86eb0", "68d6eca140097b172ba8b893"]);
+  }, []);
+
+  //--------------------
 
   useEffect(() => {
     listarEmpresas();
@@ -90,9 +131,13 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
       if (empresa) {
         const response = await getSucursalesPorEmpresa(empresa);
         if (region === "BOLIVIA") {
-          setSucursales(response.filter((item) => !item.nombre.includes("PARAGUAY")));
+          setSucursales(
+            response.filter((item) => !item.nombre.includes("PARAGUAY"))
+          );
         } else if (region === "PARAGUAY") {
-          setSucursales(response.filter((item) => item.nombre.includes(region)));
+          setSucursales(
+            response.filter((item) => item.nombre.includes(region))
+          );
         }
       }
     } catch (error) {
@@ -112,16 +157,14 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
     }
   };
 
-
   const onClickFiltro = () => {
     let sucursalesFiltradas: string[] = [];
-    console.log(empresa);
     if (empresa === "TODAS") {
       sucursalesFiltradas = obtenerSucursalesPorRegion(todasSucursales);
-    } else if (empresa != 'TODAS' && sucursalesSeleccionados.length <= 0) {
+    } else if (empresa != "TODAS" && sucursalesSeleccionados.length <= 0) {
       sucursalesFiltradas = obtenerSucursalesPorRegion(sucursales);
     } else if (sucursalesSeleccionados.length > 0) {
-      sucursalesFiltradas = sucursalesSeleccionados
+      sucursalesFiltradas = sucursalesSeleccionados;
     }
 
     const dataFilter: filtroBuscadorI = {
@@ -136,21 +179,23 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
     setFiltro(dataFilter);
   };
 
-
-
   const findSucursalByNombre = (nombre: string[]) => {
-    setSucursalesSeleccionados(nombre)
+    setSucursalesSeleccionados(nombre);
   };
 
   const onChangeTipoVenta = (nombre: string[]) => {
-    setTipoVentaSeleccionado(nombre)
+    setTipoVentaSeleccionado(nombre);
   };
 
   const obtenerSucursalesPorRegion = (sucursales: SucursalI[]) => {
     if (region === "BOLIVIA") {
-      return sucursales.filter((item) => !item.nombre.includes("PARAGUAY")).map((item) => item._id);
+      return sucursales
+        .filter((item) => !item.nombre.includes("PARAGUAY"))
+        .map((item) => item._id);
     } else if (region === "PARAGUAY") {
-      return sucursales.filter((item) => item.nombre.includes(region)).map((item) => item._id);
+      return sucursales
+        .filter((item) => item.nombre.includes(region))
+        .map((item) => item._id);
     }
     return [];
   };
@@ -167,16 +212,20 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
               </h2>
             </div>
             <div className="flex items-center space-x-2">
-              {region &&
+              {region && (
                 <div>
                   {region === "BOLIVIA" ? (
                     <img src="../banderaBolivia.svg" alt="Bolivia" width={32} />
                   ) : (
-                    <img src="../banderaParaguay.svg" alt="Paraguay" width={32} />
+                    <img
+                      src="../banderaParaguay.svg"
+                      alt="Paraguay"
+                      width={32}
+                    />
                   )}
                 </div>
-              }
-              <FormControl fullWidth size="small" sx={{ width: '200px' }}>
+              )}
+              <FormControl fullWidth size="small" sx={{ width: "200px" }}>
                 <InputLabel id="region-label">Regi&oacute;n</InputLabel>
                 <Select
                   labelId="region-label"
@@ -188,10 +237,16 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
                   renderValue={(selected) => selected}
                 >
                   <MenuItem value="BOLIVIA">
-                    <em className="flex items-center space-x-2 gap-2"><img src="../banderaBolivia.svg" alt="" />BOLIVIA</em>
+                    <em className="flex items-center space-x-2 gap-2">
+                      <img src="../banderaBolivia.svg" alt="" />
+                      BOLIVIA
+                    </em>
                   </MenuItem>
                   <MenuItem value="PARAGUAY">
-                    <em className="flex items-center space-x-2 gap-2"><img src="../banderaParaguay.svg" alt="" />PARAGUAY</em>
+                    <em className="flex items-center space-x-2 gap-2">
+                      <img src="../banderaParaguay.svg" alt="" />
+                      PARAGUAY
+                    </em>
                   </MenuItem>
                 </Select>
               </FormControl>
@@ -206,6 +261,7 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
                   labelId="empresa-label"
                   id="empresa"
                   value={empresa}
+                  disabled={disableEmpresa}
                   label="Empresa"
                   onChange={(e) => setEmpresa(e.target.value)}
                 >
@@ -221,9 +277,9 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
               </FormControl>
             </Box>
 
-
             <MultiSelectBuscador
               label="Sucursal:"
+              disable={disableSucursal}
               value={sucursalesSeleccionados}
               onChange={(value: string[]) => findSucursalByNombre(value)}
               setValue={(value: string[]) => setSucursalesSeleccionados(value)}
@@ -233,6 +289,7 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
 
             <MultiSelectBuscador
               label="Tipo de venta:"
+              disable={disableTipoVenta}
               value={tipoVentaSelecionado}
               onChange={(value: string[]) => onChangeTipoVenta(value)}
               setValue={(value: string[]) => setTipoVentaSeleccionado(value)}
@@ -262,6 +319,7 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
               <FormControlLabel
                 control={
                   <Checkbox
+                    disabled={rol != "ADMINISTRADOR" && true}
                     checked={comisiona}
                     onChange={(e) => {
                       const checked = e.target.checked;
@@ -276,6 +334,7 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
               <FormControlLabel
                 control={
                   <Checkbox
+                    disabled={rol != "ADMINISTRADOR" && true}
                     checked={noComisiona}
                     onChange={(e) => {
                       const checked = e.target.checked;
@@ -290,6 +349,7 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
               <FormControlLabel
                 control={
                   <Checkbox
+                    disabled={rol != "ADMINISTRADOR" && true}
                     checked={realizadas}
                     onChange={(e) => {
                       const checked = e.target.checked;
@@ -304,6 +364,7 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
               <FormControlLabel
                 control={
                   <Checkbox
+                    disabled={rol != "ADMINISTRADOR" && true}
                     checked={finalizadas}
                     onChange={(e) => {
                       const checked = e.target.checked;

@@ -13,7 +13,6 @@ import {
 import type { VentasDetallaeMetas } from "../../interface/RendimientoDiario";
 
 
-// Obtener el lunes de la semana
 const getMonday = (date: Date): Date => {
   const d = new Date(date);
   const day = d.getDay();
@@ -23,7 +22,7 @@ const getMonday = (date: Date): Date => {
   return d;
 };
 
-// Obtener el sábado
+
 const getSaturday = (monday: Date): Date => {
   const saturday = new Date(monday);
   saturday.setDate(saturday.getDate() + 5);
@@ -127,7 +126,7 @@ export const DetalleAvanceMetaAsesor = ({
               ventas.forEach((venta) => {
                 const fecha = new Date(venta.fecha);
                 const dia = fecha.getDay();
-                const indice = dia === 0 ? -1 : dia - 1;
+                const indice = dia === 0 ? 1 : dia - 1;
 
                 if (indice >= 0 && indice <= 5) {
                   diasSemana[indice] = (diasSemana[indice] ?? 0) + venta.ticket;

@@ -1,11 +1,12 @@
 import { AlignJustify } from "lucide-react";
 import { MenuLateral } from "../components/Menu/MenuLateral";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
-import { mostrarSucursal, ultimaDescarga } from "../service/appService";
+import { ultimaDescarga } from "../service/appService";
 import type { UltimaDescarga } from "../interfaces/UltimaDescarga";
 import { Outlet } from "react-router";
+import { AutenticacionContext } from "../context/AuntenticacionProvider";
 
 dayjs.locale("es");
 
@@ -13,8 +14,7 @@ export const Layout = () => {
   const [open, setOpen] = useState(false);
   const [fechaUltimaDescarga, setFechaUltimaDescarga] =
     useState<UltimaDescarga[]>();
-  const [sucursal, setSucursal] = useState<string>("");
-
+  const { sucursal } = useContext(AutenticacionContext);
   const toggleMenuOpen = () => {
     setOpen(!open);
   };
@@ -22,12 +22,8 @@ export const Layout = () => {
   useEffect(() => {
     const fetchUltimaDescarga = async () => {
       try {
-        const [response, responseSucursal] = await Promise.all([
-          ultimaDescarga(),
-          mostrarSucursal(),
-        ]);
+        const response = await ultimaDescarga();
 
-        setSucursal(responseSucursal.sucursal);
         setFechaUltimaDescarga(response);
       } catch (error) {
         console.error("Error al obtener la última descarga:", error);

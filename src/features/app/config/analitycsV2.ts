@@ -5,16 +5,23 @@ export const analitycsV2 = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials:true
+  withCredentials: true,
 });
 
-analitycsV2.interceptors.response.use((config) => {
-    return config;
-}, (error) => { 
-  if(window.location.pathname != '/'){
-     const e = error as AxiosError
-  if(e.status == 403 || e.status == 401){
-   return window.location.href = '/'
+analitycsV2.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error: AxiosError) => {
+  
+    if (window.location.pathname !== "/") {
+      const status = error.response?.status;
+      if (status === 401 || status === 403) {
+        //window.location.href = "/";
+        return;
+      }
+    }
+
+    return Promise.reject(error);
   }
-  }  
-});
+);

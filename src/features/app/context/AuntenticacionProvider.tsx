@@ -5,6 +5,11 @@ import { verificarRol } from "../service/appService";
 export const AutenticacionContext = createContext<AutenticacionContextI>({
   isAuntenticacion: false,
   rol: "",
+  empresa: "",
+  idEmpresa: "",
+  idSucursal: "",
+  sucursal: "",
+  nombreAsesor:""
 });
 
 export const AutenticacionProvider = ({
@@ -14,6 +19,11 @@ export const AutenticacionProvider = ({
 }) => {
   const [isAuntenticacion, setIsAuntenticacion] = useState(false);
   const [rol, setRol] = useState<string>("");
+  const [empresa, setEmpresa] = useState("");
+  const [idEmpresa, setIdEmpresa] = useState("");
+  const [idSucursal, setIdSucursal] = useState("");
+  const [sucursal, setSucursal] = useState("");
+   const [nombreAsesor, setNombreAsesor] = useState("");
   useEffect(() => {
     if (window.location.pathname != "/") {
       role();
@@ -26,14 +36,30 @@ export const AutenticacionProvider = ({
       if (reponse) {
         setRol(reponse.rol);
         setIsAuntenticacion(true);
+        setSucursal(reponse.sucursal)
+        setEmpresa(reponse.empresa)
+        setIdEmpresa(reponse.idEmpresa)
+        setIdSucursal(reponse.idSucursal)
+        setNombreAsesor(reponse.nombre)
+
       }
     } catch (error) {
-      console.log(error);
+      console.log('e', error);
     }
   };
 
   return (
-    <AutenticacionContext.Provider value={{ isAuntenticacion, rol }}>
+    <AutenticacionContext.Provider
+      value={{
+        isAuntenticacion,
+        rol,
+        empresa: empresa,
+        idEmpresa: idEmpresa,
+        idSucursal: idSucursal,
+        sucursal: sucursal,
+        nombreAsesor:nombreAsesor
+      }}
+    >
       {children}
     </AutenticacionContext.Provider>
   );
