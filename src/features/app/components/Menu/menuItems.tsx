@@ -201,7 +201,7 @@ export const menuItems: MenuItem[] = [
       },
       {
         text: "Seguimiento diario",
-        roles: ["ADMINISTRADOR"],
+        roles: ["ADMINISTRADOR","ASESOR", "GESTOR"],
         icon: <Circle className="text-white w-3 h-3" />,
         link: "/avance/ventas/asesor",
       },
