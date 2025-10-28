@@ -60,13 +60,17 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
     if (rol != "ADMINISTRADOR") {
       if (idEmpresa) {
         setEmpresa(idEmpresa);
-        setComisiona(true);
         setRealizadas(true);
         setFlagVenta("REALIZADAS");
         setDisableEmpresa(true);
         setDisableSucursal(true);
         setDisableTipoVenta(true);
       }
+    } else {
+      setEmpresa("TODAS");
+      setComisiona(true);
+      setFinalizadas(true);
+      setFlagVenta("FINALIZADO");
     }
   }, [idEmpresa]);
 

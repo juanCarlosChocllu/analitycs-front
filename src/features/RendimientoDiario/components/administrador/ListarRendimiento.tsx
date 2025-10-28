@@ -109,10 +109,10 @@ export const ListarRendimiento = () => {
                         const metaIndividual =
                           ((Math.round(
                             asesorItem.dias *
-                              ventasPordiaAsesor(
-                                asesorData.ventas,
-                                asesorData.metaTicket
-                              )
+                            ventasPordiaAsesor(
+                              asesorData.ventas,
+                              asesorData.metaTicket
+                            )
                           ) /
                             asesorData.diasComerciales) *
                             6) |
@@ -159,7 +159,27 @@ export const ListarRendimiento = () => {
 
                         const metaProgresivos: number =
                           asesorData.empresa == "OPTICENTRO" ? 25 : 15;
+
+                        const metaTasaConversion = 70;
+
                         const mentaAntireflejo = 95;
+
+                        const totalTasaconversion = Number(
+                          tasaDeConversion(
+                            ventasOrdenadas.reduce(
+                              (acc, v) => acc + v.ticket,
+                              0
+                            ),
+                            ventasOrdenadas.reduce(
+                              (acc, v) => acc + v.atenciones,
+                              0
+                            )
+                          )
+                        );
+                        const totalAtenciones = ventasOrdenadas.reduce(
+                          (acc, v) => acc + v.atenciones,
+                          0
+                        )
                         return (
                           <div
                             key={semanaIdx}
@@ -235,14 +255,13 @@ export const ListarRendimiento = () => {
                                       ),
                                       total: totalTicket,
                                       meta: metaIndividual.toFixed(2),
-                                      cumplimiento: `${
-                                        metaIndividual > 0
+                                      cumplimiento: `${metaIndividual > 0
                                           ? (
-                                              (totalTicket / metaIndividual) *
-                                              100
-                                            ).toFixed(2)
+                                            (totalTicket / metaIndividual) *
+                                            100
+                                          ).toFixed(2)
                                           : 0
-                                      } %`,
+                                        } %`,
                                     },
                                     {
                                       label: "Lentes",
@@ -251,14 +270,13 @@ export const ListarRendimiento = () => {
                                       ),
                                       total: totalLente,
                                       meta: metaLentes,
-                                      cumplimiento: `${
-                                        metaLentes > 0
+                                      cumplimiento: `${metaLentes > 0
                                           ? (
-                                              (totalLente / metaLentes) *
-                                              100
-                                            ).toFixed(2)
+                                            (totalLente / metaLentes) *
+                                            100
+                                          ).toFixed(2)
                                           : 0
-                                      } %`,
+                                        } %`,
                                     },
                                     {
                                       label: "Entregas",
@@ -267,15 +285,14 @@ export const ListarRendimiento = () => {
                                       ),
                                       total: totalEntregadas,
                                       meta: metaIndividual.toFixed(2),
-                                      cumplimiento: `${
-                                        metaIndividual > 0
+                                      cumplimiento: `${metaIndividual > 0
                                           ? (
-                                              (totalEntregadas /
-                                                metaIndividual) *
-                                              100
-                                            ).toFixed(2)
+                                            (totalEntregadas /
+                                              metaIndividual) *
+                                            100
+                                          ).toFixed(2)
                                           : 0
-                                      } %`,
+                                        } %`,
                                     },
                                     {
                                       label: "Progresivos",
@@ -344,10 +361,10 @@ export const ListarRendimiento = () => {
                                       total: totalSeguntoPar,
 
                                       meta: `${30} %`,
-                                      cumplimiento: porcentaje(
+                                      cumplimiento: `${porcentaje(
                                         totalSeguntoPar,
                                         30
-                                      ),
+                                      )} %`,
                                     },
                                     {
                                       label: "Lente de contacto",
@@ -390,18 +407,15 @@ export const ListarRendimiento = () => {
                                     {
                                       label: "Tasa de conversión",
                                       values: ventasOrdenadas.map((v) =>
-                                        tasaDeConversion(v.ticket, v.atenciones)
+                                        `${tasaDeConversion(v.ticket, v.atenciones)} %`
                                       ),
-                                      total: tasaDeConversion(
-                                        ventasOrdenadas.reduce(
-                                          (acc, v) => acc + v.ticket,
-                                          0
-                                        ),
-                                        ventasOrdenadas.reduce(
-                                          (acc, v) => acc + v.atenciones,
-                                          0
-                                        )
-                                      ),
+                                      total: `${totalTasaconversion} %`,
+                                      meta: `${metaTasaConversion} %`,
+
+                                      cumplimiento: `${tasaDeConversion(
+                                        totalTicket,
+                                        totalAtenciones
+                                      )} %`,
                                     },
                                   ].map((row, i) => (
                                     <TableRow key={i}>
