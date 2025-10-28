@@ -1,6 +1,6 @@
 import dayjs, { Dayjs } from "dayjs";
 import "dayjs/locale/es";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { obtenerCicloComercial } from "../../service/appService";
 import utc from "dayjs/plugin/utc";
 import type { AxiosError } from "axios";
@@ -32,10 +32,12 @@ export const FiltroFecha = ({
   setFechaInicio,
   setFechaFin,
 }: FiltroFechaProps) => {
-  const [activeButton, setActiveButton] = useState<string>("hoy");
+  const [activeButton, setActiveButton] = useState<string>("diaAnt");
   const [fechaInicioComercial, setFechaInicioComercial] = useState<Date>();
   const [fechaFinComercial, setFechaFinComercial] = useState<Date>();
-
+  useEffect(() => {
+    seleccionarFecha("diaAnt");
+  }, []);
   const seleccionarFecha = async (option: string): Promise<void> => {
     setActiveButton(option);
     let startDate: Dayjs, endDate: Dayjs;
@@ -86,8 +88,8 @@ export const FiltroFecha = ({
             const e = error as AxiosError<any>;
             if (e.status == 404) {
               toast.error(e.response?.data.message);
-            }else {
-               toast.error(e.response?.data.message);
+            } else {
+              toast.error(e.response?.data.message);
             }
             setFechaInicio(dayjs().startOf("day"));
             setFechaFin(dayjs().endOf("day"));
