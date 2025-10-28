@@ -1,4 +1,4 @@
-import type { AxiosResponse } from "axios";
+
 import { analitycsV2 } from "../config/analitycsV2";
 import type { EmpresasI, SucursalI, TipoVentaI } from "../interfaces/BuscadorI";
 import type { UltimaDescarga } from "../interfaces/UltimaDescarga";

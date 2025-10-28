@@ -1,6 +1,5 @@
 import { ChevronDown, X } from "lucide-react";
 import { useState } from "react";
-import type { dataBuscador } from "../../interfaces/BuscadorI";
 
 export const SeleccionMultiple = ({
   label,
@@ -69,15 +68,7 @@ export const SeleccionMultiple = ({
   );
 };
 
-interface MultiSelectProps {
-  label: string;
-  value: string[];
-  onChange: (value: string[]) => void;
-  placeholder: string;
-  options: dataBuscador[];
-  setValue: (value: string[]) => void;
-  disable: boolean;
-}
+
 
 interface Option {
   _id: string;

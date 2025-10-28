@@ -1,5 +1,4 @@
 import { Box, Typography } from "@mui/material";
-import { Buscador } from "../../app/components/Buscador/Buscador";
 import { useEffect, useState } from "react";
 import type { filtroBuscadorI } from "../../app/interfaces/BuscadorI";
 import { getVentaActual, getVentaAnterior } from "../service/ComprativoService";
@@ -13,6 +12,7 @@ import { GraficoComparativo } from "./GraficoComparativo";
 import { GraficoComparativoAnual } from "./GraficoComparativoAnual";
 
 import { LocalesComparables } from "./LocalesComparables";
+import { BuscadorBase } from "../../app/components/Buscador/BuscadorBase";
 
 
 export const Comparativo = () => {
@@ -46,7 +46,7 @@ export const Comparativo = () => {
   };
   return (
     <Box>
-      <Buscador filtro={filtro} setFiltro={setFiltro} />
+      <BuscadorBase filtro={filtro} setFiltro={setFiltro} />
       {responseActual
         && responseAnterior && <ListarTodasLasEmpresas ventaActual={responseActual?.venta} ventaAnterior={responseAnterior?.venta} />}
         {responseActual && responseAnterior && <LocalesComparables dataActual={responseActual} dataAnterior={responseAnterior}  /> }

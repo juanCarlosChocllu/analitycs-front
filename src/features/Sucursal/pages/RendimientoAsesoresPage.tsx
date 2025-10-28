@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Buscador } from "../../app/components/Buscador/Buscador";
 import type { filtroBuscadorI } from "../../app/interfaces/BuscadorI";
 import { Award, Building2, Loader } from "lucide-react";
 import { Top10Ticket } from "../components/Top10Ticket";
@@ -12,6 +11,7 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import { BuscadorBase } from "../../app/components/Buscador/BuscadorBase";
 
 const sugerencias = [
     "Verifica si ingresaste correctamente los filtros",
@@ -44,7 +44,7 @@ export const RendimientoAsesoresPage = () => {
     return (
         <div className="p-4 sm:p-6 lg:p-8 bg-gray-100 ">
 
-            <Buscador setFiltro={setFiltro} filtro={filtro} />
+            <BuscadorBase setFiltro={setFiltro} filtro={filtro} />
             {data.length === 0 ? <EmptyState suggestions={sugerencias} /> : (
                 <>
                     {loading ? <Loader className="animate-spin" />

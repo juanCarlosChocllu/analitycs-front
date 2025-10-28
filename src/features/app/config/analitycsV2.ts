@@ -17,7 +17,7 @@ analitycsV2.interceptors.response.use(
     if (window.location.pathname !== "/") {
       const status = error.response?.status;
       if (status === 401 || status === 403) {
-        //window.location.href = "/";
+        window.location.href = "/";
         return;
       }
     }

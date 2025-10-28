@@ -21,8 +21,7 @@ export const Home: React.FC = () => {
 
     const handleInputChange = (field: keyof Usuario, value: string) => {
         setProfile(prev => ({ ...prev, [field]: value }));
-    };
-
+    };   
     useEffect(() => {
         obtenerPerfil();
     }, [])

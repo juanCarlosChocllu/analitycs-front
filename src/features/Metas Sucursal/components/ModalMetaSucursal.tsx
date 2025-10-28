@@ -171,6 +171,7 @@ export const ModalMetaSucursal = ({onClose, setIsRegister}: ModalMetaSucursalPro
           <Grid size={{ xs: 12, sm: 6 }}>
             <FormControl fullWidth>
               <MultiSelectBuscador
+              disable={false}
                 label=""
                 value={sucursal}
                 onChange={(value: string[]) => setSucursal(value)}

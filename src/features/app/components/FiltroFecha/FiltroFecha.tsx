@@ -36,22 +36,7 @@ export const FiltroFecha = ({
   const [fechaInicioComercial, setFechaInicioComercial] = useState<Date>();
   const [fechaFinComercial, setFechaFinComercial] = useState<Date>();
 
-  const ciclo = async () => {
-    try {
-      const response = await obtenerCicloComercial();
-      if (response) {
-        setFechaInicioComercial(response.fechaInicio);
-        setFechaFinComercial(response.fechaFin);
-      }
-    } catch (error) {
-      const e = error as AxiosError<any>;
-      if (e.status == 404) {
-        toast.error(e.response?.data.message);
-      }
-    }
-  };
-
-  const seleccionarFecha = (option: string): void => {
+  const seleccionarFecha = async (option: string): Promise<void> => {
     setActiveButton(option);
     let startDate: Dayjs, endDate: Dayjs;
 
@@ -86,15 +71,30 @@ export const FiltroFecha = ({
         break;
 
       case "comercial":
-        ciclo();
-        if (fechaInicioComercial && fechaFinComercial) {
-          startDate = dayjs(fechaInicioComercial).add(1, "day").startOf("day");
-          endDate = dayjs(fechaFinComercial).add(1, "day").endOf("day");
+        if (!fechaInicioComercial || !fechaFinComercial) {
+          try {
+            const response = await obtenerCicloComercial();
+            setFechaInicioComercial(response.fechaInicio);
+            setFechaFinComercial(response.fechaFin);
+
+            const start = dayjs(response.fechaInicio).startOf("day");
+            const end = dayjs(response.fechaFin).endOf("day");
+
+            setFechaInicio(start);
+            setFechaFin(end);
+          } catch (error) {
+            const e = error as AxiosError<any>;
+            if (e.status == 404) {
+              toast.error(e.response?.data.message);
+            }
+            setFechaInicio(dayjs().startOf("day"));
+            setFechaFin(dayjs().endOf("day"));
+          }
         } else {
-          startDate = dayjs().startOf("day");
-          endDate = dayjs().endOf("day");
+          setFechaInicio(dayjs(fechaInicioComercial).startOf("day"));
+          setFechaFin(dayjs(fechaFinComercial).endOf("day"));
         }
-        break;
+        return;
       default:
         return;
     }

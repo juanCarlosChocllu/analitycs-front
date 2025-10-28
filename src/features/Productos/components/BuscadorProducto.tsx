@@ -248,6 +248,7 @@ export function BuscadorProductos({ setFiltro }: FiltroBuscadorI) {
             </Box>
 
             <MultiSelectBuscador
+             disable={false}
               label="Sucursal:"
               value={sucursalesSeleccionados}
               onChange={(value: string[]) => findSucursalByNombre(value)}
@@ -257,6 +258,7 @@ export function BuscadorProductos({ setFiltro }: FiltroBuscadorI) {
             />
 
             <MultiSelectBuscador
+                disable={false}
               label="Tipo de venta:"
               value={tipoVentaSelecionado}
               onChange={(value: string[]) => onChangeTipoVenta(value)}
@@ -342,6 +344,7 @@ export function BuscadorProductos({ setFiltro }: FiltroBuscadorI) {
               />
             </FormGroup>
             <MultiSelectBuscador
+          disable={false}
               label="Producto"
               placeholder="seleccion un producto"
               onChange={(value) => {

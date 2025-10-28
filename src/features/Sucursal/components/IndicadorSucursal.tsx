@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Buscador } from "../../app/components/Buscador/Buscador";
+
 import type { filtroBuscadorI } from "../../app/interfaces/BuscadorI";
 import { getIndicadoresPorSucursal } from "../service/sucursalService";
 import Typography from "@mui/material/Typography";
@@ -16,6 +16,7 @@ import { Loader } from "../../app/components/loader/Loader";
 import { Download } from "lucide-react";
 import { exportarExcelPorSucursal } from "../utils/exportarExcel/exportarIndicadoreSucursal";
 import { TablaIndicadores } from "./TablaIndicadores";
+import { BuscadorBase } from "../../app/components/Buscador/BuscadorBase";
 
 export const IndicadorSucursal = () => {
   const [filtro, setFiltro] = useState<filtroBuscadorI>({});
@@ -60,7 +61,7 @@ export const IndicadorSucursal = () => {
 
   return (
     <Box sx={{ p: 3}}>
-      <Buscador filtro={filtro} setFiltro={setFiltro} />
+      <BuscadorBase filtro={filtro} setFiltro={setFiltro} />
 
       <Typography variant="h5" sx={{ mt: 4, mb: 2, fontWeight: "bold" }}>
         📊 Indicadores por Sucursal

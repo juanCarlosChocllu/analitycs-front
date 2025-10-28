@@ -195,6 +195,7 @@ export function BuscadorCotizacion({ setFiltro }: FiltroBuscadorI) {
 
 
             <MultiSelectBuscador
+               disable={false}
               label="Sucursal:"
               value={sucursalesSeleccionados}
               onChange={(value: string[]) => findSucursalByNombre(value)}

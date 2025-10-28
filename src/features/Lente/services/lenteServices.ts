@@ -89,12 +89,12 @@ export async function informacionLenteAsesor(asesor: string, data: filtroBuscado
     
 }
 export async function kpiMaterial( filtro: filtroBuscadorI):Promise<KpiMaterialI[]> {
-  try {
+  try {    
     const response = await analitycsV2.post("venta/kpi/material", filtro)
-    
-    
     return response.data
   } catch (error) {
+   
+    
      throw error
   }
 }
