@@ -108,22 +108,29 @@ export const FiltroFecha = ({
 
   return (
     <div className="bg-white p-4 rounded-xl shadow-sm border lg:w-[40%] md:w-[70%] w-full">
-      <div className="inline-flex bg-gray-100 rounded-lg p-2 w-full justify-center items-center">
-        {buttons.map((button) => (
-          <button
-            key={button.id}
-            onClick={() => seleccionarFecha(button.id)}
-            className={`px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
-              activeButton === button.id
-                ? "bg-emerald-600 text-white shadow-sm"
-                : "text-gray-600 hover:text-gray-900"
-            }`}
-            title={button.fullLabel}
-          >
-            {button.label}
-          </button>
-        ))}
-      </div>
-    </div>
+  <div
+    className="
+      grid grid-cols-2 gap-2     
+      sm:flex sm:flex-wrap sm:justify-center sm:items-center sm:gap-2 
+      bg-gray-100 rounded-lg p-2 w-full
+    "
+  >
+    {buttons.map((button) => (
+      <button
+        key={button.id}
+        onClick={() => seleccionarFecha(button.id)}
+        className={`px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
+          activeButton === button.id
+            ? "bg-emerald-600 text-white shadow-sm"
+            : "text-gray-600 hover:text-gray-900"
+        }`}
+        title={button.fullLabel}
+      >
+        {button.label}
+      </button>
+    ))}
+  </div>
+</div>
+
   );
 };
