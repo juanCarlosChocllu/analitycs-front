@@ -1,11 +1,8 @@
 import { useNavigate } from "react-router";
-
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-
 import toast, { Toaster } from "react-hot-toast";
 import { AxiosError } from "axios";
-
 import {
   Button,
   Card,
@@ -38,10 +35,10 @@ export const RegistrarAsesoresPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
     watch,
+    setValue,
+    control,
   } = useForm<UsuarioAsesor>();
-
   const [error, setError] = useState<any[]>([]);
   const [errorUser, setErrorUser] = useState<string>();
   const [showPassword, setShowPassword] = useState(false);
@@ -62,8 +59,6 @@ export const RegistrarAsesoresPage = () => {
   const onSubmit = async (data: UsuarioAsesor) => {
     data.asesor = asesores;
     try {
-      console.log(data);
-
       const response = await crearUsuarios(data);
       if (response?.status === 201) {
         setError([]);
@@ -74,19 +69,13 @@ export const RegistrarAsesoresPage = () => {
         setError([]);
         toast.error("Error: " + response?.status);
       }
-    } catch (error) {
-      console.log(error);
-
+    } catch (err) {
+      console.log(err);
       setError([]);
-      const e = error as AxiosError<ErrorUser>;
-      if (e.status === 400) {
-        e.response?.data.errors &&
-          Array.isArray(e.response.data.errors) &&
-          setError(e.response.data.errors);
-      }
-      if (e.status === 409) {
-        setErrorUser("El usuario ya existe");
-      }
+      const e = err as AxiosError<ErrorUser>;
+      if (e.status === 400 && e.response?.data.errors)
+        setError(e.response.data.errors);
+      if (e.status === 409) setErrorUser("El usuario ya existe");
       toast.error("Error al crear el usuario");
     }
   };
@@ -94,48 +83,52 @@ export const RegistrarAsesoresPage = () => {
   return (
     <Container maxWidth="sm" sx={{ py: 6 }}>
       <Toaster position="top-center" />
-      <Card variant="outlined">
+      <Card variant="outlined" sx={{ borderRadius: 2, boxShadow: 3 }}>
         <CardContent>
-          <Typography variant="h5" gutterBottom>
+          <Typography
+            variant="h5"
+            align="center"
+            gutterBottom
+            sx={{ fontWeight: "bold", mb: 3 }}
+          >
             Registrar Usuario
           </Typography>
-          <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
+
+          <Box
+            component="form"
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate
+            sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+          >
             <TextField
               fullWidth
-              label="Nombre"
-              margin="normal"
+              placeholder="Nombre"
               {...register("nombre", { required: "El nombre es requerido" })}
               error={!!errors.nombre}
               helperText={errors.nombre?.message}
             />
-
             <TextField
               fullWidth
-              margin="normal"
-              label="Apellidos"
+              placeholder="Apellidos"
               {...register("apellidos", {
-                required: "El apellido es requerido",
+                required: "Los apellidos son requeridos",
               })}
               error={!!errors.apellidos}
               helperText={errors.apellidos?.message}
             />
-
-            {/* Nombre de usuario */}
             <TextField
               fullWidth
-              margin="normal"
-              label="Usuario"
+              placeholder="Usuario"
               {...register("username", { required: "El usuario es requerido" })}
               error={!!errors.username || !!errorUser}
               helperText={errors.username?.message || errorUser}
             />
 
-            <FormControl fullWidth variant="outlined" margin="normal">
+            <FormControl variant="outlined" fullWidth>
               <InputLabel htmlFor="password">Contraseña</InputLabel>
               <OutlinedInput
                 id="password"
                 type={showPassword ? "text" : "password"}
-                label="Contraseña"
                 {...register("password", {
                   required: "La contraseña es requerida",
                 })}
@@ -150,31 +143,17 @@ export const RegistrarAsesoresPage = () => {
                     </IconButton>
                   </InputAdornment>
                 }
+                label="Contraseña"
               />
               {errors.password && (
                 <FormHelperText error>{errors.password.message}</FormHelperText>
               )}
-              {error.length > 0 && (
-                <Box mt={1}>
-                  {error
-                    .filter((i) => i.propiedad === "password")
-                    .map((i) =>
-                      i.errors.map((msg: string, idx: number) => (
-                        <FormHelperText key={idx} error>
-                          {msg}
-                        </FormHelperText>
-                      ))
-                    )}
-                </Box>
-              )}
             </FormControl>
 
-            {/* Rol */}
-            <FormControl fullWidth margin="normal" error={!!errors.rol}>
+            <FormControl fullWidth error={!!errors.rol}>
               <InputLabel id="rol-label">Rol</InputLabel>
               <Select
                 labelId="rol-label"
-                id="rol"
                 defaultValue=""
                 {...register("rol", { required: "El rol es requerido" })}
               >
@@ -187,13 +166,17 @@ export const RegistrarAsesoresPage = () => {
               )}
             </FormControl>
 
-            {/* Botón */}
             <Button
-              fullWidth
               type="submit"
               variant="contained"
               color="primary"
-              sx={{ mt: 3 }}
+              sx={{
+                mt: 2,
+                py: 1.5,
+                fontWeight: "bold",
+                backgroundColor: "#3498DB",
+                "&:hover": { backgroundColor: "#2980b9" },
+              }}
             >
               Agregar usuario
             </Button>

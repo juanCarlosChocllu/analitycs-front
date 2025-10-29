@@ -31,10 +31,10 @@ export async function listarAsesorVentas(): Promise<AsesorSinUsuario[]> {
     throw error;
   }
 }
-export const editarUsuario = async (usuario: UsuarioAsesor) => {
+export const editarUsuario = async (usuario: UsuarioAsesor) => {  
   try {
     const resultado = await analitycsV2.patch(
-      "usuario/" + usuario._id,
+      "usuarios/" + usuario._id,
       usuario
     );
     return resultado;
@@ -77,6 +77,15 @@ export async function cambiarPassword(password: string, id: string) {
       `usuarios/resetear/contrasena/${id}`,
       { password }
     );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function obtenerUsuario(id: string):Promise<UsuarioAsesor> {
+  try {
+    const response = await analitycsV2.get(`usuarios/${id}`);
     return response.data;
   } catch (error) {
     throw error;

@@ -76,32 +76,31 @@ export const CalendarioMes: React.FC<CalendarioMesProps> = ({
                 esMesActual && !estaEnJornadaMarcada && onClickDia(dia)
               }
               disabled={!esMesActual || estaEnJornadaMarcada}
-              className={`py-2 rounded-md border text-center font-medium transition-all duration-150 relative ${
-                !esMesActual
+              className={`py-2 rounded-md border text-center font-medium transition-all duration-150 relative ${!esMesActual
                   ? "bg-gray-50 text-gray-300 border-gray-100 cursor-not-allowed"
                   : estaEnJornadaMarcada
-                  ? "bg-green-100 text-green-700 border-green-200 cursor-not-allowed opacity-60"
-                  : esInicio || esFin
-                  ? `text-white border-transparent shadow-lg ring-2 ring-offset-1`
-                  : enRango
-                  ? "text-white border-transparent"
-                  : esFinDeSemana
-                  ? "bg-red-50 text-red-500 border-red-100 hover:bg-red-100"
-                  : "bg-gray-100 text-gray-700 border-gray-200 hover:bg-gray-200 hover:shadow-md"
-              }`}
+                    ? "bg-green-100 text-green-700 border-green-200 cursor-not-allowed opacity-60"
+                    : esInicio || esFin
+                      ? `text-white border-transparent shadow-lg ring-2 ring-offset-1`
+                      : enRango
+                        ? "text-white border-transparent"
+                        : esFinDeSemana
+                          ? "bg-red-50 text-red-500 border-red-100 hover:bg-red-100"
+                          : "bg-gray-100 text-gray-700 border-gray-200 hover:bg-gray-200 hover:shadow-md"
+                }`}
               style={{
                 backgroundColor:
                   (esInicio || esFin || enRango) && esMesActual
                     ? color
                     : estaEnJornadaMarcada
-                    ? `${color}33`
-                    : undefined,
+                      ? `${color}33`
+                      : undefined,
                 opacity:
                   enRango && !esInicio && !esFin
                     ? 0.7
                     : estaEnJornadaMarcada
-                    ? 0.6
-                    : 1,
+                      ? 0.6
+                      : 1,
               }}
             >
               {dia.getDate()}
