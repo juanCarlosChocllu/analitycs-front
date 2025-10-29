@@ -6,7 +6,6 @@ interface CalendarioMesProps {
   fechaInicio: Date | null;
   fechaFin: Date | null;
   onClickDia: (dia: Date) => void;
-  color: string;
   jornadasMarcadas: JornadaI[];
 }
 
@@ -16,7 +15,6 @@ export const CalendarioMes: React.FC<CalendarioMesProps> = ({
   fechaInicio,
   fechaFin,
   onClickDia,
-  color,
   jornadasMarcadas = [],
 }) => {
   const diasMes = generarDiasDelMes(ano, mes);
@@ -29,7 +27,7 @@ export const CalendarioMes: React.FC<CalendarioMesProps> = ({
   });
 
   const diasSemana = ["L", "M", "X", "J", "V", "S", "D"];
-
+  const color = '#06B6D4'
   return (
     <div>
       <h4 className="capitalize text-sm font-semibold text-gray-700 mb-3 pb-2">
@@ -171,3 +169,5 @@ const generarDiasDelMes = (ano: number, mes: number): Date[] => {
   }
   return dias;
 };
+
+

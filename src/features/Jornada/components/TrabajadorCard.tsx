@@ -9,7 +9,6 @@ import { Jornadas } from "./Jornadas";
 
 interface TrabajadorProps {
   nombre: string;
-  color: string;
   ano: number;
   mesActual: number;
   asesor: string;
@@ -19,7 +18,6 @@ interface TrabajadorProps {
 
 export const TrabajadorCard: React.FC<TrabajadorProps> = ({
   nombre,
-  color,
   ano,
   mesActual,
   asesor,
@@ -100,7 +98,7 @@ export const TrabajadorCard: React.FC<TrabajadorProps> = ({
         <p className="font-bold text-gray-800 flex items-center gap-2">
           <span
             className="inline-block w-3 h-3 rounded-full"
-            style={{ backgroundColor: color }}
+            style={{ backgroundColor: '#06B6D4' }}
           ></span>
           {nombre}
         </p>
@@ -125,7 +123,7 @@ export const TrabajadorCard: React.FC<TrabajadorProps> = ({
           fechaInicio={fechaInicio}
           fechaFin={fechaFin}
           onClickDia={handleClickDia}
-          color={color}
+        
           jornadasMarcadas={jornadasNormalizadas}
         />
 
@@ -136,7 +134,7 @@ export const TrabajadorCard: React.FC<TrabajadorProps> = ({
             fechaInicio={fechaInicio}
             fechaFin={fechaFin}
             onClickDia={handleClickDia}
-            color={color}
+  
             jornadasMarcadas={jornadasNormalizadas}
           />
         </div>

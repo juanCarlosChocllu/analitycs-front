@@ -94,7 +94,6 @@ export function JornadaPage() {
               nombre={t.nombre}
               ano={anoActual}
               mesActual={mesActual}
-              color="#06B6D4"
               sucursal={t.sucursal}
             />
           ))}
