@@ -32,46 +32,51 @@ export const Layout = () => {
 
   return (
     <div className="flex flex-col min-h-screen w-full bg-gradient-to-br from-gray-50 to-green-50">
-      {/* HEADER */}
-      <header className="relative flex items-center justify-between bg-white/80 backdrop-blur-md shadow-md border-b border-green-100 p-4 md:p-6">
-        {/* Botón menú */}
-        <button
-          onClick={toggleMenuOpen}
-          className="bg-gradient-to-br from-blue-950 to-blue-950 rounded-full p-3 w-12 h-12 flex items-center justify-center shadow-lg hover:scale-105 transition"
-        >
-          <AlignJustify className="text-white" width={22} height={22} />
-        </button>
+  
+      <header
+        className="
+          bg-white/80 backdrop-blur-md shadow-md border-b border-green-100
+          p-3 md:p-4
+          grid grid-cols-1 md:grid-cols-3 items-center gap-2 text-center md:text-left
+        "
+      >
 
-        {/* Información central */}
-        <div className="absolute left-1/2 transform -translate-x-1/2 text-center flex flex-col items-center">
-          {
-            sucursal && 
-            <h2 className="text-xl md:text-2xl font-bold text-blue-950 tracking-widest uppercase drop-shadow-sm">
-            {sucursal }
-          </h2>
-          }
-
-          {/* Nombre y rol */}
-          <div className="mt-1 flex flex-col items-center">
-            {nombreAsesor && 
-            <span className="px-3 py-1 text-sm md:text-base bg-green-100 text-blue-950 rounded-full shadow-sm font-medium">
-              {nombreAsesor}
-            </span>}
-            <span className="mt-1 text-xs md:text-sm text-gray-500 italic tracking-wide">
-              {rol  && rol}
-            </span>
-          </div>
+        <div className="flex items-center justify-start md:justify-start">
+          <button
+            onClick={toggleMenuOpen}
+            className="bg-blue-950 rounded-full p-2.5 w-10 h-10 flex items-center justify-center shadow-md hover:scale-105 transition"
+          >
+            <AlignJustify className="text-white" width={20} height={20} />
+          </button>
         </div>
 
-        {/* Última descarga */}
-        <div className="flex flex-col items-end text-sm md:text-base">
-          <p className="text-gray-500 font-semibold">Última descarga</p>
-          <div className="flex items-center gap-2 mt-1">
+        <div className="flex flex-col items-center justify-center">
+          {sucursal && (
+            <h2 className="text-lg md:text-xl font-bold text-blue-950 uppercase tracking-wide">
+              {sucursal}
+            </h2>
+          )}
+          {nombreAsesor && (
+            <span className="px-2 py-0.5 mt-1 text-xs md:text-sm bg-green-100 text-blue-950 rounded-full font-medium">
+              {nombreAsesor}
+            </span>
+          )}
+          {rol && (
+            <span className="mt-0.5 text-[11px] md:text-xs text-gray-500 italic">
+              {rol}
+            </span>
+          )}
+        </div>
+
+      
+        <div className="flex flex-col items-center md:items-end text-xs md:text-sm">
+          <p className="text-gray-500 font-medium">Última descarga</p>
+          <div className="flex items-center gap-2 mt-1 justify-center md:justify-end flex-wrap">
             <div className="w-2 h-2 bg-blue-950 rounded-full animate-pulse"></div>
-            <p className="text-green-700 font-bold text-right">
+            <p className="text-green-700 font-semibold truncate max-w-[180px] md:max-w-none">
               {fechaUltimaDescarga
                 ? dayjs(fechaUltimaDescarga?.[0]?.fechaDescarga).format(
-                    "dddd, DD MMMM YYYY"
+                    "DD/MM/YYYY"
                   )
                 : "Cargando..."}
             </p>
@@ -79,11 +84,11 @@ export const Layout = () => {
         </div>
       </header>
 
-      {/* Menú lateral */}
+
       <MenuLateral open={open} setOpen={setOpen} />
 
-      {/* Contenido principal */}
-      <main>
+    
+      <main className="flex-1 p-3 md:p-2">
         <Outlet />
       </main>
     </div>
