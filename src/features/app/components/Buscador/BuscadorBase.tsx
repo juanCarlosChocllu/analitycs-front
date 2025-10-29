@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import { Filter } from "lucide-react";
 import {
   getEmpresas,
   getSucursalesPorEmpresa,
@@ -26,7 +25,6 @@ import { Box } from "@mui/material";
 import { FiltroFecha } from "../FiltroFecha/FiltroFecha";
 import { RangoFecha } from "./RangoFecha";
 import { AutenticacionContext } from "../../context/AuntenticacionProvider";
-
 export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
   const date = new Date();
   const { idEmpresa, rol, idSucursal } = useContext(AutenticacionContext);
@@ -208,13 +206,15 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
     <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-4">
       <div className="max-w-[95%] mx-auto">
         <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-3">
+            {/* Título */}
             <div className="flex items-center space-x-2">
-              <Filter className="w-5 h-5 text-blue-600" />
               <h2 className="text-xl font-semibold text-gray-900">
                 Filtros de Búsqueda
               </h2>
             </div>
+
+            {/* Región */}
             <div className="flex items-center space-x-2">
               {region && (
                 <div>
@@ -230,24 +230,24 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
                 </div>
               )}
               <FormControl fullWidth size="small" sx={{ width: "200px" }}>
-                <InputLabel id="region-label">Regi&oacute;n</InputLabel>
+                <InputLabel id="region-label">Región</InputLabel>
                 <Select
                   labelId="region-label"
                   id="region"
                   value={region}
                   defaultValue="BOLIVIA"
-                  label="Region"
+                  label="Región"
                   onChange={(e) => setRegion(e.target.value)}
                   renderValue={(selected) => selected}
                 >
                   <MenuItem value="BOLIVIA">
-                    <em className="flex items-center space-x-2 gap-2">
+                    <em className="flex items-center gap-2">
                       <img src="../banderaBolivia.svg" alt="" />
                       BOLIVIA
                     </em>
                   </MenuItem>
                   <MenuItem value="PARAGUAY">
-                    <em className="flex items-center space-x-2 gap-2">
+                    <em className="flex items-center gap-2">
                       <img src="../banderaParaguay.svg" alt="" />
                       PARAGUAY
                     </em>
@@ -388,7 +388,7 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
               onClick={() => onClickFiltro()}
               className="px-6 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105"
             >
-              Aplicar Filtros
+              Buscar
             </button>
           </div>
         </div>
