@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+
 import {
   getEmpresas,
   getSucursalesPorEmpresa,
@@ -203,7 +204,7 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
   };
 
   return (
-    <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-4">
+    <div className="bg-gradient-to-br from-gray-50 to-gray-100">
       <div className="max-w-[95%] mx-auto">
         <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-3">
