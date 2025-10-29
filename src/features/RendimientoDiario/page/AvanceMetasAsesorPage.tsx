@@ -168,7 +168,6 @@ export const AvanceMetasAsesorPage = () => {
                                 %
                               </TableCell>
                               <TableCell>
-                            
                                 {metasFaltantes(
                                   Math.round(
                                     item.dias *
