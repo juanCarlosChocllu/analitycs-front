@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
     Box,
     Card,
     CardContent,
     CardHeader,
+    TableContainer,
     Table,
     TableBody,
     TableCell,
@@ -22,33 +23,37 @@ import { BuscadorBase } from "../../app/components/Buscador/BuscadorBase";
 import type { AsesorSemanal, SemanaDatos, SucursalData, SucursalPorSemanas } from "../interface/RendimientoDiario";
 import { listarRendimientoAsesor } from "../service/RendimientoDiarioService";
 import { transformarDatosASucursalPorSemanas } from "../utils/procesarData";
-import { tasaDeConversion, ticketPromedio } from "../../app/util/ticketPromedio";
+import { division, tasaDeConversion, ticketPromedio } from "../../app/util/ticketPromedio";
 
 export const RendimientoSemanal = () => {
     const [filtro, setFiltro] = useState<filtroBuscadorI>({});
     const [datos, setDatos] = useState<SucursalData[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
-    const [resultado, setResultado] = useState<SucursalPorSemanas[]>();
-
+    // Carga con cancelación para evitar setState después de desmontar o ante cambios rápidos de filtro
     useEffect(() => {
-        listarRendimiento();
+        let cancelled = false;
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                const response = await listarRendimientoAsesor(filtro);
+                if (!cancelled) setDatos(response);
+            } catch (error) {
+                if (!cancelled) console.log(error);
+            } finally {
+                if (!cancelled) setLoading(false);
+            }
+        };
+        fetchData();
+        return () => {
+            cancelled = true;
+        };
     }, [filtro]);
 
-    useEffect(() => {
-        setResultado(transformarDatosASucursalPorSemanas(datos));
+    // Resultado derivado y memoizado
+    const resultado = useMemo<SucursalPorSemanas[] | undefined>(() => {
+        if (!datos || datos.length === 0) return [];
+        return transformarDatosASucursalPorSemanas(datos);
     }, [datos]);
-
-    const listarRendimiento = async () => {
-        try {
-            setLoading(true);
-            const response = await listarRendimientoAsesor(filtro);
-            setDatos(response);
-            setLoading(false);
-        } catch (error) {
-            setLoading(false);
-            console.log(error);
-        }
-    };
 
     const calcularTotales = (numeros: number[]): number => {
         return Number(numeros.reduce((acumulador, numero) => acumulador + numero, 0).toFixed(2));
@@ -98,8 +103,8 @@ export const RendimientoSemanal = () => {
                                 mb: 3,
                             }}
                         >
-                            <Box>
-                                <Typography variant="h4" fontWeight={800} gutterBottom color="#353f4f" sx={{ textAlign: "center", textTransform: "uppercase" }}>
+                            <Box >
+                                <Typography variant="h5" fontWeight={800} gutterBottom color="#353f4f" sx={{ textAlign: "center", textTransform: "uppercase" }}>
                                     Rendimiento Semanal
                                 </Typography>
                             </Box>
@@ -108,10 +113,17 @@ export const RendimientoSemanal = () => {
                         {/*Aqui tiene que estar los KPI*/}
                         {/* Tabla de desempeño detallado */}
 
+                        {/* Estado vacío */}
+                        {(!resultado || resultado.length === 0) && (
+                            <Box sx={{ py: 8, textAlign: 'center', color: 'text.secondary' }}>
+                                <Typography variant="subtitle1">No hay datos para los filtros seleccionados.</Typography>
+                            </Box>
+                        )}
+
                         {resultado?.map((data: SucursalPorSemanas) => (
                             <div key={data.sucursal}  >
                                 <Typography variant="h6" fontWeight={700} style={{ marginTop: 16, backgroundColor: "#a9fce8", padding: 16, borderRadius: 16, alignItems: "center", display: "flex", justifyContent: "center", width: "100%", textAlign: "center", color: "#093d30" }}>
-                                    {data.sucursal}
+                                    {data.sucursal} 
                                 </Typography>
 
                                 {data.semanas.map((semana: SemanaDatos) => (
@@ -131,8 +143,8 @@ export const RendimientoSemanal = () => {
                                             }
                                         />
                                         <CardContent>
-                                            <Box sx={{ overflowX: "auto" }}>
-                                                <Table size="small" aria-label="tabla-semanal">
+                                            <TableContainer sx={{ overflowX: 'auto' }}>
+                                                <Table size="small" aria-label="tabla-semanal" sx={{ minWidth: 'max-content' }}>
                                                     <TableHead>
                                                         <TableRow sx={{ "& th": { fontWeight: 700, fontSize: 14 } }}>
                                                             <TableCell sx={{ textTransform: "uppercase" }}>
@@ -140,8 +152,8 @@ export const RendimientoSemanal = () => {
                                                             </TableCell>
                                                             {/* Nombres de asesores */}
                                                             {semana.asesores.map((asesor: AsesorSemanal) => (
-                                                                <TableCell align="center" sx={{ minWidth: 88 }}>
-                                                                    <div key={asesor.idAsesor}>{asesor.asesor}</div>
+                                                                <TableCell key={asesor.idAsesor} align="center" sx={{ minWidth: 88 }}>
+                                                                    {asesor.asesor}
                                                                 </TableCell>
                                                             ))}
                                                             <TableCell
@@ -165,10 +177,8 @@ export const RendimientoSemanal = () => {
                                                                 Monto total ventas
                                                             </TableCell>
                                                             {semana.asesores.map((asesor: AsesorSemanal) => (
-                                                                <TableCell align="center" sx={{ minWidth: 88 }}>
-                                                                    <div key={asesor.idAsesor}>
-                                                                        {formatearMoneda(asesor.montoTotalVentasSemanal)}
-                                                                    </div>
+                                                                <TableCell key={asesor.idAsesor} align="center" sx={{ minWidth: 88 }}>
+                                                                    {formatearMoneda(asesor.montoTotalVentasSemanal)}
                                                                 </TableCell>
                                                             ))}
                                                             <TableCell
@@ -181,8 +191,8 @@ export const RendimientoSemanal = () => {
                                                                 align="center"
                                                                 sx={{ fontWeight: 700, bgcolor: "#e5f7dd" }}
                                                             >
-                                                                {/*metasSemanales.advisors*/}
-                                                                {formatearMoneda((data.metaMonto / data.metaTicket))}
+                                                                {/* meta semanal monto */}
+                                                                {formatearMoneda(division(data.metaMonto, data.diasComerciales) * 6)}
                                                             </TableCell>
                                                         </TableRow>
                                                         {/* Atenciones */}
@@ -191,10 +201,8 @@ export const RendimientoSemanal = () => {
                                                                 Atenciones
                                                             </TableCell>
                                                             {semana.asesores.map((asesor: AsesorSemanal) => (
-                                                                <TableCell align="center" sx={{ minWidth: 88 }}>
-                                                                    <div key={asesor.idAsesor}>
-                                                                        {asesor.atencionesSemanal}
-                                                                    </div>
+                                                                <TableCell key={asesor.idAsesor} align="center" sx={{ minWidth: 88 }}>
+                                                                    {asesor.atencionesSemanal}
                                                                 </TableCell>
                                                             ))}
                                                             <TableCell
@@ -216,10 +224,8 @@ export const RendimientoSemanal = () => {
                                                                 Cantidad de tickets
                                                             </TableCell>
                                                             {semana.asesores.map((asesor: AsesorSemanal) => (
-                                                                <TableCell align="center" sx={{ minWidth: 88 }}>
-                                                                    <div key={asesor.idAsesor}>
-                                                                        {asesor.ticketSemanal}
-                                                                    </div>
+                                                                <TableCell key={asesor.idAsesor} align="center" sx={{ minWidth: 88 }}>
+                                                                    {asesor.ticketSemanal}
                                                                 </TableCell>
                                                             ))}
                                                             <TableCell
@@ -232,8 +238,8 @@ export const RendimientoSemanal = () => {
                                                                 align="center"
                                                                 sx={{ fontWeight: 700, bgcolor: "#e5f7dd" }}
                                                             >
-                                                                {/*metasSemanales.advisors*/}
-                                                                {(data.metaTicket / data.diasComerciales * 6).toFixed(0)}
+                                                                {/* meta semanal tickets */}
+                                                                {(division(data.metaTicket, data.diasComerciales) * 6).toFixed(0)}
                                                             </TableCell>
                                                         </TableRow>
                                                         {/* Ticket Promedio */}
@@ -242,23 +248,25 @@ export const RendimientoSemanal = () => {
                                                                 Ticket promedio
                                                             </TableCell>
                                                             {semana.asesores.map((asesor: AsesorSemanal) => (
-                                                                <TableCell align="center" sx={{ minWidth: 88 }}>
-                                                                    <div key={asesor.idAsesor}>
-                                                                        {formatearMoneda(Number(ticketPromedio(asesor.ticketSemanal, asesor.montoTotalVentasSemanal)))}
-                                                                    </div>
+                                                                <TableCell key={asesor.idAsesor} align="center" sx={{ minWidth: 88 }}>
+                                                                    {formatearMoneda(Number(ticketPromedio(asesor.ticketSemanal, asesor.montoTotalVentasSemanal)))}
                                                                 </TableCell>
                                                             ))}
                                                             <TableCell
                                                                 align="center"
                                                                 sx={{ fontWeight: 700, bgcolor: "#daf0e1" }}
                                                             >
-                                                                {/*totalesSemanales.asesores*/} {formatearMoneda(Number(calcularTotales(semana.asesores.map((asesor: AsesorSemanal) => Number(ticketPromedio(asesor.ticketSemanal, asesor.montoTotalVentasSemanal))))))}
+                                                                {/*totalesSemanales.asesores*/}
+                                                                {
+                                                                    formatearMoneda(division(semana.montoTotalVentasSemanalTotal || 0,(semana.ticketSemanalTotal || 0)))
+                                                                }
                                                             </TableCell>
                                                             <TableCell
                                                                 align="center"
                                                                 sx={{ fontWeight: 700, bgcolor: "#e5f7dd" }}
                                                             >
                                                                 {/*metasSemanales.advisors*/}
+                                                                {formatearMoneda(division(data.metaMonto, (division(data.metaTicket, data.diasComerciales) * 6)))}
                                                             </TableCell>
                                                         </TableRow>
                                                         {/* Tasa de conversion */}
@@ -267,24 +275,23 @@ export const RendimientoSemanal = () => {
                                                                 Tasa de conversion
                                                             </TableCell>
                                                             {semana.asesores.map((asesor: AsesorSemanal) => (
-                                                                <TableCell align="center" sx={{ minWidth: 88 }}>
-                                                                    <div key={asesor.idAsesor}>
-                                                                        {tasaDeConversion(asesor.ticketSemanal, asesor.atencionesSemanal)}
-                                                                    </div>
+                                                                <TableCell key={asesor.idAsesor} align="center" sx={{ minWidth: 88 }}>
+                                                                    {tasaDeConversion(asesor.ticketSemanal, asesor.atencionesSemanal)}
                                                                 </TableCell>
                                                             ))}
                                                             <TableCell
                                                                 align="center"
                                                                 sx={{ fontWeight: 700, bgcolor: "#daf0e1" }}
                                                             >
-                                                                {/*totalesSemanales.asesores*/}
-                                                                {calcularTotales(semana.asesores.map((asesor: AsesorSemanal) => Number(tasaDeConversion(asesor.ticketSemanal, asesor.atencionesSemanal))))}
+                                                                {/* totalesSemanales.asesores (guardas de división) */}
+                                                                {tasaDeConversion(semana.atencionesSemanalTotal || 0, (division(data.metaTicket, data.diasComerciales) * 6) || 0)} %
                                                             </TableCell>
                                                             <TableCell
                                                                 align="center"
                                                                 sx={{ fontWeight: 700, bgcolor: "#e5f7dd" }}
                                                             >
-                                                                {/*metasSemanales.advisors*/} 0
+                                                                {/*metasSemanales.advisors*/} 
+                                                                70 %
                                                             </TableCell>
                                                         </TableRow>
 
@@ -294,23 +301,23 @@ export const RendimientoSemanal = () => {
                                                                 Cantidad Total de Lentes
                                                             </TableCell>
                                                             {semana.asesores.map((asesor: AsesorSemanal) => (
-                                                                <TableCell align="center" sx={{ minWidth: 88 }}>
-                                                                    <div key={asesor.idAsesor}>
-                                                                        {asesor.cantidadLenteSemanal}
-                                                                    </div>
+                                                                <TableCell key={asesor.idAsesor} align="center" sx={{ minWidth: 88 }}>
+                                                                    {asesor.cantidadLenteSemanal}
                                                                 </TableCell>
                                                             ))}
                                                             <TableCell
                                                                 align="center"
                                                                 sx={{ fontWeight: 700, bgcolor: "#daf0e1" }}
                                                             >
-                                                                {/*totalesSemanales.asesores*/} {calcularTotales(semana.asesores.map((asesor: AsesorSemanal) => Number(asesor.cantidadLenteSemanal)))}
+                                                                {/*totalesSemanales.asesores*/} {/*calcularTotales(semana.asesores.map((asesor: AsesorSemanal) => Number(asesor.cantidadLenteSemanal)))*/}
+                                                                {semana.cantidadLenteSemanalTotal}
                                                             </TableCell>
                                                             <TableCell
                                                                 align="center"
                                                                 sx={{ fontWeight: 700, bgcolor: "#e5f7dd" }}
                                                             >
-                                                                {/*metasSemanales.advisors*/} 0
+                                                                {/*metasSemanales.advisors*/} 
+                                                                {(division(data.metaTicket, data.diasComerciales) * 6 * 0.9 ).toFixed(0)}
                                                             </TableCell>
                                                         </TableRow>
 
@@ -320,23 +327,22 @@ export const RendimientoSemanal = () => {
                                                                 Porcentaje Anti-Reflejo
                                                             </TableCell>
                                                             {semana.asesores.map((asesor: AsesorSemanal) => (
-                                                                <TableCell align="center" sx={{ minWidth: 88 }}>
-                                                                    <div key={asesor.idAsesor}>
-                                                                        {tasaDeConversion(asesor.antireflejoSemanal, asesor.ticketSemanal)}
-                                                                    </div>
+                                                                <TableCell key={asesor.idAsesor} align="center" sx={{ minWidth: 88 }}>
+                                                                    {tasaDeConversion(asesor.antireflejoSemanal, asesor.ticketSemanal)} %
                                                                 </TableCell>
                                                             ))}
                                                             <TableCell
                                                                 align="center"
                                                                 sx={{ fontWeight: 700, bgcolor: "#daf0e1" }}
                                                             >
-                                                                {/*totalesSemanales.asesores*/} {calcularTotales(semana.asesores.map((asesor: AsesorSemanal) => Number(tasaDeConversion(asesor.antireflejoSemanal, asesor.ticketSemanal))))}
+                                                                {/*totalesSemanales.asesores*/} {/*calcularTotales(semana.asesores.map((asesor: AsesorSemanal) => Number(tasaDeConversion(asesor.antireflejoSemanal, asesor.ticketSemanal))))*/}
+                                                                {tasaDeConversion(semana.antireflejoSemanalTotal || 0, (division(data.metaTicket, data.diasComerciales) * 6)|| 0)} %
                                                             </TableCell>
                                                             <TableCell
                                                                 align="center"
                                                                 sx={{ fontWeight: 700, bgcolor: "#e5f7dd" }}
                                                             >
-                                                                {/*metasSemanales.advisors*/} 95
+                                                                {/*metasSemanales.advisors*/} 95 %
                                                             </TableCell>
                                                         </TableRow>
 
@@ -349,17 +355,16 @@ export const RendimientoSemanal = () => {
                                                                 Porcentaje Progresivos
                                                             </TableCell>
                                                             {semana.asesores.map((asesor: AsesorSemanal) => (
-                                                                <TableCell align="center" sx={{ minWidth: 88 }}>
-                                                                    <div key={asesor.idAsesor}>
-                                                                        {tasaDeConversion(asesor.progresivosSemanal, asesor.ticketSemanal)}
-                                                                    </div>
+                                                                <TableCell key={asesor.idAsesor} align="center" sx={{ minWidth: 88 }}>
+                                                                    {tasaDeConversion(asesor.progresivosSemanal, asesor.ticketSemanal)} %
                                                                 </TableCell>
                                                             ))}
                                                             <TableCell
                                                                 align="center"
                                                                 sx={{ fontWeight: 700, bgcolor: "#daf0e1" }}
                                                             >
-                                                                {/*totalesSemanales.asesores*/} {calcularTotales(semana.asesores.map((asesor: AsesorSemanal) => Number(tasaDeConversion(asesor.progresivosSemanal, asesor.ticketSemanal))))}
+                                                                {/*totalesSemanales.asesores*/} {/*calcularTotales(semana.asesores.map((asesor: AsesorSemanal) => Number(tasaDeConversion(asesor.progresivosSemanal, asesor.ticketSemanal))))*/}
+                                                                {tasaDeConversion(semana.progresivosSemanalTotal || 0, (division(data.metaTicket, data.diasComerciales) * 6)|| 0)} %
                                                             </TableCell>
                                                             <TableCell
                                                                 align="center"
@@ -367,7 +372,7 @@ export const RendimientoSemanal = () => {
                                                             >
                                                                 {/*metasSemanales.advisors*/}
                                                                 {
-                                                                    data.sucursal.includes("OPTICENTRO") || data.sucursal.includes("SUCRE CENTRAL") ? 25 : 15
+                                                                    data.sucursal.includes("OPTICENTRO") || data.sucursal.includes("SUCRE  CENTRAL") ? "25 %" : "15 %" 
                                                                 }
 
                                                             </TableCell>
@@ -379,23 +384,22 @@ export const RendimientoSemanal = () => {
                                                                 Porcentaje segundos pares
                                                             </TableCell>
                                                             {semana.asesores.map((asesor: AsesorSemanal) => (
-                                                                <TableCell align="center" sx={{ minWidth: 88 }}>
-                                                                    <div key={asesor.idAsesor}>
-                                                                        {tasaDeConversion(asesor.segundoParSemanal, asesor.ticketSemanal)}
-                                                                    </div>
+                                                                <TableCell key={asesor.idAsesor} align="center" sx={{ minWidth: 88 }}>
+                                                                    {tasaDeConversion(asesor.segundoParSemanal, asesor.ticketSemanal)} %
                                                                 </TableCell>
                                                             ))}
                                                             <TableCell
                                                                 align="center"
                                                                 sx={{ fontWeight: 700, bgcolor: "#daf0e1" }}
                                                             >
-                                                                {/*totalesSemanales.asesores*/} {calcularTotales(semana.asesores.map((asesor: AsesorSemanal) => Number(tasaDeConversion(asesor.segundoParSemanal, asesor.ticketSemanal))))}
+                                                                {/*totalesSemanales.asesores*/} 
+                                                                {tasaDeConversion(semana.segundoParSemanalTotal || 0, (division(data.metaTicket, data.diasComerciales) * 6))} %
                                                             </TableCell>
                                                             <TableCell
                                                                 align="center"
                                                                 sx={{ fontWeight: 700, bgcolor: "#e5f7dd" }}
                                                             >
-                                                                {/*metasSemanales.advisors*/}
+                                                                {/*metasSemanales.advisors*/} 30%
                                                             </TableCell>
                                                         </TableRow>
 
@@ -405,23 +409,22 @@ export const RendimientoSemanal = () => {
                                                                 Porcentaje lentes de contacto
                                                             </TableCell>
                                                             {semana.asesores.map((asesor: AsesorSemanal) => (
-                                                                <TableCell align="center" sx={{ minWidth: 88 }}>
-                                                                    <div key={asesor.idAsesor}>
-                                                                        {tasaDeConversion(asesor.lcSemanal, asesor.ticketSemanal)}
-                                                                    </div>
+                                                                <TableCell key={asesor.idAsesor} align="center" sx={{ minWidth: 88 }}>
+                                                                    {tasaDeConversion(asesor.lcSemanal, asesor.ticketSemanal)} %
                                                                 </TableCell>
                                                             ))}
                                                             <TableCell
                                                                 align="center"
                                                                 sx={{ fontWeight: 700, bgcolor: "#daf0e1" }}
                                                             >
-                                                                {/*totalesSemanales.asesores*/} {calcularTotales(semana.asesores.map((asesor: AsesorSemanal) => Number(tasaDeConversion(asesor.lcSemanal, asesor.ticketSemanal))))}
+                                                                {/*totalesSemanales.asesores*/} 
+                                                                {tasaDeConversion(semana.lcSemanalTotal || 0 , (division(data.metaTicket, data.diasComerciales) * 6))} %
                                                             </TableCell>
                                                             <TableCell
                                                                 align="center"
                                                                 sx={{ fontWeight: 700, bgcolor: "#e5f7dd" }}
                                                             >
-                                                                {/*metasSemanales.advisors*/} 8
+                                                                {/*metasSemanales.advisors*/} 5%
                                                             </TableCell>
                                                         </TableRow>
 
@@ -431,10 +434,8 @@ export const RendimientoSemanal = () => {
                                                                 Entregados
                                                             </TableCell>
                                                             {semana.asesores.map((asesor: AsesorSemanal) => (
-                                                                <TableCell align="center" sx={{ minWidth: 88 }}>
-                                                                    <div key={asesor.idAsesor}>
-                                                                        {asesor.entregasSemanal}
-                                                                    </div>
+                                                                <TableCell key={asesor.idAsesor} align="center" sx={{ minWidth: 88 }}>
+                                                                    {asesor.entregasSemanal}
                                                                 </TableCell>
                                                             ))}
                                                             <TableCell
@@ -447,12 +448,13 @@ export const RendimientoSemanal = () => {
                                                                 align="center"
                                                                 sx={{ fontWeight: 700, bgcolor: "#e5f7dd" }}
                                                             >
-                                                                {/*metasSemanales.advisors*/} 0
+                                                                {/*metasSemanales.advisors*/} 
+                                                                {(division(data.metaTicket, data.diasComerciales) * 6).toFixed(0)}
                                                             </TableCell>
                                                         </TableRow>
                                                     </TableBody>
                                                 </Table>
-                                            </Box>
+                                            </TableContainer>
                                         </CardContent>
                                     </Card>
                                 ))}

@@ -4,12 +4,14 @@ import type { ResumenDiario } from "../interface/procesarDato.interface";
 export function procesarDatos(data: DataDiaria[]): ResumenDiario[] {
   const agrupado: { [fecha: string]: ResumenDiario } = {};
 
-  const PRODUCTOS: Array<
-    keyof Omit<
-      ResumenDiario,
-      "fecha" | "totalCantidad" | "totalImporte" | "totalTickets" | "totalPrecioPromedio" | "totalTicketsPromedio"
-    >
-  > = ["LENTE", "MONTURA", "GAFA", "LENTE DE CONTACTO", "SERVICIO"];
+  const PRODUCTOS = [
+    "LENTE",
+    "MONTURA",
+    "GAFA",
+    "LENTE DE CONTACTO",
+    "SERVICIO",
+  ] as const;
+  type ProductoKey = typeof PRODUCTOS[number];
 
   data.forEach((item) => {
     const { fecha, producto, cantidad, importe, ticket } = item;
@@ -30,10 +32,9 @@ export function procesarDatos(data: DataDiaria[]): ResumenDiario[] {
       };
     }
 
-    if (PRODUCTOS.includes(producto as any)) {
-      const prod = producto as keyof (typeof agrupado)[typeof fecha];
-
-      const resumenProducto = agrupado[fecha][prod] as any;
+    const productoKey = (producto || "").toUpperCase().trim() as ProductoKey;
+    if (PRODUCTOS.includes(productoKey)) {
+      const resumenProducto = agrupado[fecha][productoKey] as any;
 
       resumenProducto.cantidad += cantidad;
       resumenProducto.importe += importe;
@@ -42,9 +43,13 @@ export function procesarDatos(data: DataDiaria[]): ResumenDiario[] {
       agrupado[fecha].totalCantidad += cantidad;
       agrupado[fecha].totalImporte += importe;
       agrupado[fecha].totalTickets += ticket;
-      agrupado[fecha].totalPrecioPromedio += item.precioPromedio;
-      agrupado[fecha].totalTicketsPromedio += item.ticketPromedio;
     }
+  });
+
+  // Calcular promedios totales derivados (no suma de promedios)
+  Object.values(agrupado).forEach((r) => {
+    r.totalTicketsPromedio = r.totalTickets > 0 ? Number((r.totalImporte / r.totalTickets).toFixed(2)) : 0;
+    r.totalPrecioPromedio = r.totalCantidad > 0 ? Number((r.totalImporte / r.totalCantidad).toFixed(2)) : 0;
   });
 
   return Object.values(agrupado).sort(

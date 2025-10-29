@@ -66,6 +66,15 @@ export interface responseRendimiento<T> {
     fechaInicio: string; // formato: "YYYY-MM-DD"
     fechaFin: string; // formato: "YYYY-MM-DD"
     asesores: AsesorSemanal[];
+    antireflejoSemanalTotal?: number;
+    ticketSemanalTotal?: number;
+    atencionesSemanalTotal?: number;
+    cantidadLenteSemanalTotal?: number;
+    entregasSemanalTotal?: number;
+    lcSemanalTotal?: number;
+    montoTotalVentasSemanalTotal?: number;
+    progresivosSemanalTotal?: number;
+    segundoParSemanalTotal?: number;
   }
   
   export interface SucursalPorSemanas {
