@@ -24,7 +24,6 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { ListarAsesor } from "../components/ListarAsesor";
 import type {
   AsesorSeleccionadoI,
-  ErrorUser,
   UsuarioAsesor,
 } from "../interfaces/usuario.interface";
 import { crearUsuarios } from "../services/serviceUsuario";
@@ -37,9 +36,7 @@ export const RegistrarAsesoresPage = () => {
     formState: { errors },
     watch,
     setValue,
-    control,
   } = useForm<UsuarioAsesor>();
-  const [error, setError] = useState<any[]>([]);
   const [errorUser, setErrorUser] = useState<string>();
   const [showPassword, setShowPassword] = useState(false);
   const [asesorSelect, setAsesorSelect] = useState<AsesorSeleccionadoI>({
@@ -61,22 +58,18 @@ export const RegistrarAsesoresPage = () => {
     try {
       const response = await crearUsuarios(data);
       if (response?.status === 201) {
-        setError([]);
         setErrorUser("");
         toast.success("Usuario creado exitosamente");
         navigate("/asesor/usuarios");
       } else {
-        setError([]);
         toast.error("Error: " + response?.status);
       }
     } catch (err) {
-      console.log(err);
-      setError([]);
-      const e = err as AxiosError<ErrorUser>;
+      const e = err as AxiosError<any>;
       if (e.status === 400 && e.response?.data.errors)
-        setError(e.response.data.errors);
+        toast.error(e.response?.data.message);
       if (e.status === 409) setErrorUser("El usuario ya existe");
-      toast.error("Error al crear el usuario");
+      toast.error(e.response?.data.message);
     }
   };
 

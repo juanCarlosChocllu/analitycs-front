@@ -18,9 +18,7 @@ export const Home: React.FC = () => {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [isRegister, setIsRegister] = useState(false);
 
-  const handleInputChange = (field: keyof Usuario, value: string) => {
-    setProfile(prev => ({ ...prev, [field]: value }));
-  };
+  
 
   useEffect(() => {
     obtenerPerfil();
