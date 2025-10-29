@@ -181,7 +181,7 @@ export const menuItems: MenuItem[] = [
       },
       {
         text: "Resumen de Desempeño Semanal",
-        roles: ["ADMINISTRADOR"],
+      roles: ["ADMINISTRADOR", "GESTOR", "ASESOR"],
         icon: <Circle className="text-white w-3 h-3" />,
         link: "/rendimiento/semanal/asesor",
       },
