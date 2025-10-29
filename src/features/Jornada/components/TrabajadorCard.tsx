@@ -1,23 +1,23 @@
 import { useEffect, useState } from "react";
 import { CalendarioMes } from "./CalendarioMes";
-import { crearJornada, eliminarJornada } from "../service/jornadaService";
+import { crearJornada, } from "../service/jornadaService";
 import type { JornadaI } from "../interface/jornada";
 import toast from "react-hot-toast";
 import { useEstadoReload } from "../../app/zustand/estadosZustand";
 
+import { Jornadas } from "./Jornadas";
+
 interface TrabajadorProps {
   nombre: string;
-  color: string;
   ano: number;
   mesActual: number;
   asesor: string;
-  jornada: JornadaI;
+  jornada: JornadaI[];
   sucursal: string;
 }
 
 export const TrabajadorCard: React.FC<TrabajadorProps> = ({
   nombre,
-  color,
   ano,
   mesActual,
   asesor,
@@ -69,31 +69,7 @@ export const TrabajadorCard: React.FC<TrabajadorProps> = ({
     }
   }, [fechaInicio, fechaFin]);
 
-  const limpiarSeleccion = async () => {
-    if (jornada) {
-      setFechaInicio(null);
-      setFechaFin(null);
-      setModoSeleccion("inicio");
-      try {
-        const response = await eliminarJornada(jornada._id);
-        if (response.status === 200) {
-          triggerReload();
-          toast.error("eliminado");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (jornada) {
-      const f1 = new Date(jornada.fechaInicio);
-      const f2 = new Date(jornada.fechaFin);
-      setFechaInicio(f1);
-      setFechaFin(f2);
-    }
-  }, []);
+  
 
   let diasTrabajados = 0;
 
@@ -110,14 +86,11 @@ export const TrabajadorCard: React.FC<TrabajadorProps> = ({
     }
   }
 
-  const formatearFecha = (fecha: Date | null) => {
-    if (!fecha) return "---";
-    return fecha.toLocaleDateString("es-ES", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
-  };
+  const jornadasNormalizadas: JornadaI[] = jornada.map((j) => ({
+    ...j,
+    inicio: new Date(j.fechaInicio),
+    fin: new Date(j.fechaFin),
+  }));
 
   return (
     <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 hover:shadow-2xl transition-all duration-300">
@@ -125,14 +98,14 @@ export const TrabajadorCard: React.FC<TrabajadorProps> = ({
         <p className="font-bold text-gray-800 flex items-center gap-2">
           <span
             className="inline-block w-3 h-3 rounded-full"
-            style={{ backgroundColor: color }}
+            style={{ backgroundColor: '#06B6D4' }}
           ></span>
           {nombre}
         </p>
         <div className="text-right">
           <p className="text-xs text-gray-500">Días trabajados</p>
           <span className="text-2xl font-extrabold text-gray-800">
-            {diasTrabajados}
+            {jornada.reduce((acc, item) => item.diasLaborales + acc, 0)}
           </span>
         </div>
       </header>
@@ -140,31 +113,8 @@ export const TrabajadorCard: React.FC<TrabajadorProps> = ({
         <div className="text-xs text-gray-600 mb-2 flex justify-between items-center">
           {sucursal}
         </div>
-
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex-1 text-center">
-            <div className="text-xs text-gray-500">Inicio</div>
-            <div className="text-sm font-bold text-gray-800">
-              {formatearFecha(fechaInicio)}
-            </div>
-          </div>
-          <div className="text-gray-400">→</div>
-          <div className="flex-1 text-center">
-            <div className="text-xs text-gray-500">Fin</div>
-            <div className="text-sm font-bold text-gray-800">
-              {formatearFecha(fechaFin)}
-            </div>
-          </div>
-        </div>
-        {(fechaInicio || fechaFin) && (
-          <button
-            onClick={limpiarSeleccion}
-            className="mt-2 w-full text-xs text-red-600 hover:text-red-700 font-medium transition-colors"
-          >
-            ✕ Limpiar selección
-          </button>
-        )}
       </div>
+      <Jornadas jornada={jornada} />
 
       <div className="space-y-4">
         <CalendarioMes
@@ -172,10 +122,9 @@ export const TrabajadorCard: React.FC<TrabajadorProps> = ({
           mes={mesAnterior}
           fechaInicio={fechaInicio}
           fechaFin={fechaFin}
-          modoSeleccion={modoSeleccion}
           onClickDia={handleClickDia}
-          color={color}
-          jornada={jornada}
+        
+          jornadasMarcadas={jornadasNormalizadas}
         />
 
         <div className="border-t border-gray-200 pt-4">
@@ -184,10 +133,9 @@ export const TrabajadorCard: React.FC<TrabajadorProps> = ({
             mes={mesActual}
             fechaInicio={fechaInicio}
             fechaFin={fechaFin}
-            modoSeleccion={modoSeleccion}
             onClickDia={handleClickDia}
-            color={color}
-            jornada={jornada}
+  
+            jornadasMarcadas={jornadasNormalizadas}
           />
         </div>
       </div>

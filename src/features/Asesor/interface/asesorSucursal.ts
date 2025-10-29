@@ -8,6 +8,6 @@ export interface asesorSucursalI {
 export interface listarAsesorSucursal {
   _id: string;
   nombre: string;
-  jornada:JornadaI
+  jornada:JornadaI[]
       sucursal:string
 }
