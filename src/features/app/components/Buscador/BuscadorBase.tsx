@@ -26,6 +26,25 @@ import { Box } from "@mui/material";
 import { FiltroFecha } from "../FiltroFecha/FiltroFecha";
 import { RangoFecha } from "./RangoFecha";
 import { AutenticacionContext } from "../../context/AuntenticacionProvider";
+
+const tipoVentaDefecto: string[] = [
+  "68d6ec1640097b172ba86eb0",
+  "68d6eca140097b172ba8b893",
+];
+const filtroPorDefecto = [
+  {
+    path: [
+      "/listar/rendimiento/asesor",
+      "/rendimiento/semanal/asesor",
+      "/avance/metas/asesor",
+      "/avance/ventas/asesor",
+    ],
+    flagVenta: { Flag: "REALIZADAS", estado: true },
+    comision: true,
+    tipoVenta: tipoVentaDefecto,
+  },
+];
+
 export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
   const date = new Date();
   const { idEmpresa, rol, idSucursal } = useContext(AutenticacionContext);
@@ -66,10 +85,19 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
         setDisableTipoVenta(true);
       }
     } else {
+      const path = window.location.pathname;
       setEmpresa("TODAS");
-      setComisiona(true);
-      setFinalizadas(true);
-      setFlagVenta("FINALIZADO");
+      for (const item of filtroPorDefecto) {
+        if (item.path.includes(path)) {
+          setComisiona(item.comision);
+          setFlagVenta(item.flagVenta.Flag);
+          setRealizadas(item.flagVenta.estado);
+        } else {
+          setComisiona(true);
+          setFlagVenta("FINALIZADO");
+          setFinalizadas(true);
+        }
+      }
     }
   }, [idEmpresa]);
 
@@ -86,11 +114,13 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
   }, [idSucursal, sucursales]);
 
   useEffect(() => {
-    setTipoVentaSeleccionado([
-      "68d6ec1640097b172ba86eb0",
-      "68d6eca140097b172ba8b893",
-    ]);
-    onChangeTipoVenta(["68d6ec1640097b172ba86eb0", "68d6eca140097b172ba8b893"]);
+    for (const item of filtroPorDefecto) {
+      const path = window.location.pathname;
+      if (item.path.includes(path)) {
+        setTipoVentaSeleccionado(item.tipoVenta);
+        onChangeTipoVenta(item.tipoVenta);
+      }
+    }
   }, []);
 
   //--------------------
