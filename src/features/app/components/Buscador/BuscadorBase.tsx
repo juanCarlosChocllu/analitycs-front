@@ -90,7 +90,6 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
       setEmpresa("TODAS");
       for (const item of filtroPorDefecto) {
         if (item.path.includes(path)) {
-          
           setComisiona(item.comision);
           setFlagVenta(item.flagVenta.Flag);
           setRealizadas(item.flagVenta.estado);
