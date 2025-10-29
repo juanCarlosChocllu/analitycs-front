@@ -17,7 +17,7 @@ export const mostrarSucursal = async (): Promise<{
   sucursal: string;
 }> => {
   try {
-    const response = await analitycsV2.get("asesor/montrarScursalUsuario");
+    const response = await analitycsV2.get("asesor/montrarSucursalUsuario");
     return response.data;
   } catch (error) {
     throw error;

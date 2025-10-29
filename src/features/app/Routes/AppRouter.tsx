@@ -35,6 +35,7 @@ import { CotizacionPage } from "../../cotizacion/page/CotizacionPage";
 import { KpiProductoPage } from "../../Productos/page/KpiProductoPage";
 import { KpiMaterialPage } from "../../Lente/pages/KpiMaterialPage";
 import { JornadaPage } from "../../Jornada/page/JornadaPage";
+import { EditarAsesorPage } from "../../Usuario/pages/EditarAsesorPage";
 
 
 export const AppRouter = () => {
@@ -108,6 +109,7 @@ export const AppRouter = () => {
               <Route path="/kpi/material" element={<KpiMaterialPage />} />
               
                 <Route path="/crear/jornada" element={<JornadaPage />} />
+                       <Route path="/editarAsesor/:id" element={<EditarAsesorPage />} />
             </>
           )}
         </Route>
