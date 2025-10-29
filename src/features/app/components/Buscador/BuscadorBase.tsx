@@ -222,11 +222,7 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
                   {region === "BOLIVIA" ? (
                     <img src="/banderaBolivia.svg" alt="Bolivia" width={32} />
                   ) : (
-                    <img
-                      src="/banderaParaguay.svg"
-                      alt="Paraguay"
-                      width={32}
-                    />
+                    <img src="/banderaParaguay.svg" alt="Paraguay" width={32} />
                   )}
                 </div>
               )}

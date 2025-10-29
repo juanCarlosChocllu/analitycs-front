@@ -76,7 +76,7 @@ export const AvanceMetasAsesorPage = () => {
   };
 
   return (
-    <Box sx={{ padding: 3 }}>
+    <Box>
       <BuscadorBase setFiltro={setFiltro} filtro={filtro} />
 
       {loading ? (
