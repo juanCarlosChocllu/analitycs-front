@@ -5,10 +5,9 @@ interface CalendarioMesProps {
   mes: number;
   fechaInicio: Date | null;
   fechaFin: Date | null;
-  modoSeleccion: "inicio" | "fin";
   onClickDia: (dia: Date) => void;
   color: string;
-  jornada: JornadaI;
+  jornadasMarcadas: JornadaI[];
 }
 
 export const CalendarioMes: React.FC<CalendarioMesProps> = ({
@@ -18,7 +17,7 @@ export const CalendarioMes: React.FC<CalendarioMesProps> = ({
   fechaFin,
   onClickDia,
   color,
-  jornada,
+  jornadasMarcadas = [],
 }) => {
   const diasMes = generarDiasDelMes(ano, mes);
   const diasRellenoInicio = getDiasRellenoInicio(ano, mes);
@@ -28,6 +27,7 @@ export const CalendarioMes: React.FC<CalendarioMesProps> = ({
   const nombreMes = new Date(ano, mes).toLocaleString("es-ES", {
     month: "long",
   });
+
   const diasSemana = ["L", "M", "X", "J", "V", "S", "D"];
 
   return (
@@ -36,7 +36,6 @@ export const CalendarioMes: React.FC<CalendarioMesProps> = ({
         {nombreMes} {ano}
       </h4>
 
-      {/* Encabezado de días de la semana */}
       <div className="grid grid-cols-7 gap-1 mb-2">
         {diasSemana.map((dia) => (
           <div
@@ -48,7 +47,6 @@ export const CalendarioMes: React.FC<CalendarioMesProps> = ({
         ))}
       </div>
 
-      {/* Grid de días */}
       <div className="grid grid-cols-7 gap-1 text-xs">
         {todosDias.map((dia, idx) => {
           const diaStr = dia.toISOString().split("T")[0];
@@ -60,16 +58,33 @@ export const CalendarioMes: React.FC<CalendarioMesProps> = ({
             fechaFin && dia.toDateString() === fechaFin.toDateString();
           const enRango = estaDentroDelRango(dia, fechaInicio, fechaFin);
 
+          const estaEnJornadaMarcada =
+            Array.isArray(jornadasMarcadas) &&
+            jornadasMarcadas.some((j) => {
+              if (!j.fechaInicio || !j.fechaFin) return false;
+              const inicio = new Date(j.fechaInicio);
+              const fin = new Date(j.fechaFin);
+              if (isNaN(inicio.getTime()) || isNaN(fin.getTime())) return false;
+              return (
+                dia.getTime() >= inicio.getTime() &&
+                dia.getTime() <= fin.getTime()
+              );
+            });
+
           return (
             <button
               key={`${diaStr}-${idx}`}
-              onClick={() => esMesActual && onClickDia(dia)}
-              disabled={ !!jornada}
+              onClick={() =>
+                esMesActual && !estaEnJornadaMarcada && onClickDia(dia)
+              }
+              disabled={!esMesActual || estaEnJornadaMarcada}
               className={`py-2 rounded-md border text-center font-medium transition-all duration-150 relative ${
                 !esMesActual
                   ? "bg-gray-50 text-gray-300 border-gray-100 cursor-not-allowed"
+                  : estaEnJornadaMarcada
+                  ? "bg-green-100 text-green-700 border-green-200 cursor-not-allowed opacity-60"
                   : esInicio || esFin
-                  ? `text-white border-transparent shadow-lg ring-2 ring-offset-1` // Mantener ring
+                  ? `text-white border-transparent shadow-lg ring-2 ring-offset-1`
                   : enRango
                   ? "text-white border-transparent"
                   : esFinDeSemana
@@ -80,11 +95,19 @@ export const CalendarioMes: React.FC<CalendarioMesProps> = ({
                 backgroundColor:
                   (esInicio || esFin || enRango) && esMesActual
                     ? color
+                    : estaEnJornadaMarcada
+                    ? `${color}33`
                     : undefined,
-                opacity: enRango && !esInicio && !esFin ? 0.7 : 1,
+                opacity:
+                  enRango && !esInicio && !esFin
+                    ? 0.7
+                    : estaEnJornadaMarcada
+                    ? 0.6
+                    : 1,
               }}
             >
               {dia.getDate()}
+
               {esInicio && (
                 <div className="absolute -top-1 -right-1 w-2 h-2 bg-green-400 rounded-full"></div>
               )}
@@ -103,14 +126,11 @@ const getDiasRellenoInicio = (ano: number, mes: number): Date[] => {
   const primerDia = new Date(ano, mes, 1);
   const diaSemana = primerDia.getDay();
   const diasRelleno: Date[] = [];
-
   const diasARellenar = diaSemana === 0 ? 6 : diaSemana - 1;
-
   for (let i = diasARellenar; i > 0; i--) {
     const fecha = new Date(ano, mes, 1 - i);
     diasRelleno.push(fecha);
   }
-
   return diasRelleno;
 };
 
@@ -118,18 +138,14 @@ const getDiasRellenoFin = (ano: number, mes: number): Date[] => {
   const ultimoDia = new Date(ano, mes + 1, 0);
   const diaSemana = ultimoDia.getDay();
   const diasRelleno: Date[] = [];
-
   const diasARellenar = diaSemana === 0 ? 0 : 7 - diaSemana;
-
   for (let i = 1; i <= diasARellenar; i++) {
     const fecha = new Date(ano, mes + 1, i);
     diasRelleno.push(fecha);
   }
-
   return diasRelleno;
 };
 
-// Función para verificar si una fecha está en un rango
 const estaDentroDelRango = (
   fecha: Date,
   inicio: Date | null,
