@@ -77,6 +77,7 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
   useEffect(() => {
     if (rol != "ADMINISTRADOR") {
       if (idEmpresa) {
+        const path = window.location.pathname;
         setEmpresa(idEmpresa);
         setRealizadas(true);
         setFlagVenta("REALIZADAS");
@@ -84,21 +85,19 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
         setDisableSucursal(true);
         setDisableTipoVenta(true);
         setComisiona(true);
-      }
-    } else {
-      const path = window.location.pathname;
-      setEmpresa("TODAS");
-      for (const item of filtroPorDefecto) {
-        if (item.path.includes(path)) {
-          setComisiona(item.comision);
-          setFlagVenta(item.flagVenta.Flag);
-          setRealizadas(item.flagVenta.estado);
-        } else {
-          setComisiona(true);
-          setFlagVenta("FINALIZADO");
-          setFinalizadas(true);
+        for (const item of filtroPorDefecto) {
+          if (item.path.includes(path)) {
+            setComisiona(item.comision);
+            setFlagVenta(item.flagVenta.Flag);
+            setRealizadas(item.flagVenta.estado);
+          }
         }
       }
+    } else {
+      setEmpresa("TODAS");
+      setComisiona(true);
+      setFlagVenta("FINALIZADO");
+      setFinalizadas(true);
     }
   }, [idEmpresa]);
 
@@ -115,6 +114,7 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
   }, [idSucursal, sucursales]);
 
   useEffect(() => {
+    ///filtro por defecto tipo venta
     for (const item of filtroPorDefecto) {
       const path = window.location.pathname;
       if (item.path.includes(path)) {
