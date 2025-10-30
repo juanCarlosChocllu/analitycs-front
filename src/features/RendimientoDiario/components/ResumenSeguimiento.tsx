@@ -1,7 +1,6 @@
 import React, { memo } from 'react';
 import { Box, Typography, LinearProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import type { PerformanceData } from '../../interface/RendimientoDiario';
-
+import type { PerformanceData } from '../interface/RendimientoDiario';
 
 
 const parsePercentage = (percentageString: string): number => {
@@ -10,7 +9,7 @@ const parsePercentage = (percentageString: string): number => {
 
 
 
-const ResumenSeguimiento: React.FC<{ data: PerformanceData }> = ({ data }) => {
+export const ResumenSeguimiento: React.FC<{ data: PerformanceData }> = ({ data }) => {
   const avanceVentasValue = parsePercentage(data.avanceVentas);
   const avanceEntregasValue = parsePercentage(data.avanceEntregas);
 

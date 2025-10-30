@@ -10,7 +10,7 @@ import {
   Typography,
   Box,
 } from "@mui/material";
-import type { VentasDetallaeMetas } from "../../interface/RendimientoDiario";
+import type { VentasDetallaeMetas } from "../interface/RendimientoDiario";
 
 
 const getMonday = (date: Date): Date => {
