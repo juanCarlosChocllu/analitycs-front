@@ -45,11 +45,15 @@ const filtroPorDefecto = [
   },
 ];
 
+const consultorios = ["OPTILAB", "VISUALHEALT"]
+const sucursalesConsultorios = ["OPTILAB", "CONSULTORIO", "POLICONSULTORIO"]
+
 export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
   const date = new Date();
   const { idEmpresa, rol, idSucursal } = useContext(AutenticacionContext);
 
   const [region, setRegion] = useState<string>("BOLIVIA");
+  const [tipoEmpresa, setTipoEmpresa] = useState<string>("OPTICA");
   const [empresas, setEmpresas] = useState<EmpresasI[]>([]);
   const [tipoVenta, setTipoVentas] = useState<TipoVentaI[]>([]);
   const [empresa, setEmpresa] = useState<string>("");
@@ -130,6 +134,7 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
     listarEmpresas();
     listarTipoVenta();
     localStorage.setItem("region", region);
+    localStorage.setItem("tipoEmpresa", tipoEmpresa);
     if (empresa && empresa !== "TODAS") {
       listarSucursal();
       setSucursalesSeleccionados([]);
@@ -140,12 +145,24 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
       setSucursalesSeleccionados([]);
       setTodasScursales([]);
     }
-  }, [empresa, region]);
+  }, [empresa, region, tipoEmpresa]);
 
   const listarEmpresas = async () => {
     try {
       const response = await getEmpresas();
-      setEmpresas(response);
+      if (tipoEmpresa === "OPTICA") {
+        setEmpresas(
+          response.filter(item =>
+            !consultorios.some(c => item.nombre.includes(c))
+          )
+        );
+      } else if (tipoEmpresa === "CONSULTORIO") {
+        setEmpresas(
+          response.filter(item =>
+            consultorios.some(c => item.nombre.includes(c))
+          )
+        );
+      }
     } catch (error) {
       console.log(error);
     }
@@ -173,6 +190,7 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
             response.filter((item) => item.nombre.includes(region))
           );
         }
+        
       }
     } catch (error) {
       console.log(error);
@@ -183,8 +201,19 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
     try {
       if (empresa) {
         const response = await listarTodasLasScursales();
-
-        setTodasScursales(response);
+        if (tipoEmpresa === "OPTICA") {
+          setTodasScursales(
+            response.filter(item =>
+              !sucursalesConsultorios.some(c => item.nombre.includes(c))
+            )
+          );
+        } else if (tipoEmpresa === "CONSULTORIO") {
+          setTodasScursales(
+            response.filter(item =>
+              sucursalesConsultorios.some(c => item.nombre.includes(c))
+            )
+          );
+        }
       }
     } catch (error) {
       console.log(error);
@@ -235,54 +264,97 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
   };
 
   return (
-    <div className="bg-gradient-to-br from-gray-50 to-gray-100">
+    <div >
       <div className="max-w-[95%] mx-auto">
         <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-3">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
             {/* Título */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 mb-4">
               <h2 className="text-xl font-semibold text-gray-900">
                 Filtros de Búsqueda
               </h2>
             </div>
 
-            {/* Región */}
-            <div className="flex items-center space-x-2">
-              {region && (
-                <div>
-                  {region === "BOLIVIA" ? (
-                    <img src="/banderaBolivia.svg" alt="Bolivia" width={32} />
-                  ) : (
-                    <img src="/banderaParaguay.svg" alt="Paraguay" width={32} />
-                  )}
-                </div>
-              )}
-              <FormControl fullWidth size="small" sx={{ width: "200px" }}>
-                <InputLabel id="region-label">Región</InputLabel>
-                <Select
-                  labelId="region-label"
-                  id="region"
-                  value={region}
-                  defaultValue="BOLIVIA"
-                  label="Región"
-                  onChange={(e) => setRegion(e.target.value)}
-                  renderValue={(selected) => selected}
-                >
-                  <MenuItem value="BOLIVIA">
-                    <em className="flex items-center gap-2">
-                      <img src="../banderaBolivia.svg" alt="" />
-                      BOLIVIA
-                    </em>
-                  </MenuItem>
-                  <MenuItem value="PARAGUAY">
-                    <em className="flex items-center gap-2">
-                      <img src="../banderaParaguay.svg" alt="" />
-                      PARAGUAY
-                    </em>
-                  </MenuItem>
-                </Select>
-              </FormControl>
+            <div className="md:flex items-center md:space-x-2 sm:items-start">
+              {/* Tipo de empresa */}
+              <div className="flex items-center space-x-2 mb-4">
+                {tipoEmpresa && (
+                  <div>
+                    {tipoEmpresa === "OPTICA" ? (
+                      <img src="/optica.svg" alt="Optica" width={32} />
+                    ) : (
+                      <img src="/consultorio.svg" alt="Consultorio" width={32} />
+                    )}
+                  </div>
+                )}
+                <FormControl fullWidth size="small" sx={{ width: "200px" }}>
+                  <InputLabel id="region-label">Tipo de Empresa</InputLabel>
+                  <Select
+                    labelId="region-label"
+                    id="region"
+                    value={tipoEmpresa}
+                    defaultValue="OPTICA"
+                    label="Tipo de Empresa"
+                    onChange={(e) => setTipoEmpresa(e.target.value)}
+                    renderValue={(selected) => selected}
+                  >
+                    <MenuItem value="OPTICA">
+                      <em className="flex items-center gap-2">
+                        <img src="../optica.svg" alt="" />
+                        OPTICA
+                      </em>
+                    </MenuItem>
+                    <MenuItem value="CONSULTORIO">
+                      <em className="flex items-center gap-2">
+                        <img src="../consultorio.svg" alt="" />
+                        CONSULTORIO
+                      </em>
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+
+              {/* Región */}
+              <div className="flex items-center space-x-2">
+                {region && (
+                  <div>
+                    {region === "BOLIVIA" ? (
+                      <img src="/banderaBolivia.svg" alt="Bolivia" width={32} />
+                    ) : (
+                      <img src="/banderaParaguay.svg" alt="Paraguay" width={32} />
+                    )}
+                  </div>
+                )}
+                <FormControl fullWidth size="small" sx={{ width: "200px" }}>
+                  <InputLabel id="region-label">Región</InputLabel>
+                  <Select
+                    labelId="region-label"
+                    id="region"
+                    value={region}
+                    defaultValue="BOLIVIA"
+                    label="Región"
+                    onChange={(e) => setRegion(e.target.value)}
+                    renderValue={(selected) => selected}
+                  >
+                    <MenuItem value="BOLIVIA">
+                      <em className="flex items-center gap-2">
+                        <img src="../banderaBolivia.svg" alt="" />
+                        BOLIVIA
+                      </em>
+                    </MenuItem>
+                    <MenuItem value="PARAGUAY">
+                      <em className="flex items-center gap-2">
+                        <img src="../banderaParaguay.svg" alt="" />
+                        PARAGUAY
+                      </em>
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+
+
             </div>
+
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-4">

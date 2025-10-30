@@ -177,8 +177,8 @@ export const AvanceVentasPage = () => {
               {suc.sucursal}
             </Typography>
 
+            <ResumenSeguiminento data={resumenTotales(suc.data)} />
             <Box sx={{ overflowX: "auto" }}>
-              <ResumenSeguiminento data={resumenTotales(suc.data)} />
               <Table size="small">
                 <TableHead>
                   <TableRow sx={{ "& th": { backgroundColor: "#001638", color: "white" } }}>

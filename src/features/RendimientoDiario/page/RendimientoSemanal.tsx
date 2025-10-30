@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import {
     Box,
     Card,
@@ -24,8 +24,11 @@ import type { AsesorSemanal, SemanaDatos, SucursalData, SucursalPorSemanas } fro
 import { listarRendimientoAsesor } from "../service/RendimientoDiarioService";
 import { transformarDatosASucursalPorSemanas } from "../utils/procesarData";
 import { division, tasaDeConversion, ticketPromedio } from "../../app/util/ticketPromedio";
+import { AutenticacionContext } from "../../app/context/AuntenticacionProvider";
+
 
 export const RendimientoSemanal = () => {
+    const {rol} = useContext(AutenticacionContext)
     const [filtro, setFiltro] = useState<filtroBuscadorI>({});
     const [datos, setDatos] = useState<SucursalData[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
@@ -172,6 +175,7 @@ export const RendimientoSemanal = () => {
                                                     </TableHead>
                                                     <TableBody>
                                                         {/* Monto total ventas */}
+                                                        {rol === "ADMINISTRADOR" && (
                                                         <TableRow hover>
                                                             <TableCell sx={{ fontWeight: 600 }}>
                                                                 Monto total ventas
@@ -195,6 +199,7 @@ export const RendimientoSemanal = () => {
                                                                 {formatearMoneda(division(data.metaMonto, data.diasComerciales) * 6)}
                                                             </TableCell>
                                                         </TableRow>
+                                                        )}
                                                         {/* Atenciones */}
                                                         <TableRow hover>
                                                             <TableCell sx={{ fontWeight: 600 }}>
@@ -243,6 +248,7 @@ export const RendimientoSemanal = () => {
                                                             </TableCell>
                                                         </TableRow>
                                                         {/* Ticket Promedio */}
+                                                        {rol === "ADMINISTRADOR" && (
                                                         <TableRow hover>
                                                             <TableCell sx={{ fontWeight: 600 }}>
                                                                 Ticket promedio
@@ -269,6 +275,7 @@ export const RendimientoSemanal = () => {
                                                                 {formatearMoneda(division(data.metaMonto, (division(data.metaTicket, data.diasComerciales) * 6)))}
                                                             </TableCell>
                                                         </TableRow>
+                                                        )}
                                                         {/* Tasa de conversion */}
                                                         <TableRow hover>
                                                             <TableCell sx={{ fontWeight: 600 }}>
