@@ -16,6 +16,7 @@ import { listarRendimientoDiarioAsesor } from "../service/RendimientoDiarioServi
 import { RegistrarRendimientoDiarioModal } from "../modal/RegistrarRendimientoDiarioModal";
 import { mostrarEnDia } from "../utils/mostrarDia";
 import { EditarRendimientoDiarioModal } from "../modal/EditarRendimientoDiarioModal";
+import { Toaster } from "react-hot-toast";
 
 
 export const ListarRendimientoDiario = () => {
@@ -50,6 +51,7 @@ export const ListarRendimientoDiario = () => {
 
   return (
     <Box >
+      <Toaster position="top-center" reverseOrder={false} />
       <Typography
         variant="h6"
         gutterBottom

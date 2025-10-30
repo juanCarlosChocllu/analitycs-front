@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { obtenerCicloComercial } from "../../service/appService";
 import utc from "dayjs/plugin/utc";
 import type { AxiosError } from "axios";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 dayjs.locale("es");
 dayjs.extend(utc);
 interface ButtonConfig {
@@ -108,6 +108,7 @@ export const FiltroFecha = ({
 
   return (
     <div className="bg-white p-2 rounded-xl shadow-sm border lg:w-[40%] md:w-[70%] w-full">
+          <Toaster position="top-center" reverseOrder={false} />
       <div
         className="
       grid grid-cols-2 gap-2     
