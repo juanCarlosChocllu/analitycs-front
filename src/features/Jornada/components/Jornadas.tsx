@@ -21,6 +21,7 @@ export const Jornadas = ({ jornada }: { jornada: JornadaI[] }) => {
 
   return (
     <div className="mb-4">
+        
       <h4 className="font-semibold text-gray-800 text-xs uppercase tracking-wide mb-2">
         Jornadas registradas
       </h4>
