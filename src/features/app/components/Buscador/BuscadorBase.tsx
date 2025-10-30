@@ -300,13 +300,13 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
                   >
                     <MenuItem value="OPTICA">
                       <em className="flex items-center gap-2">
-                        <img src="../optica.svg" alt="" />
+                        <img src="../optica.svg" alt="" width={32} />
                         OPTICA
                       </em>
                     </MenuItem>
                     <MenuItem value="CONSULTORIO">
                       <em className="flex items-center gap-2">
-                        <img src="../consultorio.svg" alt="" />
+                        <img src="../consultorio.svg" alt="" width={32} />
                         CONSULTORIO
                       </em>
                     </MenuItem>
