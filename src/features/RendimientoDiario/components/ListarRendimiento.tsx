@@ -8,22 +8,22 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
-import { BuscadorBase } from "../../../app/components/Buscador/BuscadorBase";
-import type { filtroBuscadorI } from "../../../app/interfaces/BuscadorI";
-import { listarRendimientoAsesor } from "../../service/RendimientoDiarioService";
-import { mostrarEnDia } from "../../utils/mostrarDia";
+import { BuscadorBase } from "../../app/components/Buscador/BuscadorBase";
+import type { filtroBuscadorI } from "../../app/interfaces/BuscadorI";
+import { listarRendimientoAsesor } from "../service/RendimientoDiarioService";
+import { mostrarEnDia } from "../utils/mostrarDia";
 import {
   tasaDeConversion,
   ticketPromedio,
-} from "../../../app/util/ticketPromedio";
-import { Loader } from "../../../app/components/loader/Loader";
-import { porcentaje } from "../../../app/util/porcentaje";
+} from "../../app/util/ticketPromedio";
+import { Loader } from "../../app/components/loader/Loader";
+import { porcentaje } from "../../app/util/porcentaje";
 import type {
   ResultadoRendimientoDiarioI,
   VentaDetalleI,
-} from "../../interface/RendimientoDiario";
-import { ventasPordiaAsesor } from "../../utils/rendimientoUtil";
-import { AutenticacionContext } from "../../../app/context/AuntenticacionProvider";
+} from "../interface/RendimientoDiario";
+import { ventasPordiaAsesor } from "../utils/rendimientoUtil";
+import { AutenticacionContext } from "../../app/context/AuntenticacionProvider";
 
 export const ListarRendimiento = () => {
   const [filtro, setFiltro] = useState<filtroBuscadorI>({});
@@ -109,10 +109,10 @@ export const ListarRendimiento = () => {
                         const metaIndividual =
                           ((Math.round(
                             asesorItem.dias *
-                            ventasPordiaAsesor(
-                              asesorData.ventas,
-                              asesorData.metaTicket
-                            )
+                              ventasPordiaAsesor(
+                                asesorData.ventas,
+                                asesorData.metaTicket
+                              )
                           ) /
                             asesorData.diasComerciales) *
                             6) |
@@ -179,7 +179,11 @@ export const ListarRendimiento = () => {
                         const totalAtenciones = ventasOrdenadas.reduce(
                           (acc, v) => acc + v.atenciones,
                           0
-                        )
+                        );
+
+                        const totalMonto = ventasOrdenadas
+                          .reduce((acc, v) => acc + v.montoTotalVentas, 0)
+                          .toFixed(2);
                         return (
                           <div
                             key={semanaIdx}
@@ -255,13 +259,14 @@ export const ListarRendimiento = () => {
                                       ),
                                       total: totalTicket,
                                       meta: metaIndividual.toFixed(2),
-                                      cumplimiento: `${metaIndividual > 0
+                                      cumplimiento: `${
+                                        metaIndividual > 0
                                           ? (
-                                            (totalTicket / metaIndividual) *
-                                            100
-                                          ).toFixed(2)
+                                              (totalTicket / metaIndividual) *
+                                              100
+                                            ).toFixed(2)
                                           : 0
-                                        } %`,
+                                      } %`,
                                     },
                                     {
                                       label: "Lentes",
@@ -270,13 +275,14 @@ export const ListarRendimiento = () => {
                                       ),
                                       total: totalLente,
                                       meta: metaLentes,
-                                      cumplimiento: `${metaLentes > 0
+                                      cumplimiento: `${
+                                        metaLentes > 0
                                           ? (
-                                            (totalLente / metaLentes) *
-                                            100
-                                          ).toFixed(2)
+                                              (totalLente / metaLentes) *
+                                              100
+                                            ).toFixed(2)
                                           : 0
-                                        } %`,
+                                      } %`,
                                     },
                                     {
                                       label: "Entregas",
@@ -285,14 +291,15 @@ export const ListarRendimiento = () => {
                                       ),
                                       total: totalEntregadas,
                                       meta: metaIndividual.toFixed(2),
-                                      cumplimiento: `${metaIndividual > 0
+                                      cumplimiento: `${
+                                        metaIndividual > 0
                                           ? (
-                                            (totalEntregadas /
-                                              metaIndividual) *
-                                            100
-                                          ).toFixed(2)
+                                              (totalEntregadas /
+                                                metaIndividual) *
+                                              100
+                                            ).toFixed(2)
                                           : 0
-                                        } %`,
+                                      } %`,
                                     },
                                     {
                                       label: "Progresivos",
@@ -336,21 +343,21 @@ export const ListarRendimiento = () => {
                                         )
                                       )} %`,
                                     },
+
                                     {
                                       label: "Monto",
                                       values: ventasOrdenadas.map(
-                                        (v) => `Bs ${v.montoTotalVentas}`
+                                        (v) =>
+                                          `Bs ${v.montoTotalVentas.toLocaleString(
+                                            "en-US"
+                                          )}`
                                       ),
-                                      total:
-                                        "Bs " +
-                                        ventasOrdenadas
-                                          .reduce(
-                                            (acc, v) =>
-                                              acc + v.montoTotalVentas,
-                                            0
-                                          )
-                                          .toFixed(2),
-                                      meta: `${metaMontoIndividual} Bs`,
+                                      total: `Bs ${Number(
+                                        totalMonto || 0
+                                      ).toLocaleString("en-US")} `,
+                                      meta: `${metaMontoIndividual.toLocaleString(
+                                        "en-US"
+                                      )} Bs`,
                                     },
 
                                     {
@@ -396,18 +403,26 @@ export const ListarRendimiento = () => {
                                       label: "Ticket Promedio",
                                       values: ventasOrdenadas.map(
                                         (v) =>
-                                          `Bs ${ticketPromedio(
-                                            v.ticket,
-                                            v.montoTotalVentas
-                                          )}`
+                                          `Bs ${Number(
+                                            ticketPromedio(
+                                              v.ticket,
+                                              v.montoTotalVentas
+                                            ) || 0
+                                          ).toLocaleString("en-US")}`
                                       ),
-                                      total: `Bs ${totalTicketPromedio}`,
+                                      total: `Bs ${Number(
+                                        totalTicketPromedio || 0
+                                      ).toLocaleString("en-US")}`,
                                       meta: metaIndividualPrecioPromedio,
                                     },
                                     {
                                       label: "Tasa de conversión",
-                                      values: ventasOrdenadas.map((v) =>
-                                        `${tasaDeConversion(v.ticket, v.atenciones)} %`
+                                      values: ventasOrdenadas.map(
+                                        (v) =>
+                                          `${tasaDeConversion(
+                                            v.ticket,
+                                            v.atenciones
+                                          )} %`
                                       ),
                                       total: `${totalTasaconversion} %`,
                                       meta: `${metaTasaConversion} %`,
@@ -419,17 +434,23 @@ export const ListarRendimiento = () => {
                                     },
                                   ].map((row, i) => (
                                     <TableRow key={i}>
-                                      <TableCell>{row.label}</TableCell>
-                                      {row.values.map((value, j) => (
-                                        <TableCell key={j}>{value}</TableCell>
-                                      ))}
-                                      <TableCell>{row.total}</TableCell>
-                                      <TableCell>
-                                        {row.meta ? row.meta : 0}
-                                      </TableCell>
-                                      <TableCell>
-                                        {row.cumplimiento || 0}
-                                      </TableCell>
+                                      {(row.label === "Monto" ||
+                                        row.label === "Ticket Promedio") &&
+                                      rol !== "ADMINISTRADOR" ? null : (
+                                        <>
+                                          <TableCell>{row.label}</TableCell>
+                                          {row.values.map((value, j) => (
+                                            <TableCell key={j}>
+                                              {value}
+                                            </TableCell>
+                                          ))}
+                                          <TableCell>{row.total}</TableCell>
+                                          <TableCell>{row.meta || 0}</TableCell>
+                                          <TableCell>
+                                            {row.cumplimiento || 0}
+                                          </TableCell>
+                                        </>
+                                      )}
                                     </TableRow>
                                   ))}
                                 </TableBody>

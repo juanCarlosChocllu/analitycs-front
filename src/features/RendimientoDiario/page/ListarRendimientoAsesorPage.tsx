@@ -1,4 +1,4 @@
-import { ListarRendimiento } from "../components/administrador/ListarRendimiento"
+import { ListarRendimiento } from "../components/ListarRendimiento"
 
 export const ListarRendimientoAsesorPage = () => {
   return (

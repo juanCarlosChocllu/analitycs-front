@@ -9,9 +9,9 @@ import { listarAvanceVentas } from "../service/RendimientoDiarioService";
 import { BuscadorBase } from "../../app/components/Buscador/BuscadorBase";
 import dayjs from "dayjs";
 import type { SucursalTransformada } from "../interface/avanceVentas";
-import ResumenSeguimineto from "../components/resumen/ResumenSeguimiento";
-import { resumenTotales} from "../utils/rendimientoUtil";
 
+import { resumenTotales} from "../utils/rendimientoUtil";
+import ResumenSeguiminento from '../components/ResumenSeguimiento'
 
 
 export const AvanceVentasPage = () => {
@@ -178,7 +178,7 @@ export const AvanceVentasPage = () => {
             </Typography>
 
             <Box sx={{ overflowX: "auto" }}>
-              <ResumenSeguimineto data={resumenTotales(suc.data)} />
+              <ResumenSeguiminento data={resumenTotales(suc.data)} />
               <Table size="small">
                 <TableHead>
                   <TableRow sx={{ "& th": { backgroundColor: "#001638", color: "white" } }}>

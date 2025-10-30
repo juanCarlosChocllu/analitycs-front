@@ -91,8 +91,8 @@ export const RendimientoSemanal = () => {
                 <Loader />
             ) : (
                 <Box sx={{ minHeight: "100vh", bgcolor: "background.default", p: { xs: 2.5, md: 4 } }}>
-                    <Box sx={{ maxWidth: 1280, mx: "auto" }}>
-                        {/* Header */}
+                    <Box >
+                        
                         <Box
                             sx={{
                                 display: "flex",

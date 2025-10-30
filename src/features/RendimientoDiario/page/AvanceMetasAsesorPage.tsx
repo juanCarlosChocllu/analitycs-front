@@ -18,7 +18,7 @@ import {
   Button,
   Collapse,
 } from "@mui/material";
-import { DetalleAvanceMetaAsesor } from "../components/asesor/DetalleAvanceMetaAsesor";
+import { DetalleAvanceMetaAsesor } from "../components/DetalleAvanceMetaAsesor";
 import { TablaMetaHeader } from "../components/TablaMetaHeader";
 import { TablaMetasInformacion } from "../components/TablaMetasInformacion";
 import {

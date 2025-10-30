@@ -1,4 +1,4 @@
-import { ListarRendimientoDiario } from "../components/asesor/ListarRendimientoDiario"
+import { ListarRendimientoDiario } from "../components/ListarRendimientoDiario"
 
 export const RendimientoDiarioPage = () => {
   return (

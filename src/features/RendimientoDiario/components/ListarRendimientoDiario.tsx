@@ -11,12 +11,12 @@ import {
   Pagination,
   Box,
 } from "@mui/material";
+import type { RendimientoDiarioI } from "../interface/RendimientoDiario";
+import { listarRendimientoDiarioAsesor } from "../service/RendimientoDiarioService";
+import { RegistrarRendimientoDiarioModal } from "../modal/RegistrarRendimientoDiarioModal";
+import { mostrarEnDia } from "../utils/mostrarDia";
+import { EditarRendimientoDiarioModal } from "../modal/EditarRendimientoDiarioModal";
 
-import { RegistrarRendimientoDiarioModal } from "../../modal/RegistrarRendimientoDiarioModal";
-import { listarRendimientoDiarioAsesor } from "../../service/RendimientoDiarioService";
-import type { RendimientoDiarioI } from "../../interface/RendimientoDiario";
-import { mostrarEnDia } from "../../utils/mostrarDia";
-import { EditarRendimientoDiarioModal } from "../../modal/EditarRendimientoDiarioModal";
 
 export const ListarRendimientoDiario = () => {
   const date = new Date();
