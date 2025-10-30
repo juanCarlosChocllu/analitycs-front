@@ -1,4 +1,8 @@
-import { Button, Typography, Paper } from "@mui/material";
+import {
+  Button,
+  Paper,
+  CircularProgress,
+} from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";
 import { useForm } from "react-hook-form";
@@ -6,8 +10,12 @@ import { autenticacion2 } from "../service/autenticacionService";
 import type { autenticacion } from "../interface/autenticaicon";
 import toast, { Toaster } from "react-hot-toast";
 import type { AxiosError } from "axios";
+import { useState } from "react";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 export const Autenticacion = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -16,6 +24,7 @@ export const Autenticacion = () => {
 
   const onSubmit = async (data: autenticacion) => {
     try {
+      setLoading(true);
       const response = await autenticacion2(data);
       if (response.status === 200) {
         window.location.href = "/inicio";
@@ -27,38 +36,38 @@ export const Autenticacion = () => {
       } else {
         toast.error(e.message);
       }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 via-white to-blue-200 px-4">
       <Toaster position="top-center" reverseOrder={false} />
+
       <Paper
         elevation={10}
-        className="w-full max-w-md p-10 rounded-3xl shadow-2xl border border-blue-200 backdrop-blur-sm bg-white/80"
+        className="w-full max-w-md p-10 rounded-3xl shadow-2xl border border-blue-100 backdrop-blur-md bg-white/70"
         component="section"
         aria-labelledby="login-title"
       >
-        <header className="mb-8 text-center">
-          <Typography
+        <div className="text-center mb-8">
+          <h1
             id="login-title"
-            variant="h4"
-            component="h1"
-            className="font-bold text-blue-800 drop-shadow-sm"
+            className="text-3xl font-semibold text-blue-700 tracking-tight"
           >
-            Sistema de Analytics
-          </Typography>
-          <Typography variant="body1" className="text-gray-600 mt-1">
-            Ingresa tus credenciales para continuar
-          </Typography>
-        </header>
+            Bienvenido
+          </h1>
+          <p className="text-gray-500 mt-1">Inicia sesión para continuar</p>
+        </div>
 
         <form
           className="space-y-6"
           onSubmit={handleSubmit(onSubmit)}
           noValidate
         >
-          <div className="relative">
+          {/* Usuario */}
+          <div>
             <label
               htmlFor="username"
               className="block mb-1 text-sm font-medium text-gray-700"
@@ -66,9 +75,10 @@ export const Autenticacion = () => {
               Usuario
             </label>
             <div className="relative">
-              <span className="absolute inset-y-0 left-3 flex items-center text-gray-500 pointer-events-none">
-                <PersonIcon fontSize="small" />
-              </span>
+              <PersonIcon
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+                fontSize="small"
+              />
               <input
                 id="username"
                 type="text"
@@ -77,19 +87,21 @@ export const Autenticacion = () => {
                 })}
                 aria-invalid={errors.username ? "true" : "false"}
                 aria-describedby="username-error"
-                className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500
-                  ${errors.username ? "border-red-500" : "border-gray-300"}`}
+                className={`w-full pl-10 pr-4 py-2 border rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                  errors.username ? "border-red-500" : "border-gray-300"
+                }`}
                 placeholder="Ingresa tu usuario"
               />
-              {errors.username && (
-                <p id="username-error" className="mt-1 text-red-600 text-sm">
-                  {errors.username.message}
-                </p>
-              )}
             </div>
+            {errors.username && (
+              <p id="username-error" className="mt-1 text-red-600 text-sm">
+                {errors.username.message}
+              </p>
+            )}
           </div>
 
-          <div className="relative">
+          {/* Contraseña */}
+          <div>
             <label
               htmlFor="password"
               className="block mb-1 text-sm font-medium text-gray-700"
@@ -97,29 +109,45 @@ export const Autenticacion = () => {
               Contraseña
             </label>
             <div className="relative">
-              <span className="absolute inset-y-0 left-3 flex items-center text-gray-500 pointer-events-none">
-                <LockIcon fontSize="small" />
-              </span>
+              <LockIcon
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+                fontSize="small"
+              />
               <input
                 id="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 {...register("password", {
                   required: "La contraseña es obligatoria",
                 })}
                 aria-invalid={errors.password ? "true" : "false"}
                 aria-describedby="password-error"
-                className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500
-                  ${errors.password ? "border-red-500" : "border-gray-300"}`}
+                className={`w-full pl-10 pr-10 py-2 border rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                  errors.password ? "border-red-500" : "border-gray-300"
+                }`}
                 placeholder="Ingresa tu contraseña"
               />
-              {errors.password && (
-                <p id="password-error" className="mt-1 text-red-600 text-sm">
-                  {errors.password.message}
-                </p>
-              )}
+
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
+                aria-label="Mostrar u ocultar contraseña"
+              >
+                {showPassword ? (
+                  <VisibilityOff fontSize="small" />
+                ) : (
+                  <Visibility fontSize="small" />
+                )}
+              </button>
             </div>
+            {errors.password && (
+              <p id="password-error" className="mt-1 text-red-600 text-sm">
+                {errors.password.message}
+              </p>
+            )}
           </div>
 
+          {/* Botón */}
           <Button
             type="submit"
             fullWidth
@@ -128,20 +156,36 @@ export const Autenticacion = () => {
             variant="contained"
             sx={{
               borderRadius: 2,
-              px: 3,
-              py: 1.5,
-              fontWeight: 500,
-              textTransform: "none",
+              py: 1.4,
+              fontWeight: 600,
               fontSize: "1rem",
-              background: "linear-gradient(45deg, #2196F3 30%, #3F51B5 90%)",
-              boxShadow: "0 3px 5px 2px rgba(33, 203, 243, .3)",
+              textTransform: "none",
+              letterSpacing: "0.02em",
+              background: "linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)",
+              boxShadow: "0 4px 12px rgba(59,130,246,0.4)",
               "&:hover": {
-                background: "linear-gradient(45deg, #1976D2 30%, #303F9F 90%)",
+                background: "linear-gradient(135deg, #1E40AF 0%, #2563EB 100%)",
+                boxShadow: "0 6px 15px rgba(37,99,235,0.45)",
               },
             }}
           >
-            Ingresar
+            {loading ? (
+              <CircularProgress size={26} sx={{ color: "white" }} />
+            ) : (
+              "Ingresar"
+            )}
           </Button>
+
+          {/* Enlace adicional */}
+          <p className="text-center text-sm text-gray-500 mt-4">
+            ¿Olvidaste tu contraseña?{" "}
+            <a
+              href="#"
+              className="text-blue-600 hover:underline hover:text-blue-700 transition-colors"
+            >
+              Recuperar acceso
+            </a>
+          </p>
         </form>
       </Paper>
     </div>
