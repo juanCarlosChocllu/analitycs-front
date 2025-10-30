@@ -158,7 +158,7 @@ export function BuscadorKPI({ setFiltro }: FiltroBuscadorI) {
   };
 
   return (
-    <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-4">
+    <div >
       <div className="max-w-[95%] mx-auto">
         <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
           <div className="flex items-center justify-between mb-6">
