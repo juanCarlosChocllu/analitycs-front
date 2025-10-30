@@ -176,16 +176,6 @@ export const Autenticacion = () => {
             )}
           </Button>
 
-          {/* Enlace adicional */}
-          <p className="text-center text-sm text-gray-500 mt-4">
-            ¿Olvidaste tu contraseña?{" "}
-            <a
-              href="#"
-              className="text-blue-600 hover:underline hover:text-blue-700 transition-colors"
-            >
-              Recuperar acceso
-            </a>
-          </p>
         </form>
       </Paper>
     </div>
