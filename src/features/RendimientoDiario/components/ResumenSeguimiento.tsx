@@ -9,7 +9,7 @@ const parsePercentage = (percentageString: string): number => {
 
 
 
-export const ResumenSeguimiento: React.FC<{ data: PerformanceData }> = ({ data }) => {
+const ResumenSeguimiento: React.FC<{ data: PerformanceData }> = ({ data }) => {
   const avanceVentasValue = parsePercentage(data.avanceVentas);
   const avanceEntregasValue = parsePercentage(data.avanceEntregas);
 
