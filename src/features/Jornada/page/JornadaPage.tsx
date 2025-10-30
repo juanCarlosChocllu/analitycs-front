@@ -6,28 +6,29 @@ import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { useEstadoReload } from "../../app/zustand/estadosZustand";
 import { Loader } from "../../app/components/loader/Loader";
+import { Toaster } from "react-hot-toast";
 
 export function JornadaPage() {
   const fechaActual = new Date();
   const anoActual = fechaActual.getFullYear();
-  const mesActual = fechaActual.getMonth(); 
+  const mesActual = fechaActual.getMonth();
 
   const [asesores, setAsesores] = useState<listarAsesorSucursal[]>([]);
   const [nombre, setNombre] = useState<string>("");
   const [pagina, setPagina] = useState<number>(1);
   const [totalPaginas, setTotalPaginas] = useState<number>(1);
-   const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const { isReloading } = useEstadoReload();
-  
+
   const fetchAsesores = async (page: number, nombreBuscado: string) => {
     try {
-      setLoading(true)
+      setLoading(true);
       const response = await listarAsessorPorSucursal(page, nombreBuscado);
       setAsesores(response.data);
       setTotalPaginas(response.pagina);
-       setLoading(false)
+      setLoading(false);
     } catch (error) {
-      setLoading(false)
+      setLoading(false);
       console.log(error);
     }
   };
@@ -53,6 +54,7 @@ export function JornadaPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 p-6 sm:p-10">
+      <Toaster position="top-center" reverseOrder={false} />
       <div className="max-w-7xl mx-auto">
         <header className="mb-8 text-center">
           <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-2">
@@ -61,7 +63,7 @@ export function JornadaPage() {
           <p className="text-gray-600 mb-2">
             Período comercial:
             <span className="font-semibold text-gray-800 capitalize">
-               {nombreMesAnterior}
+              {nombreMesAnterior}
             </span>
             -
             <span className="font-semibold text-gray-800 capitalize">
@@ -109,7 +111,7 @@ export function JornadaPage() {
           />
         </Stack>
       </div>
-      {loading && <Loader/>}
+      {loading && <Loader />}
     </div>
   );
 }
