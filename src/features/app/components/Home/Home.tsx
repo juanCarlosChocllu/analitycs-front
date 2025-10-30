@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { User } from 'lucide-react';
 import { perfil } from '../../../Usuario/services/serviceUsuario';
 import type { Usuario } from '../../../Usuario/interfaces/usuario.interface';
 import { ModalHome } from './ModalHome';
 import { Box, Typography, Button, TextField, MenuItem } from '@mui/material';
 import toast, { Toaster } from 'react-hot-toast';
+import { AutenticacionContext } from '../../context/AuntenticacionProvider';
 
 export const Home: React.FC = () => {
+  const {rol}=useContext(AutenticacionContext)
   const [profile, setProfile] = useState<Usuario>({
     _id: '',
     nombre: '',
@@ -84,12 +86,14 @@ export const Home: React.FC = () => {
               </Box>
             </Box>
 
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            {
+              rol =='ADMINISTRADOR'&& <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
               <img src="logoAnaytics.svg" alt="Logo" style={{ width: 60, height: 60 }} />
               <Typography variant="h6" fontWeight={600}>
-                Anaytics
+                Analitycs
               </Typography>
             </Box>
+            }
           </Box>
         </Box>
 
