@@ -79,9 +79,8 @@ export const FiltroFecha = ({
             setFechaInicioComercial(response.fechaInicio);
             setFechaFinComercial(response.fechaFin);
 
-            const start = dayjs(response.fechaInicio).startOf("day");
-            const end = dayjs(response.fechaFin).endOf("day");
-
+           const start = dayjs.utc(response.fechaInicio).startOf("day");
+            const end = dayjs.utc(response.fechaFin).endOf("day");
             setFechaInicio(start);
             setFechaFin(end);
           } catch (error) {
@@ -108,7 +107,7 @@ export const FiltroFecha = ({
 
   return (
     <div className="bg-white p-2 rounded-xl shadow-sm border lg:w-[40%] md:w-[70%] w-full">
-          <Toaster position="top-center" reverseOrder={false} />
+      <Toaster position="top-center" reverseOrder={false} />
       <div
         className="
       grid grid-cols-2 gap-2     
