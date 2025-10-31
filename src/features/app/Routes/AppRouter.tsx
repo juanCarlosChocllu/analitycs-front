@@ -36,7 +36,8 @@ import { KpiProductoPage } from "../../Productos/page/KpiProductoPage";
 import { KpiMaterialPage } from "../../Lente/pages/KpiMaterialPage";
 import { JornadaPage } from "../../Jornada/page/JornadaPage";
 import { EditarAsesorPage } from "../../Usuario/pages/EditarAsesorPage";
-
+import { FacingPage } from "../../Facing/page/FacingPage";
+import { RegistrarFacing } from "../../Facing/page/RegistrarFacing";
 
 export const AppRouter = () => {
   const { isAuntenticacion } = useContext(AutenticacionContext);
@@ -107,9 +108,11 @@ export const AppRouter = () => {
               <Route path="/reporte/cotizacion" element={<CotizacionPage />} />
               <Route path="/kpi/producto" element={<KpiProductoPage />} />
               <Route path="/kpi/material" element={<KpiMaterialPage />} />
-              
-                <Route path="/crear/jornada" element={<JornadaPage />} />
-                       <Route path="/editarAsesor/:id" element={<EditarAsesorPage />} />
+              <Route path="/crear/jornada" element={<JornadaPage />} />
+              <Route path="/editarAsesor/:id" element={<EditarAsesorPage />} />
+              <Route path="/editarAsesor/:id" element={<EditarAsesorPage />} />
+              <Route path="/listar/facing" element={<FacingPage />} />
+              <Route path="/registrar/facing" element={<RegistrarFacing />} />
             </>
           )}
         </Route>

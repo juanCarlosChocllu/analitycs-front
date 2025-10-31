@@ -45,8 +45,8 @@ const filtroPorDefecto = [
   },
 ];
 
-const consultorios = ["OPTILAB", "VISUALHEALT"]
-const sucursalesConsultorios = ["OPTILAB", "CONSULTORIO", "POLICONSULTORIO"]
+const consultorios = ["OPTILAB", "VISUALHEALT"];
+const sucursalesConsultorios = ["OPTILAB", "CONSULTORIO", "POLICONSULTORIO"];
 
 export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
   const date = new Date();
@@ -97,11 +97,20 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
           }
         }
       }
-    } else {
+    } else { /// defecto administradores
       setEmpresa("TODAS");
-      setComisiona(true);
-      setFlagVenta("FINALIZADO");
-      setFinalizadas(true);
+      const path = window.location.pathname;
+      for (const item of filtroPorDefecto) {
+        if (item.path.includes(path)) {
+          setComisiona(item.comision);
+          setFlagVenta(item.flagVenta.Flag);
+          setRealizadas(item.flagVenta.estado);
+        } else {
+          setComisiona(true);
+          setFlagVenta("FINALIZADO");
+          setFinalizadas(true);
+        }
+      }
     }
   }, [idEmpresa]);
 
@@ -152,14 +161,14 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
       const response = await getEmpresas();
       if (tipoEmpresa === "OPTICA") {
         setEmpresas(
-          response.filter(item =>
-            !consultorios.some(c => item.nombre.includes(c))
+          response.filter(
+            (item) => !consultorios.some((c) => item.nombre.includes(c))
           )
         );
       } else if (tipoEmpresa === "CONSULTORIO") {
         setEmpresas(
-          response.filter(item =>
-            consultorios.some(c => item.nombre.includes(c))
+          response.filter((item) =>
+            consultorios.some((c) => item.nombre.includes(c))
           )
         );
       }
@@ -190,7 +199,6 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
             response.filter((item) => item.nombre.includes(region))
           );
         }
-        
       }
     } catch (error) {
       console.log(error);
@@ -203,14 +211,15 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
         const response = await listarTodasLasScursales();
         if (tipoEmpresa === "OPTICA") {
           setTodasScursales(
-            response.filter(item =>
-              !sucursalesConsultorios.some(c => item.nombre.includes(c))
+            response.filter(
+              (item) =>
+                !sucursalesConsultorios.some((c) => item.nombre.includes(c))
             )
           );
         } else if (tipoEmpresa === "CONSULTORIO") {
           setTodasScursales(
-            response.filter(item =>
-              sucursalesConsultorios.some(c => item.nombre.includes(c))
+            response.filter((item) =>
+              sucursalesConsultorios.some((c) => item.nombre.includes(c))
             )
           );
         }
@@ -264,7 +273,7 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
   };
 
   return (
-    <div >
+    <div>
       <div className="max-w-[95%] mx-auto">
         <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
@@ -283,7 +292,11 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
                     {tipoEmpresa === "OPTICA" ? (
                       <img src="/optica.svg" alt="Optica" width={32} />
                     ) : (
-                      <img src="/consultorio.svg" alt="Consultorio" width={32} />
+                      <img
+                        src="/consultorio.svg"
+                        alt="Consultorio"
+                        width={32}
+                      />
                     )}
                   </div>
                 )}
@@ -321,7 +334,11 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
                     {region === "BOLIVIA" ? (
                       <img src="/banderaBolivia.svg" alt="Bolivia" width={32} />
                     ) : (
-                      <img src="/banderaParaguay.svg" alt="Paraguay" width={32} />
+                      <img
+                        src="/banderaParaguay.svg"
+                        alt="Paraguay"
+                        width={32}
+                      />
                     )}
                   </div>
                 )}
@@ -351,10 +368,7 @@ export function BuscadorBase({ setFiltro }: FiltroBuscadorI) {
                   </Select>
                 </FormControl>
               </div>
-
-
             </div>
-
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-4">

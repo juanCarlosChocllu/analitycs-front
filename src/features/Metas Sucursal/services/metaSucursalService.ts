@@ -139,16 +139,15 @@ export const listarMetasScursales = async (
     fechaMetaInicio: string;
     fechaMetaFin: string;
   }>,
-  limit: number,
-  page: number
+  limite: number,
+  pagina: number
 ): Promise<any> => {
   const queryParams = Object.entries(params)
     .filter(([_, value]) => value)
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {
-      limit,
-      page,
+      limite,
+      pagina,
     });
-console.log(queryParams);
 
   try {
     const response = await analitycsV2.get('metas/sucursal', {

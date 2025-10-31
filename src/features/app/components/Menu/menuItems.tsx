@@ -158,6 +158,12 @@ export const menuItems: MenuItem[] = [
         icon: <Circle className="text-white w-3 h-3" />,
         link: "/listar/marca",
       },
+
+       {
+        text: "Facing",
+        icon: <Circle className="text-white w-3 h-3" />,
+        link: "/listar/facing",
+      },
       
     ],
   },
