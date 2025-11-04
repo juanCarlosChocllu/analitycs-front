@@ -26,7 +26,7 @@ export const Layout = () => {
 
     const permission = await Notification.requestPermission();
     if (permission === "granted") {
-      new Notification("¡Gracias por ingresar! 👋", {
+      new Notification("¡Bienvenido! 👋", {
         body: `Gracias por ingresar. El sistema está actualizado hasta el ${
           fecha ? dayjs(fecha[0].fechaDescarga).format("DD/MM/YYYY") : "..."
         }.`,
