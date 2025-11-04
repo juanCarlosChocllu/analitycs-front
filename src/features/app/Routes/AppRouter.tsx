@@ -36,7 +36,7 @@ import { KpiProductoPage } from "../../Productos/page/KpiProductoPage";
 import { KpiMaterialPage } from "../../Lente/pages/KpiMaterialPage";
 import { JornadaPage } from "../../Jornada/page/JornadaPage";
 import { EditarAsesorPage } from "../../Usuario/pages/EditarAsesorPage";
-import { FacingPage } from "../../Facing/page/FacingPage";
+import { ListarFacingPage } from "../../Facing/page/ListarFacingPage";
 import { RegistrarFacing } from "../../Facing/page/RegistrarFacing";
 
 export const AppRouter = () => {
@@ -111,7 +111,7 @@ export const AppRouter = () => {
               <Route path="/crear/jornada" element={<JornadaPage />} />
               <Route path="/editarAsesor/:id" element={<EditarAsesorPage />} />
               <Route path="/editarAsesor/:id" element={<EditarAsesorPage />} />
-              <Route path="/listar/facing" element={<FacingPage />} />
+              <Route path="/listar/facing" element={<ListarFacingPage />} />
               <Route path="/registrar/facing" element={<RegistrarFacing />} />
             </>
           )}

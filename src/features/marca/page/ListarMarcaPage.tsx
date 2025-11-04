@@ -23,7 +23,7 @@ export const ListarMarcaPage = () => {
   const [filtroNombre, setFiltroNombre] = useState<string>("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(20);
-   const [reload, setreload] = useState<boolean>(false)
+  const [reload, setreload] = useState<boolean>(false);
   useEffect(() => {
     listar();
   }, [reload]);
@@ -57,16 +57,15 @@ export const ListarMarcaPage = () => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0); 
+    setPage(0);
   };
 
-  
   return (
     <div style={{ padding: 20 }}>
       <Typography variant="h4" gutterBottom>
         Lista de Marcas
       </Typography>
-
+     {/* <Button onClick={()=> generarExcelMarca(marcas)}>Descargar excel</Button>*/ }
       <TextField
         label="Buscar por nombre"
         variant="outlined"
@@ -112,18 +111,19 @@ export const ListarMarcaPage = () => {
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
                       label="Age"
-                     onChange={async(event) => {
-                       try {
-                          const response =await asignarCategoria(event.target.value as string, marca._id)
-                          if(response){
-                            setreload(!reload)
+                      onChange={async (event) => {
+                        try {
+                          const response = await asignarCategoria(
+                            event.target.value as string,
+                            marca._id
+                          );
+                          if (response) {
+                            setreload(!reload);
                           }
-                          
                         } catch (error) {
-                        console.log(error);
-                        
-                       }
-                     }}
+                          console.log(error);
+                        }
+                      }}
                     >
                       <MenuItem value="VIP">VIP</MenuItem>
                       <MenuItem value="INTERMEDIA">INTERMEDIA</MenuItem>

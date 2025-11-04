@@ -11,6 +11,8 @@ import type { EmpresasI, SucursalI } from "../../app/interfaces/BuscadorI";
 import { useEstadoReload } from "../../app/zustand/estadosZustand";
 import type { AxiosError } from "axios";
 import toast from "react-hot-toast";
+import type { facingI } from "../interface/facing";
+import { registrarFacing } from "../service/facingService";
 
 export function RegistrarFacing() {
   const [marcas, setMarcas] = useState<MarcaI[]>([]);
@@ -27,7 +29,7 @@ export function RegistrarFacing() {
   const [categoriaFilter, setCategoriaFilter] = useState("");
   const [exhibicion, setExhibicion] = useState("");
   const [nuevaExhibicion, setNuevaExhibicion] = useState("");
-  const [facing, setFacing] = useState("");
+  const [facing, setFacing] = useState(1);
   const [mostrarNuevaExhibicion, setMostrarNuevaExhibicion] = useState(false);
 
   const itemsPerPage = 15;
@@ -80,16 +82,38 @@ export function RegistrarFacing() {
     }
   };
 
-  const handleSubmit = () => {
-    const data = {
-      exhibicion:'',
+  const handleSubmit  =async () => {
+
+    if(sucursalesSeleccionadas.length <= 0  ){
+      toast.error('Seleccione una sucursal')
+    }
+     if(marcaSeleccionadas.length <= 0  ){
+      toast.error('Seleccione las marcas ')
+    }
+    if(facing <= 0){
+        toast.error('El facing debe ser maroy a 0')
+    }
+    if(!exhibicion){
+       toast.error('Seleccione una exhibicion')
+    }
+    const data :facingI= {
+      exhibicion:exhibicion,
       sucursal:sucursalesSeleccionadas,
       marca:marcaSeleccionadas.map((item)=> item._id),
       cantidad:facing
     }
+    try {
+      const response = await registrarFacing(data)
+      if(response.status == 201){
+        toast.success('registrado')
+      }
+      
+    } catch (error) { 
+      console.log(error);
+      
+      
+    }
 
-    // Aquí usarías sucursalesSeleccionadas (array de IDs)
-    console.log("Sucursales seleccionadas:", data);
   };
 
   useEffect(() => {
@@ -305,9 +329,10 @@ export function RegistrarFacing() {
                   type="number"
                   className="w-full border-2 border-pink-200 bg-pink-50 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-pink-400 focus:border-pink-400 outline-none transition"
                   value={facing}
-                  onChange={(e) => setFacing(e.target.value)}
+                  onChange={(e) => setFacing(Number(e.target.value))}
                   min={1}
-                  placeholder="Ej: 3"
+                 
+                 
                 />
               </div>
 

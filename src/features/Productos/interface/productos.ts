@@ -13,7 +13,8 @@ export interface ProductoI {
   rubro: string;
   marca: string;
   cantidadVentas: number;
-  cantidadCotizaciones: number;
+  presupuesto: number;
+  facing:number
   categoria: string;
   stock: StockI[];
 }
@@ -22,7 +23,7 @@ export interface ProductoEmpresaI {
   rubro: string;
   marca: string;
   cantidadVentas: number;
-  cantidadCotizaciones: number;
+  presupuesto: number;
   categoria: string;
   cantidaStockSucursal: number;
   cantidadStockDeposito: number;
@@ -48,6 +49,7 @@ export interface categoriaAgrupadaI {
   ventaActual: number;
   ventasAnterior: number;
   presupuesto: number;
+  facing:number,
   stockSucursal: number;
   stockDeposito: number;
 }

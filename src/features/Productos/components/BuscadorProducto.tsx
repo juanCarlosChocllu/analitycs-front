@@ -25,24 +25,25 @@ import {
   getTipoVenta,
   listarTodasLasScursales,
 } from "../../app/service/appService";
-import MultiSelectBuscador, {
-} from "../../app/components/Buscador/SeleccionMultiple";
+import MultiSelectBuscador from "../../app/components/Buscador/SeleccionMultiple";
 import { RangoFecha } from "../../app/components/Buscador/RangoFecha";
 import { FiltroFecha } from "../../app/components/FiltroFecha/FiltroFecha";
 
 const tipoProductoArray = [
   { _id: "MONTURA", nombre: "MONTURA" },
-  { _id: "GAFA", nombre: "GAFA" },
-  { _id: "LENTE DE CONTACTO", nombre: "LENTE DE CONTACTO" },
+  { _id: "GAFA", nombre: "GAFA" } 
 ];
+
+const consultorios = ["OPTILAB", "VISUALHEALT"];
+const sucursalesConsultorios = ["OPTILAB", "CONSULTORIO", "POLICONSULTORIO"];
 
 export function BuscadorProductos({ setFiltro }: FiltroBuscadorI) {
   const date = new Date();
   const [region, setRegion] = useState<string>("BOLIVIA");
   const [empresas, setEmpresas] = useState<EmpresasI[]>([]);
   const [tipoVenta, setTipoVentas] = useState<TipoVentaI[]>([]);
-
-  const [empresa, setEmpresa] = useState<string>("");
+  const [tipoEmpresa, setTipoEmpresa] = useState<string>("OPTICA");
+  const [empresa, setEmpresa] = useState<string>("TODAS");
   const [sucursales, setSucursales] = useState<SucursalI[]>([]);
   const [todasSucursales, setTodasScursales] = useState<SucursalI[]>([]);
   const [fechaInicio, setFechaInicio] = useState<string>(formatFecha(date));
@@ -60,6 +61,12 @@ export function BuscadorProductos({ setFiltro }: FiltroBuscadorI) {
 
   const [tipoProducto, setTipoProdcuto] = useState<string[]>([]);
   const [flagVenta, setFlagVenta] = useState<string>("");
+
+  useEffect(() => {
+    setComisiona(true);
+    setRealizadas(true);
+    setFlagVenta("REALIZADAS");
+  }, []);
 
   useEffect(() => {
     listarEmpresas();
@@ -80,7 +87,19 @@ export function BuscadorProductos({ setFiltro }: FiltroBuscadorI) {
   const listarEmpresas = async () => {
     try {
       const response = await getEmpresas();
-      setEmpresas(response);
+      if (tipoEmpresa === "OPTICA") {
+        setEmpresas(
+          response.filter(
+            (item) => !consultorios.some((c) => item.nombre.includes(c))
+          )
+        );
+      } else if (tipoEmpresa === "CONSULTORIO") {
+        setEmpresas(
+          response.filter((item) =>
+            consultorios.some((c) => item.nombre.includes(c))
+          )
+        );
+      }
     } catch (error) {
       console.log(error);
     }
@@ -118,7 +137,20 @@ export function BuscadorProductos({ setFiltro }: FiltroBuscadorI) {
     try {
       if (empresa) {
         const response = await listarTodasLasScursales();
-        setTodasScursales(response);
+        if (tipoEmpresa === "OPTICA") {
+          setTodasScursales(
+            response.filter(
+              (item) =>
+                !sucursalesConsultorios.some((c) => item.nombre.includes(c))
+            )
+          );
+        } else if (tipoEmpresa === "CONSULTORIO") {
+          setTodasScursales(
+            response.filter((item) =>
+              sucursalesConsultorios.some((c) => item.nombre.includes(c))
+            )
+          );
+        }
       }
     } catch (error) {
       console.log(error);
@@ -134,7 +166,7 @@ export function BuscadorProductos({ setFiltro }: FiltroBuscadorI) {
     } else if (sucursalesSeleccionados.length > 0) {
       sucursalesFiltradas = sucursalesSeleccionados;
     }
-    
+
     const dataFilter: filtroBuscadorI = {
       sucursal: sucursalesFiltradas,
       fechaFin: fechaFin,
@@ -142,7 +174,10 @@ export function BuscadorProductos({ setFiltro }: FiltroBuscadorI) {
       flagVenta: flagVenta,
       tipoVenta: tipoVentaSelecionado,
       comisiona: !comisiona && !noComisiona ? null : comisiona ? true : false,
-      rubro: tipoProducto.length > 0 ? tipoProducto : tipoProductoArray.map((item)=> item._id)
+      rubro:
+        tipoProducto.length > 0
+          ? tipoProducto
+          : tipoProductoArray.map((item) => item._id),
     };
     setFiltro(dataFilter);
   };
@@ -183,6 +218,46 @@ export function BuscadorProductos({ setFiltro }: FiltroBuscadorI) {
               </h2>
             </div>
             <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 mb-4">
+                {tipoEmpresa && (
+                  <div>
+                    {tipoEmpresa === "OPTICA" ? (
+                      <img src="/optica.svg" alt="Optica" width={32} />
+                    ) : (
+                      <img
+                        src="/consultorio.svg"
+                        alt="Consultorio"
+                        width={32}
+                      />
+                    )}
+                  </div>
+                )}
+                <FormControl fullWidth size="small" sx={{ width: "200px" }}>
+                  <InputLabel id="region-label">Tipo de Empresa</InputLabel>
+                  <Select
+                    labelId="region-label"
+                    id="region"
+                    value={tipoEmpresa}
+                    defaultValue="OPTICA"
+                    label="Tipo de Empresa"
+                    onChange={(e) => setTipoEmpresa(e.target.value)}
+                    renderValue={(selected) => selected}
+                  >
+                    <MenuItem value="OPTICA">
+                      <em className="flex items-center gap-2">
+                        <img src="../optica.svg" alt="" width={32} />
+                        OPTICA
+                      </em>
+                    </MenuItem>
+                    <MenuItem value="CONSULTORIO">
+                      <em className="flex items-center gap-2">
+                        <img src="../consultorio.svg" alt="" width={32} />
+                        CONSULTORIO
+                      </em>
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
               {region && (
                 <div>
                   {region === "BOLIVIA" ? (
@@ -248,7 +323,7 @@ export function BuscadorProductos({ setFiltro }: FiltroBuscadorI) {
             </Box>
 
             <MultiSelectBuscador
-             disable={false}
+              disable={false}
               label="Sucursal:"
               value={sucursalesSeleccionados}
               onChange={(value: string[]) => findSucursalByNombre(value)}
@@ -258,7 +333,7 @@ export function BuscadorProductos({ setFiltro }: FiltroBuscadorI) {
             />
 
             <MultiSelectBuscador
-                disable={false}
+              disable={false}
               label="Tipo de venta:"
               value={tipoVentaSelecionado}
               onChange={(value: string[]) => onChangeTipoVenta(value)}
@@ -344,7 +419,7 @@ export function BuscadorProductos({ setFiltro }: FiltroBuscadorI) {
               />
             </FormGroup>
             <MultiSelectBuscador
-          disable={false}
+              disable={false}
               label="Producto"
               placeholder="seleccion un producto"
               onChange={(value) => {

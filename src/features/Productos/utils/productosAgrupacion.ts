@@ -14,13 +14,14 @@ export function agruparVentaProductosPorRubroYCategoria(
         presupuesto: number;
         stockSucursal: number;
         stockDeposito: number;
+        facing:number
       }
     >
   > = {};
 
   for (const item of dataAnterior) {
     for (const producto of item.productos) {
-      const { rubro, categoria, cantidadVentas } = producto;
+      const { rubro, categoria, cantidadVentas} = producto;
       if (!agrupado[rubro]) {
         agrupado[rubro] = {};
       }
@@ -29,17 +30,19 @@ export function agruparVentaProductosPorRubroYCategoria(
           ventaActual: 0,
           ventasAnterior: 0,
           presupuesto: 0,
+          facing:0,
           stockDeposito: 0,
           stockSucursal: 0,
         };
       }
       agrupado[rubro][categoria].ventasAnterior += cantidadVentas;
+
     }
   }
 
   for (const item of dataActual) {
     for (const producto of item.productos) {
-      const { rubro, categoria, cantidadVentas, stock, cantidadCotizaciones } = producto;
+      const { rubro, categoria, cantidadVentas, stock, presupuesto ,facing} = producto;
       if (!agrupado[rubro]) {
         agrupado[rubro] = {};
       }
@@ -50,11 +53,13 @@ export function agruparVentaProductosPorRubroYCategoria(
           presupuesto: 0,
           stockDeposito: 0,
           stockSucursal: 0,
+          facing:0
         };
       }
 
       agrupado[rubro][categoria].ventaActual += cantidadVentas;
-      agrupado[rubro][categoria].presupuesto += cantidadCotizaciones;
+      agrupado[rubro][categoria].presupuesto += presupuesto;
+       agrupado[rubro][categoria].facing += facing;
       if (stock && stock.length > 0) {
         for (const s of stock) {
           if (s.tipo === "ALMACEN") {

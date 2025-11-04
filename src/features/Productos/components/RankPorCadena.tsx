@@ -182,7 +182,7 @@ function agruparPorEmpresa(dataActual: ProductosStockI[]): DataEmpresaI[] {
           categoria: producto.categoria,
           marca: producto.marca,
           rubro: producto.rubro,
-          cantidadCotizaciones: 0,
+          presupuesto: 0,
           cantidadStockDeposito: 0,
           cantidaStockSucursal: 0,
         };

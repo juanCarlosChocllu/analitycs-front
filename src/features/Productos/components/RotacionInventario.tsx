@@ -45,7 +45,10 @@ export const RotacionInventario = ({ dataActual, dataAnterior }: { dataActual: P
           0
         );
         const totalStockTotal = totalStockSucursal + totalStockDeposito;
-
+        const totalFacing = rubroItem.categorias.reduce(
+          (acc, cat) => acc + cat.facing,
+          0
+        );
         return (
           <div key={rubroItem.rubro}>
             <Typography variant="subtitle1" sx={{ mt: 2, mb: 1 }}>
@@ -68,7 +71,7 @@ export const RotacionInventario = ({ dataActual, dataAnterior }: { dataActual: P
               <TableBody>
                 {rubroItem.categorias.map((item) => {
                   const stockTotal = item.stockSucursal + item.stockDeposito;
-
+              
                   return (
                     <TableRow key={item.categoria}>
                       <TableCell>{item.categoria || "Sin categoría"}</TableCell>
@@ -78,9 +81,9 @@ export const RotacionInventario = ({ dataActual, dataAnterior }: { dataActual: P
                       </TableCell>
 
                       {/* Placeholder: Facing */}
-                      <TableCell align="right">0</TableCell>
-                      <TableCell align="right">0</TableCell>
-                      <TableCell align="right">0</TableCell>
+                      <TableCell align="right">{item.facing}</TableCell>
+                      <TableCell align="right">     {porcentaje(item.facing, totalFacing)} %</TableCell>
+                      <TableCell align="right">{item.facing? (item.ventaActual/ item.facing).toFixed(2) : 0}</TableCell>
 
                       {/* Rotación total */}
                       <TableCell align="right">
@@ -104,9 +107,9 @@ export const RotacionInventario = ({ dataActual, dataAnterior }: { dataActual: P
                   <TableCell><strong>Total</strong></TableCell>
                   <TableCell align="right"><strong>{totalVentas}</strong></TableCell>
                   <TableCell align="right"><strong>100%</strong></TableCell>
-                  <TableCell align="right"><strong>0</strong></TableCell>
-                  <TableCell align="right"><strong>0</strong></TableCell>
-                  <TableCell align="right"><strong>0</strong></TableCell>
+                  <TableCell align="right"><strong>{totalFacing}</strong></TableCell>
+                  <TableCell align="right"><strong>100 % </strong></TableCell>
+                  <TableCell align="right"><strong>{totalFacing ?  (totalVentas/ totalFacing).toFixed(2) : 0} </strong></TableCell>
                   <TableCell align="right">
                     <strong>
                       {totalStockTotal > 0

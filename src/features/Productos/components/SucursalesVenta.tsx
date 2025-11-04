@@ -43,7 +43,7 @@ export const SucursalesVenta = ({
   },[isReloading])
 
   return (
-    <Box>
+    <Box  >
       {data.map((sucursalData) => (
         <Accordion key={sucursalData.sucursal} defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -63,6 +63,10 @@ export const SucursalesVenta = ({
 
               const totalStockSucursal = rubroData.categorias.reduce(
                 (acc, item) => acc + item.stockSucursal,
+                0
+              );
+              const facingTotal = rubroData.categorias.reduce(
+                (acc, item) => acc + item.facing,
                 0
               );
 
@@ -123,6 +127,7 @@ export const SucursalesVenta = ({
                             ? cat.ventasAnterior / totalVentaAnterior
                             : 0;
 
+                            
                           return (
                             <TableRow
                               key={cat.categoria}
@@ -159,10 +164,10 @@ export const SucursalesVenta = ({
                               <TableCell align="right">
                                 {cat.stockSucursal}
                               </TableCell>
-                              <TableCell align="right">0</TableCell>
-                              <TableCell align="right">0</TableCell>
-                              <TableCell align="right">0</TableCell>
-                              <TableCell align="right">0</TableCell>
+                              <TableCell align="right">{(cat.ventaActual / cat.stockSucursal).toFixed(2)}</TableCell>
+                              <TableCell align="right">{cat.facing}</TableCell>
+                              <TableCell align="right">{ cat.facing ?(cat.ventaActual / cat.facing).toFixed(2):0}</TableCell>
+                              <TableCell align="right">{cat.facing ?((cat.stockSucursal/cat.facing) -1).toFixed(2)  :0} %</TableCell>
                             </TableRow>
                           );
                         })}
@@ -197,22 +202,22 @@ export const SucursalesVenta = ({
                             %
                           </TableCell>
                           <TableCell align="right" sx={{ fontWeight: "bold" }}>
-                            0
+                            {(totalVentaActual / dias).toFixed(2)}
                           </TableCell>
                           <TableCell align="right" sx={{ fontWeight: "bold" }}>
                             {totalStockSucursal}
                           </TableCell>
                           <TableCell align="right" sx={{ fontWeight: "bold" }}>
-                            0
+                            {(totalVentaActual / totalStockSucursal).toFixed(2)}
                           </TableCell>
                           <TableCell align="right" sx={{ fontWeight: "bold" }}>
-                            0
+                            {facingTotal}
                           </TableCell>
                           <TableCell align="right" sx={{ fontWeight: "bold" }}>
-                            0
+                            { facingTotal ?(totalVentaActual / facingTotal).toFixed(2):0}
                           </TableCell>
                           <TableCell align="right" sx={{ fontWeight: "bold" }}>
-                            0
+                            {facingTotal ?((totalStockSucursal/facingTotal) -1).toFixed(2)  :0} %
                           </TableCell>
                         </TableRow>
                       </TableBody>
@@ -242,6 +247,7 @@ function agruparPorSucursal(
           ventaActual: number;
           ventasAnterior: number;
           presupuesto: number;
+          facing: number;
           stockSucursal: number;
           stockDeposito: number;
         }
@@ -268,11 +274,15 @@ function agruparPorSucursal(
           presupuesto: 0,
           stockSucursal: 0,
           stockDeposito: 0,
+          facing:0
         };
       }
 
       agrupado[sucursal][rubro][categoria].ventaActual +=
         producto.cantidadVentas;
+       agrupado[sucursal][rubro][categoria].facing +=
+        producto.facing; 
+
       if (producto && producto.stock.length > 0) {
         for (const s of producto.stock) {
           if (s.tipo === "ALMACEN") {
@@ -305,6 +315,7 @@ function agruparPorSucursal(
           presupuesto: 0,
           stockSucursal: 0,
           stockDeposito: 0,
+          facing:0
         };
       }
 
