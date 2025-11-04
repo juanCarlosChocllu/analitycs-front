@@ -10,15 +10,31 @@ export async function listarMarca(): Promise<MarcaI[]> {
     throw error;
   }
 }
-export async function asignarCategoria (categoria:string, marca:string):Promise<AxiosResponse>{
+export async function asignarCategoria(
+  categoria: string,
+  marca: string
+): Promise<AxiosResponse> {
   try {
-    const response = await analitycsV2.post("marca/categoria",{
+    const response = await analitycsV2.post("marca/categoria", {
       categoria,
-      marca
+      marca,
     });
     return response.data;
   } catch (error) {
-    throw error
-    
+    throw error;
+  }
+}
+
+export async function cargaMasivaCategoria(file: FormData):Promise<AxiosResponse> {
+  try {
+   
+    const response = await analitycsV2.post("marca/guardar/xlsx", file, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response;
+  } catch (error) {
+    throw error;
   }
 }

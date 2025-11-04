@@ -10,7 +10,7 @@ import { getEmpresas, getSucursalesPorEmpresa } from "../../app/service/appServi
 import type { EmpresasI, SucursalI } from "../../app/interfaces/BuscadorI";
 import { useEstadoReload } from "../../app/zustand/estadosZustand";
 import type { AxiosError } from "axios";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import type { facingI } from "../interface/facing";
 import { registrarFacing } from "../service/facingService";
 
@@ -148,7 +148,8 @@ export function RegistrarFacing() {
   }, [empresa]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 p-4 md:p-6">
+    <div className="min-h-screen from-purple-50 via-pink-50 to-blue-50 p-4 md:p-6">
+      <Toaster/>
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col lg:flex-row gap-6">
           <div className="flex-1 bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl p-6 border border-purple-100">

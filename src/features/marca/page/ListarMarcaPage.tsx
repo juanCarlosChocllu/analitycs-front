@@ -13,10 +13,13 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Button,
 } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import type { MarcaI } from "../interface/marcaInterface";
 import { asignarCategoria, listarMarca } from "../service/marcarService";
+import { generarExcelMarca } from "../utils/marcaUtil";
+import { CargarMasivaExcelModal } from "../modal/CargarMasivaExcelModal";
 
 export const ListarMarcaPage = () => {
   const [marcas, setMarcas] = useState<MarcaI[]>([]);
@@ -65,7 +68,8 @@ export const ListarMarcaPage = () => {
       <Typography variant="h4" gutterBottom>
         Lista de Marcas
       </Typography>
-     {/* <Button onClick={()=> generarExcelMarca(marcas)}>Descargar excel</Button>*/ }
+     <Button onClick={()=> generarExcelMarca(marcas)}>Descargar excel</Button> 
+     <CargarMasivaExcelModal/>
       <TextField
         label="Buscar por nombre"
         variant="outlined"
