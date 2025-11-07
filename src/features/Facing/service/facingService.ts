@@ -20,3 +20,28 @@ export async function listarFacing(filtro:buscadorFacingI): Promise<listarFacing
     throw error;
   }
 }
+
+
+
+export async function eliminarFacing(id:string): Promise<AxiosResponse> {
+  try {
+    const response = await analitycsV2.delete(`facing/${id}`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function cargaMasivaFacing(file: FormData):Promise<AxiosResponse> {
+  try {
+   
+    const response = await analitycsV2.post("facing/xlsx/carga/masiva", file, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
