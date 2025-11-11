@@ -1,3 +1,4 @@
+import type { AxiosResponse } from "axios";
 import { analitycsV2 } from "../../app/config/analitycsV2";
 import type {
   AsesorSinUsuario,
@@ -87,6 +88,21 @@ export async function obtenerUsuario(id: string):Promise<UsuarioAsesor> {
   try {
     const response = await analitycsV2.get(`usuarios/${id}`);
     return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+export async function cargaAsesorUsuario(file: FormData):Promise<AxiosResponse> {
+  try {
+   
+    const response = await analitycsV2.post("usuarios/asesorExcel", file, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response;
   } catch (error) {
     throw error;
   }

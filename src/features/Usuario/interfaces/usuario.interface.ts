@@ -53,6 +53,6 @@ export interface Asesor {
 export interface AsesorSinUsuario {
     _id:string,
     nombre:string,
-    sucursal:string,
+    sucursal:{idSucursal:string, nombre:string, idDetalle:string}[],
   
 }

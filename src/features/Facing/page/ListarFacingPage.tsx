@@ -80,8 +80,8 @@ export const ListarFacingPage = () => {
         <Typography variant="h5">Listado de Facing</Typography>
         <Box>
           <a href="/plantilla_facing.xlsx" target="_blank" rel="noopener noreferrer">
-  <Button>Plantilla</Button>
-</a>
+            <Button>Plantilla</Button>
+          </a>
           <CargarMasivaFacing />
           <Button
             variant="contained"

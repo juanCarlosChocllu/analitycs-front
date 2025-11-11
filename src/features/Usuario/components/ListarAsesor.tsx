@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import type { AsesorSeleccionadoI, AsesorSinUsuario } from "../interfaces/usuario.interface";
-import { extraerApellido, extraerNombre, generarUsuaurio } from "../utils/usuarioUtil";
+import { extraerApellido, extraerNombre, generarExcelUsuario, generarUsuaurio } from "../utils/usuarioUtil";
 import { listarAsesorVentas } from "../services/serviceUsuario";
+import { Button } from "@mui/material";
 
 export const ListarAsesor = ({
   asesoresSeleccionados,
@@ -33,12 +34,12 @@ export const ListarAsesor = ({
     }
   };
 
-  // Filtrado por nombre
+
   const asesoresFiltrados = asesores.filter((asesor) =>
     asesor.nombre.toLowerCase().includes(busqueda.toLowerCase())
   );
 
-  // Paginación
+
   const totalPaginas = Math.ceil(asesoresFiltrados.length / asesoresPorPagina);
   const indiceInicial = (paginaActual - 1) * asesoresPorPagina;
   const asesoresPaginados = asesoresFiltrados.slice(
@@ -73,8 +74,7 @@ export const ListarAsesor = ({
       <h2 className="text-xl font-bold text-blue-700 mb-4">
         Listado de Asesores
       </h2>
-
-      {/* Buscador */}
+      <Button onClick={()=> generarExcelUsuario(asesores)}>Descargar Asesores</Button>
       <div className="mb-4">
         <input
           type="text"
@@ -82,13 +82,13 @@ export const ListarAsesor = ({
           value={busqueda}
           onChange={(e) => {
             setBusqueda(e.target.value);
-            setPaginaActual(1); // Reinicia a la primera página al buscar
+            setPaginaActual(1);
           }}
           className="border border-gray-300 px-3 py-2 rounded-md w-full md:w-1/3 focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
       </div>
 
-      {/* Tabla */}
+
       <table className="min-w-full bg-white border border-gray-200 shadow-sm">
         <thead className="bg-blue-100 text-blue-800">
           <tr>
@@ -108,7 +108,7 @@ export const ListarAsesor = ({
                 />
               </td>
               <td className="py-2 px-4 border-b">{asesor.nombre}</td>
-              <td className="py-2 px-4 border-b">{asesor.sucursal}</td>
+              <td className="py-2 px-4 border-b">{asesor.sucursal.map((item)=> (<li>{item.nombre}</li>))}</td>
             </tr>
           ))}
 
@@ -122,7 +122,6 @@ export const ListarAsesor = ({
         </tbody>
       </table>
 
-      {/* Paginador compacto */}
       <div className="mt-4 flex items-center justify-center gap-1 flex-wrap">
         <button
           onClick={() => cambiarPagina(paginaActual - 1)}

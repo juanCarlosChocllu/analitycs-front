@@ -25,6 +25,7 @@ import { Pencil, PlusCircle, Trash2 } from "lucide-react";
 import { AsignarSucursalModal } from "../../Asesor/modal/AsignarSucursalModal";
 import { eliminarUsuarios, listarAsesores } from "../services/serviceUsuario";
 import { useNavigate } from "react-router";
+import { CargarAsesorModal } from "../modal/CargaAsesorModal";
 
 export const ListarAsesorPage = () => {
   const [reload, sertReload] = useState<boolean>(false);
@@ -69,8 +70,9 @@ export const ListarAsesorPage = () => {
           startIcon={<PlusCircle size={20} />}
           href="/asesor/registrar"
         >
-          Registrate
+          Registrar
         </Button>
+            <CargarAsesorModal/>
       </Box>
 
       <TableContainer>
