@@ -86,7 +86,7 @@ export async function generarExcelUsuario(data: AsesorSinUsuario[]) {
       key: "rol",
     },
   ];
-
+  
   for (const item of data) {
     const nombre = extraerNombre(item.nombre);
     const apellidos = extraerApellido(item.nombre);

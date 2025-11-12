@@ -1,4 +1,5 @@
 
+import type { AxiosResponse } from "axios"
 import { analitycsV2 } from "../../app/config/analitycsV2"
 import type { asesorSucursalI, listarAsesorSucursal } from "../interface/asesorSucursal"
 
@@ -13,6 +14,7 @@ export async function listarAsesorSucursal():Promise<asesorSucursalI[]>{
 }
 
 export async function listarAsesorSucursal2(usuario:string):Promise<asesorSucursalI[]>{
+
 
     
     try {
@@ -49,3 +51,11 @@ export async function listarAsessorPorSucursal(pagina:number, nombre:string):Pro
     
 }
 
+export async function nuevoDetalleAsesor(asesor:string, sucursal:string):Promise<AxiosResponse>{
+    try {
+        const response = await analitycsV2.get(`asesor/nuevoDetalle/${asesor}/${sucursal}`)
+        return response
+    } catch (error) {
+        throw error
+    }
+}

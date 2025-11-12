@@ -102,7 +102,7 @@ export async function cargaAsesorUsuario(file: FormData):Promise<AxiosResponse> 
         "Content-Type": "multipart/form-data",
       },
     });
-    return response;
+    return response;  
   } catch (error) {
     throw error;
   }
