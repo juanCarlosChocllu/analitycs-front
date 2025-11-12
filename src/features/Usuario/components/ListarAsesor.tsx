@@ -1,21 +1,53 @@
 import { useEffect, useState } from "react";
-import type { AsesorSeleccionadoI, AsesorSinUsuario } from "../interfaces/usuario.interface";
-import { extraerApellido, extraerNombre, generarExcelUsuario, generarUsuaurio } from "../utils/usuarioUtil";
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  TableContainer,
+  Paper,
+  Checkbox,
+  Radio,
+  Pagination,
+  Stack,
+  RadioGroup,
+  FormControlLabel,
+} from "@mui/material";
+import type {
+  AsesorSeleccionadoI,
+  AsesorSinUsuario,
+} from "../interfaces/usuario.interface";
+import {
+  extraerApellido,
+  extraerNombre,
+  generarExcelUsuario,
+  generarUsuaurio,
+} from "../utils/usuarioUtil";
 import { listarAsesorVentas } from "../services/serviceUsuario";
-import { Button } from "@mui/material";
 
 export const ListarAsesor = ({
-  asesoresSeleccionados,
   setAsesoresSeleccionados,
   setAsesorData,
+  setDetalleAsesorSeleccionado,
 }: {
-  asesoresSeleccionados: string;
   setAsesoresSeleccionados: (asesor: string) => void;
+  setDetalleAsesorSeleccionado: (asesor: string) => void;
   setAsesorData?: (data: AsesorSeleccionadoI) => void;
 }) => {
   const [asesores, setAsesores] = useState<AsesorSinUsuario[]>([]);
   const [busqueda, setBusqueda] = useState("");
   const [paginaActual, setPaginaActual] = useState(1);
+
+
+  const [detalleAsesor, setDetalleAsesor] = useState<{ [idAsesor: string]: string }>({});
+
+
+  const [asesorActivo, setAsesorActivo] = useState<string | null>(null);
 
   const asesoresPorPagina = 10;
 
@@ -26,19 +58,15 @@ export const ListarAsesor = ({
   const listar = async () => {
     try {
       const response = await listarAsesorVentas();
-
-      
       setAsesores(response);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
-
 
   const asesoresFiltrados = asesores.filter((asesor) =>
     asesor.nombre.toLowerCase().includes(busqueda.toLowerCase())
   );
-
 
   const totalPaginas = Math.ceil(asesoresFiltrados.length / asesoresPorPagina);
   const indiceInicial = (paginaActual - 1) * asesoresPorPagina;
@@ -47,125 +75,180 @@ export const ListarAsesor = ({
     indiceInicial + asesoresPorPagina
   );
 
-  const cambiarPagina = (nuevaPagina: number) => {
-    if (nuevaPagina >= 1 && nuevaPagina <= totalPaginas) {
-      setPaginaActual(nuevaPagina);
-    }
+  const cambiarPagina = (_: unknown, nuevaPagina: number) => {
+    setPaginaActual(nuevaPagina);
   };
 
+
   const toggleSeleccion = (id: string, nombre: string) => {
-    const nombreAsesor = extraerNombre(nombre.trim());
-    const apellidos = extraerApellido(nombre.trim());
-    const usuario = generarUsuaurio(nombreAsesor, apellidos);
-    if(setAsesorData){
-    setAsesorData({
-      nombres: nombreAsesor,
-      apellidos: apellidos,
-      usuario:usuario
-    });
-    }
-   
+
+    const nuevoSeleccionado = asesorActivo === id ? null : id;
+    setAsesorActivo(nuevoSeleccionado);
+
+    if (nuevoSeleccionado) {
+      const nombreAsesor = extraerNombre(nombre.trim());
+      const apellidos = extraerApellido(nombre.trim());
+      const usuario = generarUsuaurio(nombreAsesor, apellidos);
+
+      if (setAsesorData) {
+        setAsesorData({
+          nombres: nombreAsesor,
+          apellidos: apellidos,
+          usuario: usuario,
+        });
+      }
+
+
       setAsesoresSeleccionados(id);
+
+ 
+      if (detalleAsesor[id]) {
+        setDetalleAsesorSeleccionado(detalleAsesor[id]);
+      }
+    } else {
    
+      setAsesoresSeleccionados("");
+      setDetalleAsesorSeleccionado("");
+    }
   };
 
   return (
-    <div className="p-6">
-      <h2 className="text-xl font-bold text-blue-700 mb-4">
-        Listado de Asesores
-      </h2>
-      <Button onClick={()=> generarExcelUsuario(asesores)}>Descargar Asesores</Button>
-      <div className="mb-4">
-        <input
-          type="text"
-          placeholder="Buscar por nombre..."
-          value={busqueda}
-          onChange={(e) => {
-            setBusqueda(e.target.value);
-            setPaginaActual(1);
-          }}
-          className="border border-gray-300 px-3 py-2 rounded-md w-full md:w-1/3 focus:outline-none focus:ring-2 focus:ring-blue-400"
-        />
-      </div>
-
-
-      <table className="min-w-full bg-white border border-gray-200 shadow-sm">
-        <thead className="bg-blue-100 text-blue-800">
-          <tr>
-            <th className="py-2 px-4 border-b">Seleccionar</th>
-            <th className="py-2 px-4 border-b">Nombre</th>
-            <th className="py-2 px-4 border-b">Sucursal</th>
-          </tr>
-        </thead>
-        <tbody>
-          {asesoresPaginados.map((asesor) => (
-            <tr key={asesor._id} className="hover:bg-blue-50">
-              <td className="py-2 px-4 border-b text-center">
-                <input
-                  type="checkbox"
-                  checked={asesoresSeleccionados.includes(asesor._id)}
-                  onChange={() => toggleSeleccion(asesor._id, asesor.nombre)}
-                />
-              </td>
-              <td className="py-2 px-4 border-b">{asesor.nombre}</td>
-              <td className="py-2 px-4 border-b">{asesor.sucursal.map((item)=> (<li>{item.nombre}</li>))}</td>
-            </tr>
-          ))}
-
-          {asesoresPaginados.length === 0 && (
-            <tr>
-              <td colSpan={3} className="text-center py-4 text-gray-500">
-                No se encontraron asesores.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-
-      <div className="mt-4 flex items-center justify-center gap-1 flex-wrap">
-        <button
-          onClick={() => cambiarPagina(paginaActual - 1)}
-          disabled={paginaActual === 1}
-          className="px-2 py-1 bg-blue-100 text-blue-700 rounded disabled:opacity-50"
+    <Box sx={{ p: 4 }}>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        mb={2}
+      >
+        <Typography variant="h5" fontWeight="bold" color="primary">
+          Listado de Asesores
+        </Typography>
+        <Button
+          variant="contained"
+          color="success"
+          onClick={() => generarExcelUsuario(asesores)}
         >
-          ◀
-        </button>
+          Descargar Asesores
+        </Button>
+      </Stack>
 
-        {Array.from({ length: totalPaginas }, (_, i) => i + 1)
-          .filter(
-            (num) =>
-              Math.abs(num - paginaActual) <= 2 ||
-              num === 1 ||
-              num === totalPaginas
-          )
-          .map((num, index, array) => {
-            const prev = array[index - 1];
-            const isSkipped = prev && num - prev > 1;
-            return (
-              <span key={num}>
-                {isSkipped && <span className="px-1">...</span>}
-                <button
-                  onClick={() => cambiarPagina(num)}
-                  className={`px-3 py-1 rounded mx-0.5 ${
-                    num === paginaActual
-                      ? "bg-blue-500 text-white"
-                      : "bg-blue-100 text-blue-700"
-                  }`}
+      <TextField
+        fullWidth
+        label="Buscar por nombre..."
+        value={busqueda}
+        onChange={(e) => {
+          setBusqueda(e.target.value);
+          setPaginaActual(1);
+        }}
+        variant="outlined"
+        size="small"
+        sx={{ mb: 3 }}
+      />
+
+      <TableContainer component={Paper} elevation={3}>
+        <Table>
+          <TableHead>
+            <TableRow sx={{ backgroundColor: "primary.light" }}>
+              <TableCell
+                align="center"
+                sx={{ color: "white", fontWeight: "bold" }}
+              >
+                Seleccionar
+              </TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Nombre
+              </TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Sucursal
+              </TableCell>
+            </TableRow>
+          </TableHead>
+
+          <TableBody>
+            {asesoresPaginados.length > 0 ? (
+              asesoresPaginados.map((asesor) => {
+                const activo = asesorActivo === asesor._id;
+
+                return (
+                  <TableRow
+                    key={asesor._id}
+                    hover
+                    sx={{
+                      "&:hover": { backgroundColor: "action.hover" },
+                    }}
+                  >
+                    <TableCell align="center">
+                      <Checkbox
+                        checked={activo}
+                        onChange={() => toggleSeleccion(asesor._id, asesor.nombre)}
+                        color="primary"
+                      />
+                    </TableCell>
+
+                    <TableCell>{asesor.nombre}</TableCell>
+
+                    <TableCell>
+                      <RadioGroup
+                        value={detalleAsesor[asesor._id] || ""}
+                        onChange={(e) => {
+                          const sucursalSeleccionada = e.target.value;
+                          setDetalleAsesor((prev) => ({
+                            ...prev,
+                            [asesor._id]: sucursalSeleccionada,
+                          }));
+                          setDetalleAsesorSeleccionado(sucursalSeleccionada);
+                        }}
+                      >
+                        {asesor.sucursal.map((suc) => (
+                          <Stack
+                            key={suc.idDetalle}
+                            direction="row"
+                            alignItems="center"
+                            spacing={1}
+                          >
+                            <FormControlLabel
+                              value={suc.idDetalle}
+                              control={
+                                <Radio
+                                  color="secondary"
+                                  disabled={!activo} // 🔹 Solo se activan si el asesor está seleccionado
+                                />
+                              }
+                              label={suc.nombre}
+                            />
+                          </Stack>
+                        ))}
+                      </RadioGroup>
+                    </TableCell>
+                  </TableRow>
+                );
+              })
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={3}
+                  align="center"
+                  sx={{ color: "text.secondary" }}
                 >
-                  {num}
-                </button>
-              </span>
-            );
-          })}
+                  No se encontraron asesores.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
-        <button
-          onClick={() => cambiarPagina(paginaActual + 1)}
-          disabled={paginaActual === totalPaginas}
-          className="px-2 py-1 bg-blue-100 text-blue-700 rounded disabled:opacity-50"
-        >
-          ▶
-        </button>
-      </div>
-    </div>
+      <Stack direction="row" justifyContent="center" mt={3}>
+        <Pagination
+          count={totalPaginas}
+          page={paginaActual}
+          onChange={cambiarPagina}
+          color="primary"
+          shape="rounded"
+          showFirstButton
+          showLastButton
+        />
+      </Stack>
+    </Box>
   );
 };

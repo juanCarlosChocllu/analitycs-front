@@ -45,6 +45,7 @@ export const RegistrarAsesoresPage = () => {
     usuario: "",
   });
   const [asesores, setAsesores] = useState<string>("");
+  const [detalleAsesor, setDetalleAsesor] = useState<string>("");
   const rolSeleccionado = watch("rol");
 
   useEffect(() => {
@@ -54,15 +55,20 @@ export const RegistrarAsesoresPage = () => {
   }, [asesorSelect]);
 
   const onSubmit = async (data: UsuarioAsesor) => {
-    data.asesor = asesores;
     try {
-      const response = await crearUsuarios(data);
-      if (response?.status === 201) {
-        setErrorUser("");
-        toast.success("Usuario creado exitosamente");
-        navigate("/asesor/usuarios");
-      } else {
-        toast.error("Error: " + response?.status);
+      if (asesores && detalleAsesor) {
+        data.asesor = asesores;
+        data.detalleAsesor = detalleAsesor;
+        const response = await crearUsuarios(data);
+        if (response?.status === 201) {
+          setErrorUser("");
+          toast.success("Usuario creado exitosamente");
+          navigate("/asesor/usuarios");
+        } else {
+          toast.error("Error: " + response?.status);
+        }
+      }else{
+         toast.error('Ingrese todo los campos');
       }
     } catch (err) {
       const e = err as AxiosError<any>;
@@ -180,7 +186,7 @@ export const RegistrarAsesoresPage = () => {
       {(rolSeleccionado === "GESTOR" || rolSeleccionado === "ASESOR") && (
         <Box mt={4}>
           <ListarAsesor
-            asesoresSeleccionados={asesores}
+            setDetalleAsesorSeleccionado={setDetalleAsesor}
             setAsesoresSeleccionados={setAsesores}
             setAsesorData={setAsesorSelect}
           />

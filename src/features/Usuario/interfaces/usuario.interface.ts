@@ -19,7 +19,7 @@ export interface UsuarioAsesor {
     asesor:string
     rol: string;
     flag?: string;
-    
+    detalleAsesor:string
 }
 
 
