@@ -203,7 +203,7 @@ export const ListarAsesorPage = () => {
                 <TableCell>
                   <Chip
                     label={usuario.rol}
-                    color={usuario.rol === "ADMINISTRADOR" ? "success" : "warning"}
+                    color={usuario.rol === "GESTOR" ? "success" : "primary"}
                     size="small"
                   />
                 </TableCell>
