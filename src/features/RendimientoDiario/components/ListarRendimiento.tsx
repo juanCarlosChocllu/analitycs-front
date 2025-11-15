@@ -434,8 +434,8 @@ export const ListarRendimiento = () => {
                                     },
                                   ].map((row, i) => (
                                     <TableRow key={i}>
-                                      {(row.label === "Monto" ||
-                                        row.label === "Ticket Promedio") &&
+                                      {(row.label === "Monto" /*||
+                                        row.label === "Ticket Promedio"*/) &&
                                       rol !== "ADMINISTRADOR" ? null : (
                                         <>
                                           <TableCell>{row.label}</TableCell>

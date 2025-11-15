@@ -248,7 +248,6 @@ export const RendimientoSemanal = () => {
                                                             </TableCell>
                                                         </TableRow>
                                                         {/* Ticket Promedio */}
-                                                        {rol === "ADMINISTRADOR" && (
                                                         <TableRow hover>
                                                             <TableCell sx={{ fontWeight: 600 }}>
                                                                 Ticket promedio
@@ -275,7 +274,6 @@ export const RendimientoSemanal = () => {
                                                                 {formatearMoneda(division(data.metaMonto, (division(data.metaTicket, data.diasComerciales) * 6)))}
                                                             </TableCell>
                                                         </TableRow>
-                                                        )}
                                                         {/* Tasa de conversion */}
                                                         <TableRow hover>
                                                             <TableCell sx={{ fontWeight: 600 }}>
