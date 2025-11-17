@@ -169,52 +169,51 @@ export function BuscadorCotizacion({ setFiltro }: FiltroBuscadorI) {
               </FormControl>
             </div>
           </div>
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-4 items-end">
+  <Box>
+    <FormControl fullWidth size="small">
+      <InputLabel id="empresa-label">Empresa</InputLabel>
+      <Select
+        labelId="empresa-label"
+        id="empresa"
+        value={empresa}
+        label="Empresa"
+        onChange={(e) => setEmpresa(e.target.value)}
+      >
+        <MenuItem value="TODAS">
+          <em>TODAS</em>
+        </MenuItem>
+        {empresas.map((empresa) => (
+          <MenuItem key={empresa._id} value={empresa._id}>
+            {empresa.nombre}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  </Box>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-4">
-            <Box>
-              <FormControl fullWidth size="small">
-                <InputLabel id="empresa-label">Empresa</InputLabel>
-                <Select
-                  labelId="empresa-label"
-                  id="empresa"
-                  value={empresa}
-                  label="Empresa"
-                  onChange={(e) => setEmpresa(e.target.value)}
-                >
-                  <MenuItem value="TODAS">
-                    <em>TODAS</em>
-                  </MenuItem>
-                  {empresas.map((empresa) => (
-                    <MenuItem key={empresa._id} value={empresa._id}>
-                      {empresa.nombre}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
+  <Box>
+    <MultiSelectBuscador
+      disable={false}
+      label="Sucursal:"
+      value={sucursalesSeleccionados}
+      onChange={(value: string[]) => findSucursalByNombre(value)}
+      setValue={(value: string[]) => setSucursalesSeleccionados(value)}
+      placeholder="Seleccione una sucursal"
+      options={sucursales}
+    />
+  </Box>
 
+  <Box>
+    <RangoFecha
+      fechaFin={fechaFin}
+      fechaInicio={fechaInicio}
+      setFechaFin={setFechaFin}
+      setFechaInicio={setFechaInicio}
+    />
+  </Box>
+</div>
 
-            <MultiSelectBuscador
-               disable={false}
-              label="Sucursal:"
-              value={sucursalesSeleccionados}
-              onChange={(value: string[]) => findSucursalByNombre(value)}
-              setValue={(value: string[]) => setSucursalesSeleccionados(value)}
-              placeholder="Seleccione una sucursal"
-              options={sucursales}
-            />
-
-          
-
-            <Box mt={2.8}>
-              <RangoFecha
-                fechaFin={fechaFin}
-                fechaInicio={fechaInicio}
-                setFechaFin={setFechaFin}
-                setFechaInicio={setFechaInicio}
-              />
-            </Box>
-          </div>
           <div className="mb-8">
             <h3 className="text-sm font-semibold text-gray-700 mb-3">
               Rangos de Fecha Rápidos

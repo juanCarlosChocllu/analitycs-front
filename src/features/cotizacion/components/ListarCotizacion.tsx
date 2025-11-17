@@ -1,89 +1,52 @@
-import React, { useState } from "react";
-import {
-  Box,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  TablePagination,
-} from "@mui/material";
+import { useState } from "react";
+import { Box } from "@mui/material";
 import type { CotizacionI } from "../interface/Cotizacion";
 import { GraficoCotizacion } from "./GraficoCotizacion";
+import { DataGrid } from "@mui/x-data-grid";
+import type { GridColDef, GridPaginationModel } from "@mui/x-data-grid";
 
 export const ListarCotizacion = ({
   cotizacion,
 }: {
   cotizacion: CotizacionI[];
 }) => {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(20);
+  const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
+    page: 0,
+    pageSize: 20,
+  });
 
-  const handleChangePage = (_: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const paginatedCotizaciones = cotizacion.slice(
-    page * rowsPerPage,
-    page * rowsPerPage + rowsPerPage
-  );
+  const columns: GridColDef[] = [
+    { field: "sucursal", headerName: "Sucursal", flex: 1 },
+    { field: "asesor", headerName: "Asesor", flex: 2 },
+    { field: "codigo", headerName: "Código", flex: 1 },
+    { field: "noCompra", headerName: "No compra", flex: 1 },
+    { field: "total", headerName: "Total", flex: 1 },
+    { field: "id_venta", headerName: "ID venta", flex: 1 },
+    { field: "fecha", headerName: "Fecha", flex: 1 },
+  ];
+  const rows = cotizacion.map((cot) => ({
+    id: cot._id,
+    sucursal: cot.sucursal,
+    asesor: cot.asesor,
+    codigo: cot.codigo,
+    noCompra: cot.noCompra,
+    total: cot.total1 + cot.total2,
+    id_venta: cot.id_venta,
+    fecha: new Date(cot.fechaCotizacion).toLocaleDateString(),
+  }));
 
   return (
-   
     <Box sx={{ padding: 2 }}>
-         <GraficoCotizacion cotizacion={cotizacion}/>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Sucursal</TableCell>
-              <TableCell>Asesor</TableCell>
-              <TableCell>Código</TableCell>
-              <TableCell>No compra</TableCell>
+      <GraficoCotizacion cotizacion={cotizacion} />
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        paginationModel={paginationModel}
+        onPaginationModelChange={setPaginationModel}
+        pageSizeOptions={[5, 10, 20, 50]}
+        disableRowSelectionOnClick
 
-              <TableCell>Total</TableCell>
-              <TableCell>ID venta</TableCell>
-              <TableCell>Fecha</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {paginatedCotizaciones.map((cot) => (
-              <TableRow key={cot._id}>
-                <TableCell>{cot.sucursal}</TableCell>
-                <TableCell>{cot.asesor}</TableCell>
-                <TableCell>{cot.codigo}</TableCell>
-                <TableCell>{cot.noCompra}</TableCell>
-
-                <TableCell>{cot.total1 + cot.total2}</TableCell>
-                <TableCell>{cot.id_venta}</TableCell>
-                <TableCell>
-                  {new Date(cot.fechaCotizacion).toLocaleDateString()}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-   
-        <TablePagination
-          component="div"
-          count={cotizacion.length}
-          page={page}
-          onPageChange={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          labelRowsPerPage="Filas por página"
-        />
-      </TableContainer>
+      />
     </Box>
- 
   );
 };
