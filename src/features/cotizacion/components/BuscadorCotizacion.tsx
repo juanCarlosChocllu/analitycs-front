@@ -4,15 +4,23 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
-import type { EmpresasI, filtroBuscadorI, FiltroBuscadorI, SucursalI } from "../../app/interfaces/BuscadorI";
+import type {
+  EmpresasI,
+  filtroBuscadorI,
+  FiltroBuscadorI,
+  SucursalI,
+} from "../../app/interfaces/BuscadorI";
 import { formatFecha } from "../../app/util/formatFecha";
-import { getEmpresas, getSucursalesPorEmpresa, listarTodasLasScursales } from "../../app/service/appService";
+import {
+  getEmpresas,
+  getSucursalesPorEmpresa,
+  listarTodasLasScursales,
+} from "../../app/service/appService";
 import MultiSelectBuscador from "../../app/components/Buscador/SeleccionMultiple";
 import { RangoFecha } from "../../app/components/Buscador/RangoFecha";
 import { FiltroFecha } from "../../app/components/FiltroFecha/FiltroFecha";
 import { Box } from "@mui/material";
 import { Filter } from "lucide-react";
-
 
 export function BuscadorCotizacion({ setFiltro }: FiltroBuscadorI) {
   const date = new Date();
@@ -24,12 +32,9 @@ export function BuscadorCotizacion({ setFiltro }: FiltroBuscadorI) {
   const [fechaInicio, setFechaInicio] = useState<string>(formatFecha(date));
   const [fechaFin, setFechaFin] = useState<string>(formatFecha(date));
 
-;
-
   const [sucursalesSeleccionados, setSucursalesSeleccionados] = useState<
     string[]
   >([]);
-
 
   useEffect(() => {
     listarEmpresas();
@@ -55,16 +60,18 @@ export function BuscadorCotizacion({ setFiltro }: FiltroBuscadorI) {
     }
   };
 
-  
-
   const listarSucursal = async () => {
     try {
       if (empresa) {
         const response = await getSucursalesPorEmpresa(empresa);
         if (region === "BOLIVIA") {
-          setSucursales(response.filter((item) => !item.nombre.includes("PARAGUAY")));
+          setSucursales(
+            response.filter((item) => !item.nombre.includes("PARAGUAY"))
+          );
         } else if (region === "PARAGUAY") {
-          setSucursales(response.filter((item) => item.nombre.includes(region)));
+          setSucursales(
+            response.filter((item) => item.nombre.includes(region))
+          );
         }
       }
     } catch (error) {
@@ -76,7 +83,7 @@ export function BuscadorCotizacion({ setFiltro }: FiltroBuscadorI) {
     try {
       if (empresa) {
         const response = await listarTodasLasScursales();
-     
+
         setTodasScursales(response);
       }
     } catch (error) {
@@ -84,45 +91,39 @@ export function BuscadorCotizacion({ setFiltro }: FiltroBuscadorI) {
     }
   };
 
-
   const onClickFiltro = () => {
     let sucursalesFiltradas: string[] = [];
-    
+
     if (empresa === "TODAS") {
-      
       sucursalesFiltradas = obtenerSucursalesPorRegion(todasSucursales);
-    } else if (empresa != 'TODAS' && sucursalesSeleccionados.length <= 0) {
+    } else if (empresa != "TODAS" && sucursalesSeleccionados.length <= 0) {
       sucursalesFiltradas = obtenerSucursalesPorRegion(sucursales);
     } else if (sucursalesSeleccionados.length > 0) {
-      sucursalesFiltradas = sucursalesSeleccionados
+      sucursalesFiltradas = sucursalesSeleccionados;
     }
 
     const dataFilter: filtroBuscadorI = {
       sucursal: sucursalesFiltradas,
       fechaFin: fechaFin,
       fechaInicio: fechaInicio,
-    
-    
     };
-
-
 
     setFiltro(dataFilter);
   };
 
-
-
   const findSucursalByNombre = (nombre: string[]) => {
-    setSucursalesSeleccionados(nombre)
+    setSucursalesSeleccionados(nombre);
   };
-
- 
 
   const obtenerSucursalesPorRegion = (sucursales: SucursalI[]) => {
     if (region === "BOLIVIA") {
-      return sucursales.filter((item) => !item.nombre.includes("PARAGUAY")).map((item) => item._id);
+      return sucursales
+        .filter((item) => !item.nombre.includes("PARAGUAY"))
+        .map((item) => item._id);
     } else if (region === "PARAGUAY") {
-      return sucursales.filter((item) => item.nombre.includes(region)).map((item) => item._id);
+      return sucursales
+        .filter((item) => item.nombre.includes(region))
+        .map((item) => item._id);
     }
     return [];
   };
@@ -139,16 +140,20 @@ export function BuscadorCotizacion({ setFiltro }: FiltroBuscadorI) {
               </h2>
             </div>
             <div className="flex items-center space-x-2">
-              {region &&
+              {region && (
                 <div>
                   {region === "BOLIVIA" ? (
                     <img src="../banderaBolivia.svg" alt="Bolivia" width={32} />
                   ) : (
-                    <img src="../banderaParaguay.svg" alt="Paraguay" width={32} />
+                    <img
+                      src="../banderaParaguay.svg"
+                      alt="Paraguay"
+                      width={32}
+                    />
                   )}
                 </div>
-              }
-              <FormControl fullWidth size="small" sx={{ width: '200px' }}>
+              )}
+              <FormControl fullWidth size="small" sx={{ width: "200px" }}>
                 <InputLabel id="region-label">Regi&oacute;n</InputLabel>
                 <Select
                   labelId="region-label"
@@ -160,59 +165,67 @@ export function BuscadorCotizacion({ setFiltro }: FiltroBuscadorI) {
                   renderValue={(selected) => selected}
                 >
                   <MenuItem value="BOLIVIA">
-                    <em className="flex items-center space-x-2 gap-2"><img src="../banderaBolivia.svg" alt="" />BOLIVIA</em>
+                    <em className="flex items-center space-x-2 gap-2">
+                      <img src="../banderaBolivia.svg" alt="" />
+                      BOLIVIA
+                    </em>
                   </MenuItem>
                   <MenuItem value="PARAGUAY">
-                    <em className="flex items-center space-x-2 gap-2"><img src="../banderaParaguay.svg" alt="" />PARAGUAY</em>
+                    <em className="flex items-center space-x-2 gap-2">
+                      <img src="../banderaParaguay.svg" alt="" />
+                      PARAGUAY
+                    </em>
                   </MenuItem>
                 </Select>
               </FormControl>
             </div>
           </div>
-<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-4 items-end">
-  <Box>
-    <FormControl fullWidth size="small">
-      <InputLabel id="empresa-label">Empresa</InputLabel>
-      <Select
-        labelId="empresa-label"
-        id="empresa"
-        value={empresa}
-        label="Empresa"
-        onChange={(e) => setEmpresa(e.target.value)}
-      >
-        <MenuItem value="TODAS">
-          <em>TODAS</em>
-        </MenuItem>
-        {empresas.map((empresa) => (
-          <MenuItem key={empresa._id} value={empresa._id}>
-            {empresa.nombre}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
-  </Box>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-4 items-end">
+            <Box>
+              <FormControl fullWidth size="small">
+                <InputLabel id="empresa-label">Empresa</InputLabel>
+                <Select
+                  labelId="empresa-label"
+                  id="empresa"
+                  value={empresa}
+                  label="Empresa"
+                  onChange={(e) => setEmpresa(e.target.value)}
+                >
+                  <MenuItem value="TODAS">
+                    <em>TODAS</em>
+                  </MenuItem>
+                  {empresas.map((empresa) => (
+                    <MenuItem key={empresa._id} value={empresa._id}>
+                      {empresa.nombre}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
 
-  <Box>
-    <MultiSelectBuscador
-      disable={false}
-      label="Sucursal:"
-      value={sucursalesSeleccionados}
-      onChange={(value: string[]) => findSucursalByNombre(value)}
-      setValue={(value: string[]) => setSucursalesSeleccionados(value)}
-      placeholder="Seleccione una sucursal"
-      options={sucursales}
-    />
-  </Box>
+            <Box>
+              <MultiSelectBuscador
+                disable={false}
+                label="Sucursal:"
+                value={sucursalesSeleccionados}
+                onChange={(value: string[]) => findSucursalByNombre(value)}
+                setValue={(value: string[]) =>
+                  setSucursalesSeleccionados(value)
+                }
+                placeholder="Seleccione una sucursal"
+                options={sucursales}
+              />
+            </Box>
 
-  <Box>
-    <RangoFecha
-      fechaFin={fechaFin}
-      fechaInicio={fechaInicio}
-      setFechaFin={setFechaFin}
-      setFechaInicio={setFechaInicio}
-    />
-  </Box>
-</div>
+            <Box>
+              <RangoFecha
+                fechaFin={fechaFin}
+                fechaInicio={fechaInicio}
+                setFechaFin={setFechaFin}
+                setFechaInicio={setFechaInicio}
+              />
+            </Box>
+          </div>
 
           <div className="mb-8">
             <h3 className="text-sm font-semibold text-gray-700 mb-3">
@@ -222,10 +235,6 @@ export function BuscadorCotizacion({ setFiltro }: FiltroBuscadorI) {
               setFechaFin={setFechaFin as any}
               setFechaInicio={setFechaInicio as any}
             />
-
-           
-            
-              
           </div>
 
           <div className="flex justify-end space-x-4 mt-8 pt-6 ">

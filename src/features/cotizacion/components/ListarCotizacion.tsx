@@ -38,15 +38,17 @@ export const ListarCotizacion = ({
   return (
     <Box sx={{ padding: 2 }}>
       <GraficoCotizacion cotizacion={cotizacion} />
+       <Box sx={{ mt: 10 }}>
       <DataGrid
+      
         rows={rows}
         columns={columns}
         paginationModel={paginationModel}
         onPaginationModelChange={setPaginationModel}
-        pageSizeOptions={[5, 10, 20, 50]}
+        pageSizeOptions={[20, 50, 100, 200]}
         disableRowSelectionOnClick
-
-      />
+        
+      /></Box>
     </Box>
   );
 };

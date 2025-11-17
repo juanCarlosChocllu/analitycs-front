@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import {
   ComposedChart,
 
@@ -9,6 +9,7 @@ import {
   Tooltip,
   ResponsiveContainer,
   Cell,
+  LabelList,
 } from 'recharts';
 import type { CotizacionI } from '../interface/Cotizacion';
 
@@ -21,11 +22,15 @@ export const GraficoCotizacionBarraVertical = ({
 }) => {
     const dataSet =agruparPorAsesor(cotizacion).sort((a,b)=> b.cantidad -a.cantidad )
 
-    const barHeight = 60; // Puedes ajustar este valor según el tamaño que quieras por asesor
+    const barHeight = 60; 
 const chartHeight = dataSet.length * barHeight;
     
   return (
   <Box sx={{ width: "90%", height: chartHeight, mb: 2 }}>
+    <Typography variant="h5" gutterBottom sx={{ fontWeight: "bold" }}>
+
+        Cotizaciones por vendedor
+      </Typography>
   <ResponsiveContainer width="100%" height="100%">
     <ComposedChart
       layout="vertical"
@@ -45,18 +50,13 @@ const chartHeight = dataSet.length * barHeight;
         
       />
       <Tooltip />
-      <Bar
-        dataKey="cantidad"
-        barSize={20}
-      
-      >
-        {dataSet.map((_, index) => (
-          <Cell
-            key={`cell-${index}`}
-            fill={COLORS[index % COLORS.length]}
-          />
-        ))}
-      </Bar>
+     <Bar dataKey="cantidad" barSize={20}>
+  {dataSet.map((_, index) => (
+    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+  ))}
+  <LabelList dataKey="cantidad" position="right" /> 
+</Bar>
+
     </ComposedChart>
   </ResponsiveContainer>
 </Box>

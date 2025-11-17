@@ -1,8 +1,9 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import {
   Bar,
   BarChart,
   Cell,
+  LabelList,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -31,6 +32,9 @@ export const GraficoCotizacion = ({
 
   return (
     <Box  sx={{ width: "90%", height: 200, mb: 2 }}>
+      <Typography variant="h5" gutterBottom sx={{ fontWeight: "bold" }}>
+        Motivo de no compra
+      </Typography>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={dataset}>
           <XAxis dataKey="noCompra" />
@@ -43,6 +47,7 @@ export const GraficoCotizacion = ({
                 fill={COLORS[index % COLORS.length]}
               />
             ))}
+             <LabelList dataKey="cantidad" position="top" /> 
           </Bar>
         </BarChart>
       </ResponsiveContainer>
