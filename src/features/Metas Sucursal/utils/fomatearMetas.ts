@@ -46,7 +46,6 @@ export const formatearMetas = (
       data.fechaInicio = anterior.fechaInicio;
       data.fechaFin = anterior.fechaFin;
     }
-    console.log(data);
 
     dataFormateada.push(data);
   }
@@ -93,15 +92,15 @@ export async function exporExcelMetasSucursal(data: MetaSucursalFormateada[]) {
         item.ticketVentaActual,
         item.ticketVentaAnterior
       )} %`,
-      varImport:`${ calcularVariacionPorcentual(
+      varImport: `${calcularVariacionPorcentual(
         item.importeVentaActual,
         item.importeVentaAnterior
       )} %`,
       montoMetaAnterior: item.montoMetaAnterior,
       importeVentaAnterior: item.importeVentaAnterior,
-      cumplimientoImporteAnterior:`${ item.cumplimientoImporteAnterior} %`,
+      cumplimientoImporteAnterior: `${item.cumplimientoImporteAnterior} %`,
       ticketVentaAnterior: item.ticketVentaAnterior,
-      cumplimientoTickectAnterior:`${ item.cumplimientoTickectAnterior} %`,
+      cumplimientoTickectAnterior: `${item.cumplimientoTickectAnterior} %`,
     });
   }
 
